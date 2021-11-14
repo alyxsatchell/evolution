@@ -53,6 +53,9 @@ class plant:
     def __str__(self):
         return ("|" + str(self.name).ljust(chartSize) + "|" + str(self.lifeState).ljust(chartSize) + "|" + str(self.pos).ljust(chartSize) + "|" + str(self.maxEnergy).ljust(chartSize) + "|"+ str(self.age).ljust(chartSize) + "|" + str(self.energy).ljust(chartSize) + "|")
 
+def hello():
+    print("Hello World!")
+
 def dumpPos(data):
     with open('pos.json', 'w') as fp:
         json.dump(data, fp)
@@ -1398,6 +1401,8 @@ def execute(popArray):
             genPop(popArray,3)
             print(findBestScoredMate(garry, popArray))
             #testing2
+        # else:
+        #     function(uin)
 
         inputTaken = True
 
