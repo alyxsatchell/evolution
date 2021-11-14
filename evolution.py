@@ -811,6 +811,7 @@ def getSpeci(popArray):
 
 def listAvg(nums):
     return sum(nums) / len(nums)
+    #testing commits
 
 def averageSkill(popArray):
     avg = {}
