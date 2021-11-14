@@ -1397,6 +1397,7 @@ def execute(popArray):
             garry = organsim("garry", 25, [0,0], "M", [5,1,26,2,30, 3], 100, "")
             genPop(popArray,3)
             print(findBestScoredMate(garry, popArray))
+            #testing
 
         inputTaken = True
 
