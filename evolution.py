@@ -825,7 +825,7 @@ def averageSkill(popArray):
         for index, y in enumerate(x.genome):
             avg[index].append(y)
     for x in avg.keys():
-        print(x, avg)
+        #print(x, avg)
         genomeAvg.append(listAvg(avg[x]))
     return genomeAvg
 
@@ -833,7 +833,7 @@ def scoreMate(potMate, popArray):
     #find way to make every attribute roughly equivalent to determine and give it a score based on that so that the mate readiness is not the only real facotr
     average = averageSkill(popArray)
     skill = []
-    print(potMate.genome, average)
+    #print(potMate.genome, average)
     for index, x in enumerate(potMate.genome):
         skill.append(x / average[index])
     return skill
@@ -863,7 +863,50 @@ def findBestScoredMate(organ, popArray):
                     bestScore = [x, newScore]
     return bestScore[0]
 
- 
+def dictOfScore(mateList, popArray):
+    mateDict = {"M" : {}, "F" : {}}
+    for x in mateList:
+        mateDict[x.gender] [numberScoreMate(scoreMate(x,popArray))] = x
+    return mateDict
+
+def sortScore(mateDict):
+    scoreListTemp = []
+    nMateDict = {}
+    print(f"mateDict is {mateDict}")
+    for x in mateDict.keys():
+        print(f"x is {x}")
+        for score in mateDict[x].keys():
+            print(f"score is {score}")
+            scoreListTemp.append(score)
+        scoreListTemp.sort(reverse=1)
+        nMateDict[x] = scoreListTemp
+        scoreListTemp = []
+    return nMateDict
+
+def matchMakerList(sortedMateDict):
+    mateList = []
+    for index, x in enumerate(sortedMateDict["M"]):
+        male = x
+        try:
+            female = sortedMateDict["F"] [index]
+        except:
+            break
+        mateList.append([male, female])
+    return mateList
+
+def matchMaker(mateList, mateDict):
+    objMateList = []
+    for x in mateList:
+        print(f"x is {x[0]}")
+        print(mateList)
+        print(mateDict["M"])
+        print(mateDict["F"])
+        male = mateDict["M"] [x[0]]
+        female = mateDict["F"] [x[1]]
+        objMateList.append([male,female])
+    return objMateList
+    
+    
 
 
 
@@ -1397,6 +1440,34 @@ def execute(popArray):
             garry = organsim("garry", 25, [0,0], "M", [5,1,26,2,30, 3], 100, "")
             genPop(popArray,3)
             print(findBestScoredMate(garry, popArray))
+        elif uin == "dos":
+            popArray = {}
+            mateList = []
+            genPop(popArray,5)
+            for x in popArray.values():
+                mateList.append(x)
+            print(dictOfScore(mateList,popArray))
+        elif uin == "sortS":
+            popArray = {}
+            mateList = []
+            genPop(popArray,5)
+            for x in popArray.values():
+                mateList.append(x)
+            a = sortScore(dictOfScore(mateList,popArray))
+            show(popArray)
+            print(a)
+        elif uin == "mmr":
+            popArray = {}
+            mateList = []
+            genPop(popArray,5)
+            for x in popArray.values():
+                mateList.append(x)
+            bean = dictOfScore(mateList,popArray)
+            a = sortScore(dictOfScore(mateList,popArray))
+            show(popArray)
+            b = matchMakerList(a)
+            c = matchMaker(b, bean)
+            print(c)
             #testing2
         # else:
         #     function(uin)
