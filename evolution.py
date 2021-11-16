@@ -872,11 +872,11 @@ def dictOfScore(mateList, popArray):
 def sortScore(mateDict):
     scoreListTemp = []
     nMateDict = {}
-    print(f"mateDict is {mateDict}")
+    #print(f"mateDict is {mateDict}")
     for x in mateDict.keys():
-        print(f"x is {x}")
+        #print(f"x is {x}")
         for score in mateDict[x].keys():
-            print(f"score is {score}")
+            #print(f"score is {score}")
             scoreListTemp.append(score)
         scoreListTemp.sort(reverse=1)
         nMateDict[x] = scoreListTemp
@@ -897,17 +897,37 @@ def matchMakerList(sortedMateDict):
 def matchMaker(mateList, mateDict):
     objMateList = []
     for x in mateList:
-        print(f"x is {x[0]}")
-        print(mateList)
-        print(mateDict["M"])
-        print(mateDict["F"])
+        # print(f"x is {x[0]}")
+        # print(mateList)
+        # print(f" m is {mateDict}")
+        # print(mateDict["F"])
         male = mateDict["M"] [x[0]]
         female = mateDict["F"] [x[1]]
         objMateList.append([male,female])
     return objMateList
-    
-    
 
+def objMateListMaker(mateList, popArray):
+    dos = dictOfScore(mateList, popArray)
+    sortedScore = sortScore(dos)
+    mml = matchMakerList(sortedScore)
+    return matchMaker(mml, dos)
+    
+def checkMate(objMateList, popArray):
+    for x in objMateList:
+        male = x[0]
+        female = x[1]
+        moveM(male, female)
+        moveM(female, male)
+        d = distance(male.pos, female.pos)
+        if d <= male.genome[3] or d <= female.genome[3]:
+            childs = reproduce(male, female, popArray)
+            intergrateOffspring(childs, popArray)
+        else:
+            return None
+
+def matin(mateList, popArray):
+    objMateList = objMateListMaker(mateList, popArray)
+    checkMate(objMateList, popArray)
 
 
 def rateMateT(organ, popArray):
@@ -1459,18 +1479,46 @@ def execute(popArray):
         elif uin == "mmr":
             popArray = {}
             mateList = []
-            genPop(popArray,5)
+            # garry = organsim("garry", 1, [1,1], "M", [5,1,26,2,30, 3], 300, "Vibin")
+            # larry = organsim("larry", 1, [1,1], "F", [6,6,6,6,6, 6], 300, "Vibin")
+            # popArray[larry.name] = larry
+            # popArray[garry.name] = garry
+            genPop(popArray, 6)
             for x in popArray.values():
                 mateList.append(x)
             bean = dictOfScore(mateList,popArray)
-            a = sortScore(dictOfScore(mateList,popArray))
+            print(f"bean is {bean}")
+            a = sortScore(bean)
+            print(a)
             show(popArray)
             b = matchMakerList(a)
             c = matchMaker(b, bean)
             print(c)
+        elif uin == "a":
+            bean = 1
             #testing2
         # else:
         #     function(uin)
+        elif uin == "garrytheman":
+            garry = organsim("garry", 1, [1,1], "M", ["blblblbl", "blakadlkalfkl"], 300, "Vibin")
+            print(garry.status)
+            print(f"garrys is {garry.status}")
+
+        elif uin == "status":
+            print("bruh")
+
+        elif uin == "matin":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [5,1,26,2,30, 3], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [6,6,6,6,6, 6], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            #genPop(popArray, 6)
+            mateList = []
+            for x in popArray.values():
+                mateList.append(x)            
+            matin(mateList, popArray)
+            show(popArray)
 
         inputTaken = True
 
