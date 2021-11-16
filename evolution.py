@@ -571,9 +571,6 @@ def litterChance(mCLS):
         a = findA(50, (0,-1), (0, max))
         print(a)
 
-
-
-
 def fight(organ, popArray):
     for x in popArray.values():
         if x == organ:
@@ -865,8 +862,8 @@ def findBestScoredMate(organ, popArray):
                 if newScore > bestScore[1]:
                     bestScore = [x, newScore]
     return bestScore[0]
-    
-    
+
+ 
 
 
 
