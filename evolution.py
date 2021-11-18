@@ -924,7 +924,7 @@ def checkMate(objMateList, popArray):
             intergrateOffspring(childs, popArray)
         else:
             return None
-
+#beans
 def matin(mateList, popArray):
     objMateList = objMateListMaker(mateList, popArray)
     checkMate(objMateList, popArray)
