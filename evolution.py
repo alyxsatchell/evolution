@@ -480,6 +480,11 @@ def wander(organ):
     #print(f"visRange is {abs(vis[0] - vis[1]) / 2} = {visRange}")
     organ.genome[1] = [dgOF(randDirection - visRange), dgOF(visRange + randDirection)]
 
+def meander(organ):
+    randDirection = randrange(-180, 180)
+    organ.pos = move(organ.pos, organ.genome[2], dgTR(randDirection))
+    organ.energy -= energyCost(organ.genome[2])
+
 def consume(organ, food, plantDict):
     organ.energy += food.energy * 0.5
     plantDict.pop(food.name)
@@ -574,7 +579,7 @@ def litterChance(mCLS):
 def fight(organ, popArray):
     for x in popArray.values():
         if x == organ:
-            pass
+            continue
         else:
             if x.lifeState == 0:
                 continue
@@ -582,6 +587,8 @@ def fight(organ, popArray):
                 organ.energy += x.energy / 2
                 x.lifeState = 0
                 x.status = "eaten"
+                return False
+    return True
 
 def moveM(organ, mate):
     d = distance(organ.pos, mate.pos)
@@ -783,12 +790,14 @@ def reproduce(parentA, parentB, popArray):
         mother = parentB
         father = parentA
     litterSize = litterCounter(mother.genome[5])
+    print(f"litterSize {litterSize}")
     for x in range(litterSize):
         if randint(0,1) == 1:
             gen = "F"
         else:
             gen = "M"
         genome = newGenome(parentA,parentB)
+        print(f"({parentA.energy} + {parentB.energy}) / ({litterSize + 2})")
         childEn = (parentA.energy + parentB.energy) / (litterSize + 2)
         childOffset = randint(-5,5)
         childLocation = [mother.pos[0] + childOffset, mother.pos[1] + childOffset]
@@ -796,6 +805,8 @@ def reproduce(parentA, parentB, popArray):
         child.genome = genomeMutate(child.genome)
         nameChecker(child, popArray)
         offSpring.append(child)
+    parentA.energy = childEn
+    parentB.energy = childEn
     return offSpring
 
 def intergrateOffspring(offSpring, popArray):
@@ -925,15 +936,62 @@ def checkMate(objMateList, popArray):
         else:
             return None
 #beans
+
+def makeMateList(popArray):
+    mateList = []
+    for x in popArray.values():
+        if x.energy >= x.genome[4]:
+            mateList.append(x)
+    return mateList
+
 def matin(mateList, popArray):
     objMateList = objMateListMaker(mateList, popArray)
     checkMate(objMateList, popArray)
 
+def reproduction(popArray):
+    mateList = makeMateList(popArray)
+    matin(mateList, popArray)
+    return mateList
 
-def rateMateT(organ, popArray):
-    for x in popArray.keys():
-        score = 0
-        
+def makeConsumersList(mateList, popArray):
+    consumerList = []
+    for x in popArray.values():
+        if x in mateList:
+            continue
+        else:
+            consumerList.append(x)
+    return consumerList
+
+def checkForPlant(organ, plantDict):
+    for x in plantDict.values():
+        if pointInCircle(organ.genome[0], organ.pos, x.pos):
+            return True
+    return False
+
+def consumption(consumersList, popArray, plantDict):
+    for x in consumersList:
+        if moveP(x, plantDict) == "None":
+            if fight(x, popArray):
+                meander(x)
+                x.status = "Wandering"
+            else:
+                x.status = "FIGHT!"
+        else:
+            eat(x, plantDict)
+            x.status = "Eating A Plant"
+
+def life(popArray, plantDict):
+    alive = {}
+    for x in popArray.values():
+        if x.lifeState:
+            alive[x.name] = x
+    mateList = reproduction(alive)
+    print(f"mateList is {mateList}")
+    consumerList = makeConsumersList(mateList, alive)
+    consumption(consumerList, alive, plantDict)
+    genPlant(plantDict, 10)
+    return
+
 
 def turn(popArray, plantDict, breedList):
     offSpring = []
@@ -1519,6 +1577,51 @@ def execute(popArray):
                 mateList.append(x)            
             matin(mateList, popArray)
             show(popArray)
+        elif uin == "cons":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,30, 3], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,6,6,6, 6], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            plantDict = {}
+            barry = plant("barry", 1, [-5,-5], 300, 0, 300)
+            karry = plant("karry", 1, [5,5], 300, 0, 300)
+            plantDict[barry.name] = barry
+            plantDict[karry.name] = karry
+            show(plantDict)
+            consumerList = []
+            for x in popArray.values():
+                consumerList.append(x)
+            consumption(consumerList, popArray, plantDict)
+            show(popArray)
+            show(plantDict)
+        elif uin == "consL":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,30, 3], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,6,6,6, 6], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            mateList = [garry, larry]
+            genPop(popArray, 5)
+            show(popArray)
+            a = makeConsumersList(mateList, popArray)
+            print(a)
+        elif uin == "demoShow":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,30, 3], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,6,6,6, 6], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            show(popArray)
+        elif uin == "tLife":
+            plantDict = {}
+            popArray = {}
+            genPop(popArray, 15)
+            for x in range(10):
+                life(popArray, plantDict)
+                show(popArray)
+
+
 
         inputTaken = True
 
