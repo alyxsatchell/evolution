@@ -26,6 +26,8 @@ global afking
 afking = False
 global mutationRate
 mutationRate = [1,10] #1  out of 100
+global floraGrowth
+floraGrowth = 10
 
 #genomes [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
 
@@ -979,6 +981,21 @@ def consumption(consumersList, popArray, plantDict):
             eat(x, plantDict)
             x.status = "Eating A Plant"
 
+def plantLife(plantDict):
+    grimReaper = []
+    for x in plantDict.values():
+        y = findY(x)
+        print(f"y is {y}")
+        x.energy = y
+        x.age += 1
+        if x.energy <= 0 and x.age != 1:
+            
+            grimReaper.append(x)
+    for x in grimReaper:
+        plantDict.pop(x.name)
+    genPlant(plantDict, floraGrowth)
+
+
 def life(popArray, plantDict):
     alive = {}
     for x in popArray.values():
@@ -988,7 +1005,7 @@ def life(popArray, plantDict):
     print(f"mateList is {mateList}")
     consumerList = makeConsumersList(mateList, alive)
     consumption(consumerList, alive, plantDict)
-    genPlant(plantDict, 10)
+    plantLife(plantDict)
     return
 
 
@@ -1566,16 +1583,18 @@ def execute(popArray):
 
         elif uin == "matin":
             popArray = {}
-            garry = organsim("garry", 1, [3,1], "M", [5,1,26,2,30, 3], 300, "Vibin")
-            larry = organsim("larry", 1, [2,1], "F", [6,6,6,6,6, 6], 300, "Vibin")
+            garry = organsim("garry", 1, [1,1], "M", [5,1,26,2,30, 3], 300, "Vibin")
+            larry = organsim("larry", 1, [50,1], "F", [6,6,6,6,6, 6], 300, "Vibin")
             popArray[larry.name] = larry
             popArray[garry.name] = garry
             #genPop(popArray, 6)
             mateList = []
             for x in popArray.values():
-                mateList.append(x)            
-            matin(mateList, popArray)
-            show(popArray)
+                mateList.append(x)         
+            for x in range(5):   
+                matin(mateList, popArray)
+                show(popArray)
+                time.sleep(3)
         elif uin == "cons":
             popArray = {}
             garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,30, 3], 300, "Vibin")
@@ -1619,6 +1638,28 @@ def execute(popArray):
             for x in range(10):
                 life(popArray, plantDict)
                 show(popArray)
+        elif uin == "gLife":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            mateList = []
+            for x in popArray.values():
+                mateList.append(x)
+            plantDict = {}
+            genPlant(plantDict, 300)
+            show(plantDict)
+            for x in range(20):
+                life(popArray,plantDict)
+                show(popArray)
+                show(plantDict)
+                posUpdate(popArray, plantDict)
+                time.sleep(5)
+        elif uin == "yT":
+            barry = plant("barry", 1, [1,1], 500, 1, 0)
+            print(f"{findA(500, [0,1], [0,6])}")
+            print(f"y = {findY(barry)}")
 
 
 
