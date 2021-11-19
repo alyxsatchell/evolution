@@ -805,8 +805,12 @@ def reproduce(parentA, parentB, popArray):
         child.genome = genomeMutate(child.genome)
         nameChecker(child, popArray)
         offSpring.append(child)
-    parentA.energy = childEn
-    parentB.energy = childEn
+    try:
+        parentA.energy = childEn
+        parentB.energy = childEn
+    except:
+        a = 1
+    print(f"offspring is {offSpring}")
     return offSpring
 
 def intergrateOffspring(offSpring, popArray):
@@ -951,6 +955,8 @@ def matin(mateList, popArray):
 def reproduction(popArray):
     mateList = makeMateList(popArray)
     matin(mateList, popArray)
+    for x in mateList:
+        x.status = "'_'"
     return mateList
 
 def makeConsumersList(mateList, popArray):
@@ -986,12 +992,18 @@ def life(popArray, plantDict):
         if x.lifeState:
             alive[x.name] = x
     mateList = reproduction(alive)
+    showList(mateList)
     print(f"mateList is {mateList}")
     consumerList = makeConsumersList(mateList, alive)
     consumption(consumerList, alive, plantDict)
     genPlant(plantDict, 10)
     return
 
+def showList(mateList):
+    tempPopArray = {}
+    for x in mateList:
+        tempPopArray[x.name] = x
+    show(tempPopArray)
 
 def turn(popArray, plantDict, breedList):
     offSpring = []
@@ -1577,6 +1589,19 @@ def execute(popArray):
                 mateList.append(x)            
             matin(mateList, popArray)
             show(popArray)
+        elif uin == "reproduc":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [5,1,26,2,30, 3], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [6,6,6,6,6, 6], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            #genPop(popArray, 6)
+            # mateList = []
+            # for x in popArray.values():
+            #     mateList.append(x)            
+            # matin(mateList, popArray)
+            reproduction(popArray)
+            show(popArray)
         elif uin == "cons":
             popArray = {}
             garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,30, 3], 300, "Vibin")
@@ -1616,6 +1641,10 @@ def execute(popArray):
         elif uin == "tLife":
             plantDict = {}
             popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,30, 3], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,6,6,6, 6], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
             genPop(popArray, 15)
             for x in range(10):
                 life(popArray, plantDict)
