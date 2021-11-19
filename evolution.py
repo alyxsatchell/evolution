@@ -933,12 +933,16 @@ def checkMate(objMateList, popArray):
     for x in objMateList:
         male = x[0]
         female = x[1]
+        male.status = f"Moving towards {female.name}"
+        female.status = f"Moving towards {male.name}"
         moveM(male, female)
         moveM(female, male)
         d = distance(male.pos, female.pos)
         if d <= male.genome[3] or d <= female.genome[3]:
             childs = reproduce(male, female, popArray)
             intergrateOffspring(childs, popArray)
+            male.status = f"Mated with {female.name}"
+            female.status = f"Mated with {male.name}"
         else:
             return None
 #beans
@@ -957,8 +961,8 @@ def matin(mateList, popArray):
 def reproduction(popArray):
     mateList = makeMateList(popArray)
     matin(mateList, popArray)
-    for x in mateList:
-        x.status = "'_'"
+    # for x in mateList:
+    #     x.status = "'_'"
     return mateList
 
 def makeConsumersList(mateList, popArray):
@@ -991,13 +995,14 @@ def consumption(consumersList, popArray, plantDict):
 def plantLife(plantDict):
     grimReaper = []
     for x in plantDict.values():
+        x.age += 1
         y = findY(x)
         print(f"y is {y}")
         x.energy = y
-        x.age += 1
         if x.energy <= 0 and x.age != 1:
             
             grimReaper.append(x)
+    #showList(grimReaper)
     for x in grimReaper:
         plantDict.pop(x.name)
     genPlant(plantDict, floraGrowth)
@@ -1008,13 +1013,15 @@ def life(popArray, plantDict):
     for x in popArray.values():
         if x.lifeState:
             alive[x.name] = x
+        else:
+            x.status = "XD"
     mateList = reproduction(alive)
-    showList(mateList)
-    print(f"mateList is {mateList}")
+    # showList(mateList)
+    # print(f"mateList is {mateList}")
     consumerList = makeConsumersList(mateList, alive)
     consumption(consumerList, alive, plantDict)
     plantLife(plantDict)
-    return
+    return alive
 
 def showList(mateList):
     tempPopArray = {}
@@ -1607,8 +1614,7 @@ def execute(popArray):
             for x in range(5):   
                 matin(mateList, popArray)
                 show(popArray)
-                time.sleep(3)
-                mateList.append(x)            
+                time.sleep(3)       
             matin(mateList, popArray)
             show(popArray)
         elif uin == "reproduc":
@@ -1677,22 +1683,30 @@ def execute(popArray):
             larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
             popArray[larry.name] = larry
             popArray[garry.name] = garry
-            mateList = []
-            for x in popArray.values():
-                mateList.append(x)
+            # mateList = []
+            # for x in popArray.values():
+            #     mateList.append(x)
             plantDict = {}
             genPlant(plantDict, 300)
             show(plantDict)
             for x in range(20):
-                life(popArray,plantDict)
+                alive = life(popArray,plantDict)
+                show(alive)
                 show(popArray)
-                show(plantDict)
+                #show(plantDict)
                 posUpdate(popArray, plantDict)
                 time.sleep(5)
         elif uin == "yT":
-            barry = plant("barry", 1, [1,1], 500, 1, 0)
-            print(f"{findA(500, [0,1], [0,6])}")
+            barry = plant("barry", 1, [1,1], 500, 2, 0)
+            print(f"{findA(500, [0,1], [0,5])}")
             print(f"y = {findY(barry)}")
+        elif uin == "lifeGL":
+            while True:
+                popArray = {}
+                garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+                larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+                popArray[larry.name] = larry
+                popArray[garry.name] = garry
 
 
 
