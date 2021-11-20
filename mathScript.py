@@ -72,11 +72,16 @@ def chanceCalc(avgLit):
     chance = {}
     connectingDict = {}
     runningTotal = 0
-    for x in range(int(round(((avgLit * 2) + 1)))):
+    print(f"num is {int(round(((avgLit * 2) + 1)))}")
+    print(f"num is int(round(({(avgLit * 2)} + 1)))")
+    for x in range(int((((round(avgLit) * 2) + 1)))):
         #print(x)
         prevTotal = runningTotal
         print(f"percentageParis are : {percentagePairs}")
-        runningTotal += percentagePairs[x]
+        try:
+            runningTotal += percentagePairs[x]
+        except:
+            print(f"avgLit is {avgLit}, x is {x}, percentagePairs is {percentagePairs}, prevTotal is {prevTotal}, running total is {runningTotal}, rounded is {round(avgLit)}")
         connectingDict[runningTotal] = prevTotal
         chance [runningTotal] = x
     #print(connectingDict)
@@ -125,16 +130,26 @@ calcList = []
 #a = determinePercentages(4)
 # a = fPer(4)
 # print(f"a is {a}")
-# print(makePairs(5))
-print(f"chance is {chanceCalc(4)}")
-#print(f"litterCounter = {litterCounter(4)}")
-calcList = {}
-for x in range(100):
-    l = litterCounter(4)
-    if l in calcList.keys():
-        calcList[l] += 1
-    else:
-        calcList[l] = 1
+# # print(makePairs(5))
+# print(f"chance is {chanceCalc(4)}")
+# #print(f"litterCounter = {litterCounter(4)}")
+# calcList = {}
+# for x in range(100):
+#     l = litterCounter(4)
+#     if l in calcList.keys():
+#         calcList[l] += 1
+#     else:
+#         calcList[l] = 1
 
-print(calcList)
+# print(calcList)
 #
+
+
+
+
+
+# print(chanceCalc(2))
+# for x in range (100, 300):
+#     y = x / 100
+#     print(y)
+#     print(litterCounter((x) / 100))

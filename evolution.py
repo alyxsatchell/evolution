@@ -1718,7 +1718,7 @@ def execute(popArray):
             #     mateList.append(x)
             plantDict = {}
             genPlant(plantDict, 300)
-            show(plantDict)
+            #show(plantDict)
             alive = popArray
             while True:
                 alive = life(alive,plantDict)
