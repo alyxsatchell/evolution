@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>JavaScript - read JSON from URL</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+
+<body>
+    <div class="mypanel"></div>
+    testhere
+    <script>
+    $.getJSON('http://127.0.0.1:5000/json/test', function(data) {
+
+        var mult2 = data.data.key2 * 2;
+        var text = `Key1: ${data.data.key1}<br>
+        Key2: ${data.data.key2}<br>
+        Mult2: ${mult2}`
+
+
+        $(".mypanel").html(text);
+    });
+    </script>
+
+</body>
+</html>

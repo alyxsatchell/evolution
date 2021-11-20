@@ -12,6 +12,10 @@ from mathScript import litterCounter
 import statistics
 #import grpahics
 
+from flask import Flask, jsonify
+
+app = Flask(__name__, static_url_path='/static')
+
 global pi
 pi = 3.14159265359
 global chartSize
@@ -1717,8 +1721,23 @@ def execute(popArray):
 # popArray = genPop(popArray,10)
 # print(popArray)
 # show(popArray)
+
+
+@app.route("/json/test")
+def hello_world():
+    data = {}
+    data["key1"] = "value1"
+    data["key2"] = 2
+    output = jsonify(data)
+    print(f"data: {output}")
+    return jsonify(data = data)
+
 if __name__ == '__main__':
     popArray = {}
+
+    print("starting...")
+    app.run()
+
     t1 = Thread(target=afk)
     #t2 = Thread(target=execute,args=(popArray,))
 
