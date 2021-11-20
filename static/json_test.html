@@ -9,12 +9,19 @@
     <div class="mypanel"></div>
     testhere
     <script>
+        function testing(num)
+        {
+            data = num * num
+            return data
+        };
     $.getJSON('http://127.0.0.1:5000/json/test', function(data) {
 
         var mult2 = data.data.key2 * 2;
+        var test = testing(3)
         var text = `Key1: ${data.data.key1}<br>
         Key2: ${data.data.key2}<br>
-        Mult2: ${mult2}`
+        Mult2: ${mult2}
+        test: ${test}`
 
 
         $(".mypanel").html(text);

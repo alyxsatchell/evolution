@@ -1128,6 +1128,20 @@ def turn(popArray, plantDict, breedList):
     #implemebnt a sperate dict for offspring so not too change size during itterations or have a separate copy looking to go through the itterantins then update after
     #also what the crap is going on with nrandy and list index out of range why no children
 
+# @app.route("/json/test")
+# def hello_world(data):
+#     data["key1"] = "value1"
+#     data["key2"] = 2
+#     output = jsonify(data)
+#     print(f"data: {output}")
+#     return jsonify(data = data)
+
+@app.route("/json/test")
+def jsonToWeb(data):
+    output = jsonify(data)
+    print(f"data: {output}")
+    return jsonify(data = data)
+
 def execute(popArray):
     global halt
     global inputTaken
@@ -1726,6 +1740,7 @@ def execute(popArray):
                 #show(popArray)
                 #show(plantDict)
                 posUpdate(alive, plantDict)
+                jsonToWeb(popArray)
                 time.sleep(2)
 
 
@@ -1738,27 +1753,23 @@ def execute(popArray):
 # print(popArray)
 # show(popArray)
 
+def runin(app):
+    app.run()
 
-@app.route("/json/test")
-def hello_world():
-    data = {}
-    data["key1"] = "value1"
-    data["key2"] = 2
-    output = jsonify(data)
-    print(f"data: {output}")
-    return jsonify(data = data)
+
+
 
 if __name__ == '__main__':
     popArray = {}
 
     print("starting...")
     #app.run()
-
-    t1 = Thread(target=afk)
-    #t2 = Thread(target=execute,args=(popArray,))
+    print("after the app.run")
+    t1 = Thread(target=runin, args=(app,))
+    t2 = Thread(target=execute,args=(popArray,))
 
     t1.start()
-    #t2.start()
+    t2.start()
     print("They are started")
     execute(popArray)
     #t2.join()  # interpreter will wait until your process get completed or terminated
