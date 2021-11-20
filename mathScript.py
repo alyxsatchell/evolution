@@ -48,6 +48,7 @@ def makePairs(avgLit):
     return pairList
 
 def percPair(avgLit):
+    avgLit = int(round(avgLit))
     percentages = fPer(avgLit)
     pairs = makePairs(avgLit)
     percentPairs = {}
@@ -59,7 +60,10 @@ def percPair(avgLit):
         if x[0] == "apex":
             pass
         else:
-            percentPairs[x[1]] = percentPairs[x[0]]
+            try:
+                percentPairs[x[1]] = percentPairs[x[0]]
+            except:
+                print(f"percentPairs = {percentPairs}")
     return percentPairs
 
 def chanceCalc(avgLit):
@@ -71,6 +75,7 @@ def chanceCalc(avgLit):
     for x in range(int(round(((avgLit * 2) + 1)))):
         #print(x)
         prevTotal = runningTotal
+        print(f"percentageParis are : {percentagePairs}")
         runningTotal += percentagePairs[x]
         connectingDict[runningTotal] = prevTotal
         chance [runningTotal] = x

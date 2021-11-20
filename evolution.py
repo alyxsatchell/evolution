@@ -19,7 +19,7 @@ app = Flask(__name__, static_url_path='/static')
 global pi
 pi = 3.14159265359
 global chartSize
-chartSize = 20
+chartSize = 25
 global mapSize
 mapSize = 100
 thread_running = True
@@ -960,6 +960,8 @@ def makeMateList(popArray):
 
 def matin(mateList, popArray):
     objMateList = objMateListMaker(mateList, popArray)
+    for x in mateList:
+        x.status = "Waiting for mate"
     checkMate(objMateList, popArray)
 
 def reproduction(popArray):
@@ -1750,7 +1752,7 @@ if __name__ == '__main__':
     popArray = {}
 
     print("starting...")
-    app.run()
+    #app.run()
 
     t1 = Thread(target=afk)
     #t2 = Thread(target=execute,args=(popArray,))
