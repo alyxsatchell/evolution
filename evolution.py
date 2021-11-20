@@ -27,7 +27,7 @@ afking = False
 global mutationRate
 mutationRate = [1,10] #1  out of 100
 global floraGrowth
-floraGrowth = 10
+floraGrowth = 30
 
 #genomes [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
 
@@ -801,7 +801,7 @@ def reproduce(parentA, parentB, popArray):
         genome = newGenome(parentA,parentB)
         print(f"({parentA.energy} + {parentB.energy}) / ({litterSize + 2})")
         childEn = (parentA.energy + parentB.energy) / (litterSize + 2)
-        childOffset = randint(-5,5)
+        childOffset = randint(-int(round(mother.genome[3])),int(round(mother.genome[3])))
         childLocation = [mother.pos[0] + childOffset, mother.pos[1] + childOffset]
         child = organsim(randrange(0,100), 1, childLocation, gen, genome, childEn, "Born")
         child.genome = genomeMutate(child.genome)
@@ -997,7 +997,7 @@ def plantLife(plantDict):
     for x in plantDict.values():
         x.age += 1
         y = findY(x)
-        print(f"y is {y}")
+        #print(f"y is {y}")
         x.energy = y
         if x.energy <= 0 and x.age != 1:
             
@@ -1502,8 +1502,8 @@ def execute(popArray):
         elif uin == "tb":
             timingBelt(5, 10)
         elif uin == "rs":
-            garry = organsim("garry", 1, [0,0], [25,[0,270],10,1,1000], 500, "")   
-            larry = organsim("larry", 1, [50,50], [25,[0,270],100,1,1000], 500, "") 
+            garry = organsim("garry", 1, [0,0], [25,[0,270],10,1,1000], 500, 1, "")   
+            larry = organsim("larry", 1, [50,50], [25,[0,270],100,1,1000], 500, 1, "") 
             popArray["garry"] = garry
             popArray["larry"] = larry   
             plants = {}
@@ -1689,24 +1689,38 @@ def execute(popArray):
             plantDict = {}
             genPlant(plantDict, 300)
             show(plantDict)
+            alive = popArray
             for x in range(20):
-                alive = life(popArray,plantDict)
+                alive = life(alive,plantDict)
                 show(alive)
-                show(popArray)
+                #show(popArray)
                 #show(plantDict)
-                posUpdate(popArray, plantDict)
-                time.sleep(5)
+                posUpdate(alive, plantDict)
+                time.sleep(2)
         elif uin == "yT":
             barry = plant("barry", 1, [1,1], 500, 2, 0)
             print(f"{findA(500, [0,1], [0,5])}")
             print(f"y = {findY(barry)}")
         elif uin == "lifeGL":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            # mateList = []
+            # for x in popArray.values():
+            #     mateList.append(x)
+            plantDict = {}
+            genPlant(plantDict, 300)
+            show(plantDict)
+            alive = popArray
             while True:
-                popArray = {}
-                garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
-                larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
-                popArray[larry.name] = larry
-                popArray[garry.name] = garry
+                alive = life(alive,plantDict)
+                show(alive)
+                #show(popArray)
+                #show(plantDict)
+                posUpdate(alive, plantDict)
+                time.sleep(2)
 
 
 
