@@ -21,7 +21,7 @@ def solveY(x, point1, point2):
 def fPer(avgLit):
     num = avgLit + 1
     calcList = []
-    for x in range(num):
+    for x in range(int(round(num))):
         y = solveY(x, [0,0], [50 / (avgLit * 2),num / 2])
         #essentially we take a bar graph with equal bars to the 50 / avgLit * 2 that represents the pairs of litsizes with equal percetnages
         #we then rotate the graph so 0,0 is on the graph around the avg of all possible lit sizes and that number we found before
@@ -39,7 +39,7 @@ def makePairs(avgLit):
     maxRange = avgLit * 2
     pairList = []
     counter = 0
-    for x in range(maxRange):
+    for x in range(int(round(maxRange))):
         if counter == maxRange - counter:
             pairList.append(["apex", avgLit])
             break
@@ -52,7 +52,7 @@ def percPair(avgLit):
     pairs = makePairs(avgLit)
     percentPairs = {}
     counter = 0
-    for x in range(avgLit):
+    for x in range(int(round(avgLit))):
         percentPairs[x] = percentages[x + 1]
     percentPairs[avgLit] = 50
     for x in pairs:
@@ -68,7 +68,7 @@ def chanceCalc(avgLit):
     chance = {}
     connectingDict = {}
     runningTotal = 0
-    for x in range ((avgLit * 2) + 1):
+    for x in range(int(round(((avgLit * 2) + 1)))):
         #print(x)
         prevTotal = runningTotal
         runningTotal += percentagePairs[x]
