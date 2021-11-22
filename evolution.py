@@ -1128,19 +1128,25 @@ def turn(popArray, plantDict, breedList):
     #implemebnt a sperate dict for offspring so not too change size during itterations or have a separate copy looking to go through the itterantins then update after
     #also what the crap is going on with nrandy and list index out of range why no children
 
-# @app.route("/json/test")
-# def hello_world(data):
-#     data["key1"] = "value1"
-#     data["key2"] = 2
-#     output = jsonify(data)
-#     print(f"data: {output}")
-#     return jsonify(data = data)
-
 @app.route("/json/test")
-def jsonToWeb(data):
+def hello_world():
+    data = {}
+    data["key1"] = "value1"
+    data["key2"] = 2
     output = jsonify(data)
     print(f"data: {output}")
     return jsonify(data = data)
+
+# garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+# larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+# popArray[larry.name] = larry
+# popArray[garry.name] = garry
+
+# @app.route("/json/test")
+# def jsonToWeb(data):
+#     output = jsonify(data)
+#     print(f"data: {output}")
+#     return jsonify(data = data)
 
 def execute(popArray):
     global halt
@@ -1740,7 +1746,7 @@ def execute(popArray):
                 #show(popArray)
                 #show(plantDict)
                 posUpdate(alive, plantDict)
-                jsonToWeb(popArray)
+                #jsonToWeb(popArray)
                 time.sleep(2)
 
 
@@ -1756,20 +1762,41 @@ def execute(popArray):
 def runin(app):
     app.run()
 
+def jsonFormat(popArray):
+    data = {}
+    for x in popArray.values():
+        data[x.name] = json.dumps(x.__dict__)
+    return data
 
+@app.route("/evo/test")
+def webExecute():
+    popArray = {}
+    garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+    larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+    popArray[larry.name] = larry
+    popArray[garry.name] = garry
+    data = jsonFormat(popArray)
+    return jsonify(data = data)
 
+# garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+# larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+# popArray[larry.name] = larry
+# popArray[garry.name] = garry
 
 if __name__ == '__main__':
     popArray = {}
-
+    garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+    larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+    popArray[larry.name] = larry
+    popArray[garry.name] = garry
     print("starting...")
-    #app.run()
-    print("after the app.run")
-    t1 = Thread(target=runin, args=(app,))
-    t2 = Thread(target=execute,args=(popArray,))
+    app.run()
+    # print("after the app.run")
+    # t1 = Thread(target=runin, args=(app,))
+    # t2 = Thread(target=execute,args=(popArray,))
 
-    t1.start()
-    t2.start()
+    # t1.start()
+    # t2.start()
     print("They are started")
     execute(popArray)
     #t2.join()  # interpreter will wait until your process get completed or terminated
