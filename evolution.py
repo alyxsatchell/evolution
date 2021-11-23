@@ -47,6 +47,8 @@ class organsim:
         self.status = status
     def __str__(self):
         return ("|" + str(self.name).ljust(chartSize) + "|" + str(self.gender).ljust(chartSize) + "|" + str(self.lifeState).ljust(chartSize) + "|" + str(self.pos).ljust(chartSize) + "|" + str(self.genome).ljust(28) + "|" + str(self.energy).ljust(chartSize) + "|" + str(self.status).ljust(chartSize) + "|")
+    def get(self,varName):
+        return getattr(self,varName)
 
 class plant:
     def __init__(self, name, lifeState, pos, maxEnergy, age, energy):
@@ -1762,10 +1764,23 @@ def execute(popArray):
 def runin(app):
     app.run()
 
+def objToDict(organ):
+    objDict = {}
+    objVar = vars(organ)
+    for x in objVar.keys():
+        objDict[x] = organ.get(x)
+    return objDict
+
+# garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+# objToDict(garry)
+
+
 def jsonFormat(popArray):
     data = {}
     for x in popArray.values():
-        data[x.name] = json.dumps(x.__dict__)
+        data[x.name] = objToDict(x)
+        # data[x.name] = json.dumps(x.__dict__)
+        #data[x.name] = jsonify(popArray[x.name])
     return data
 
 @app.route("/evo/test")

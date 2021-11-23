@@ -22,7 +22,7 @@
 	<h3>
     	Click the button to create a dynamic table using data extracted from a JSON array.
     </h3>
-    <input type='button' onclick='tableFromJson()' 
+    <input type='button' onclick='tableFromJson(data.data)' 
     	value='Create Table from JSON data' />
         
     <p id='showData'></p>
@@ -58,28 +58,25 @@
     console.log(garry)
     // console.log(typeof(garry))
     // console.log(parse(garry))
-    // for (let i = 0; i < garry.length; i++)
-    // {
-    //     console.log(garry[i])
-    // }
-    // });
+    });
 
-    function tableFromJson() {
+    function tableFromJson(myBooks) {
 		// the json data. (you can change the values for output.)
-        var myBooks = [
-            {'Book ID': '1', 'Book Name': 'Challenging Times',
-                'Category': 'Business', 'Price': '125.60'
-            },
-            {'Book ID': '2', 'Book Name': 'Learning JavaScript',
-                'Category': 'Programming', 'Price': '56.00'
-            },
-            {'Book ID': '3', 'Book Name': 'Popular Science',
-                'Category': 'Science', 'Price': '210.40'
-            }
-        ]
+        // var myBooks = [
+        //     {'Book ID': '1', 'Book Name': 'Challenging Times',
+        //         'Category': 'Business', 'Price': '125.60'
+        //     },
+        //     {'Book ID': '2', 'Book Name': 'Learning JavaScript',
+        //         'Category': 'Programming', 'Price': '56.00'
+        //     },
+        //     {'Book ID': '3', 'Book Name': 'Popular Science',
+        //         'Category': 'Science', 'Price': '210.40'
+        //     }
+        // ]
 
         // Extract value from table header. 
         // ('Book ID', 'Book Name', 'Category' and 'Price')
+        
         var col = [];
         for (var i = 0; i < myBooks.length; i++) {
             for (var key in myBooks[i]) {
