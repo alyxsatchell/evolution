@@ -31,17 +31,38 @@
 </body>
 
 <script>
+    //to acess popArray do data.data
 	// scroll down for ES6 features. 
 
 	// using regular methods.
+    function parse(string)
+    {
+        arr = []
+        for (let i = 0; i < string.length; i++)
+        {
+            var prevIndex = 0;
+            var subject = "";
+            if (string[i] == '"')
+            {
+                subject = string.substring(prevIndex, i)
+                arr.push(subject)
+                prevIndex = i
+            }
+        }
+    return arr
+    }
 
     $.getJSON('http://127.0.0.1:5000/evo/test', function(data) {
 
-    var mult2 = data.data.key2 * 2;
-    var garry = "garry"
-    var bean = data.garry
-    console.log("bean is " + bean)
-    });
+    var garry = data.data.garry.name
+    console.log(garry)
+    // console.log(typeof(garry))
+    // console.log(parse(garry))
+    // for (let i = 0; i < garry.length; i++)
+    // {
+    //     console.log(garry[i])
+    // }
+    // });
 
     function tableFromJson() {
 		// the json data. (you can change the values for output.)
