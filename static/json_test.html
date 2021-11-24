@@ -1,32 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<title>JavaScript - read JSON from URL</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function test(result)
+{
+    console.log(result.data)
+}
 
-<body>
-    <div class="mypanel"></div>
-    testhere
-    <script>
-        function testing(num)
+function testing(result)
+{
+    console.log("Stuff")
+    json_data = result.data
+    attr_arr = [] // this will store all of the atributes like energy in indexs instead of names
+    var arr = []
+    for (let i in json_data)
+    {
+        arr.push([i, json_data[i]])
+    }
+    console.log("arr is " + arr)
+    // console.log(arr.length)
+    // for (let i in arr)
+    // {
+    //     console.log(arr[i])
+    // }
+    for (let i in arr)
+    {
+        console.log("i is " + i)
+        console.log(arr[i] [1])
+        for (let j in arr[i][1])
         {
-            data = num * num
-            return data
-        };
-    $.getJSON('http://127.0.0.1:5000/json/test', function(data) {
+            console.log("arr stuff is " + arr[i][1][j])
+            attr_arr.push(arr[i][1][j]) //TODO add something to the array so that there is a garry array then all of his attr then larrt array etc
+        }
+    }
+    console.log("attr_arr is " + attr_arr)
+}
 
-        var mult2 = data.data.key2 * 2;
-        var test = testing(3)
-        var text = `Key1: ${data.data.key1}<br>
-        Key2: ${data.data.key2}<br>
-        Mult2: ${mult2}
-        test: ${test}`
-
-
-        $(".mypanel").html(text);
+$(document).ready(function(){
+  $("button").click(function(){
+    $.getJSON("http://127.0.0.1:5000/evo/test", function(result){
+      $.each(result, function(i, field){
+        test(result)
+        testing(result)
+      });
     });
-    </script>
+  });
+});
+</script>
+</head>
+<body>
+
+<button>Get JSON data</button>
+
+<div></div>
 
 </body>
 </html>
