@@ -14,6 +14,12 @@ function testing(result)
     json_data = result.data
     attr_arr = [] // this will store all of the atributes like energy in indexs instead of names
     var arr = []
+    var organ_arr = []
+    console.log("bean is " + json_data)
+    var new_json = {}
+    new_json["garry"] = json_data.garry
+    console.log("newjson is " + new_json["garry"])
+
     for (let i in json_data)
     {
         arr.push([i, json_data[i]])
@@ -32,9 +38,36 @@ function testing(result)
         {
             console.log("arr stuff is " + arr[i][1][j])
             attr_arr.push(arr[i][1][j]) //TODO add something to the array so that there is a garry array then all of his attr then larrt array etc
+            
         }
+        console.log("i is " + i)
+        console.log("attr_arr[9] " + attr_arr[4])
+        organ_arr[toString(attr_arr[4])] = attr_arr
+        console.log(attr_arr[4] + "is " + attr_arr)
+        attr_arr = []
+        console.log("organ stuff is " + organ_arr)
     }
-    console.log("attr_arr is " + attr_arr)
+
+    console.log("organSTUFF is " + organ_arr)
+}
+
+function json_stuff(result)
+{
+  json_data = result.data
+  for (let i in json_data)
+  {
+    for (let j in json_data[i])
+    {
+      console.log("j is " + j)
+      console.log("json_data i is " + json_data[i])
+      console.log("json_data [i] [j] is " + json_data[i][j])
+    }
+  }
+}
+
+function tableStuff(result)
+{
+  
 }
 
 $(document).ready(function(){
@@ -42,7 +75,7 @@ $(document).ready(function(){
     $.getJSON("http://127.0.0.1:5000/evo/test", function(result){
       $.each(result, function(i, field){
         test(result)
-        testing(result)
+        json_stuff(result)
       });
     });
   });
