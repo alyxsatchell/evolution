@@ -1798,8 +1798,8 @@ def webExecute():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    return send_from_directory(os.path.join(app.root_path, r'C:\Users\Nicholas\Documents\Code\evolution\static'),
+                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
 # larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")

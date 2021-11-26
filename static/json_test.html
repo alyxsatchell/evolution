@@ -2,6 +2,17 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+  <table id="myTable">
+    <tr>
+      <td>cell 1</td>
+      <td>cell 2</td>
+    </tr>
+    <tr>
+      <td>cell 3</td>
+      <td>cell 4</td>
+    </tr>
+  </table>
 <script>
 function test(result)
 {
@@ -32,6 +43,7 @@ function testing(result)
     // }
     for (let i in arr)
     {
+        attr_arr = []
         console.log("i is " + i)
         console.log(arr[i] [1])
         for (let j in arr[i][1])
@@ -44,25 +56,44 @@ function testing(result)
         console.log("attr_arr[9] " + attr_arr[4])
         organ_arr[toString(attr_arr[4])] = attr_arr
         console.log(attr_arr[4] + "is " + attr_arr)
-        attr_arr = []
+
         console.log("organ stuff is " + organ_arr)
     }
+    console.log("attr " + attr_arr)
 
     console.log("organSTUFF is " + organ_arr)
 }
 
-function json_stuff(result)
+function getAttrArr(result)
 {
+  attr_arr = []
+  json_data = result.data
+  for (let i in json_data)
+  {
+    attr_arr = []
+    for (let j in json_data[i])
+    {
+      attr_arr.push(j)
+      // console.log("j is " + j)
+      // console.log("json_data i is " + json_data[i])
+      // console.log("json_data [i] [j] is " + json_data[i][j])
+    }
+  }
+  return attr_arr
+}
+
+function attr_arr_real(result)
+{
+  attr_arr2 = []
   json_data = result.data
   for (let i in json_data)
   {
     for (let j in json_data[i])
     {
-      console.log("j is " + j)
-      console.log("json_data i is " + json_data[i])
-      console.log("json_data [i] [j] is " + json_data[i][j])
+      attr_arr2.push(json_data[i][j])
     }
   }
+  return attr_arr2
 }
 
 function tableStuff(result)
@@ -70,17 +101,63 @@ function tableStuff(result)
   
 }
 
+function myFunction(attr_arr) {
+  var table = document.getElementById("myTable");
+  var header = table.createTHead();
+  var row = header.insertRow(0);
+  for (i in attr_arr)
+  {
+    var cell = row.insertCell(0);
+    console.log("k so i is " + i)
+    cell.innerHTML = attr_arr[i];
+  }
+
+}
+//Note below function lists the parts of the array downwards so could be useful so somethibng
+function testingTable(attr_arr1)
+{
+  for (i in attr_arr1)
+  {
+    var table = document.getElementById("myTable");
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    var cell = row.insertCell(0);
+    console.log("k so i is " + i)
+    cell.innerHTML = attr_arr1[i];
+  }
+}
+
+function testingTable2(attr_arr3, real)
+{
+  console.log("attr ar os " + attr_arr3)
+  console.log("real is " + real)
+  for (i in attr_arr3)
+  {
+    var table = document.getElementById("myTable");
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    var cell = row.insertCell(0);
+    console.log("k so i is " + i)
+    cell.innerHTML = attr_arr3[i] + " is " + real[i];
+  }
+}
+
+
 $(document).ready(function(){
   $("button").click(function(){
     $.getJSON("http://127.0.0.1:5000/evo/test", function(result){
       $.each(result, function(i, field){
         test(result)
-        json_stuff(result)
+        var attr = getAttrArr(result)
+        var real = attr_arr_real(result)
+        testingTable2(attr_arr, real)
+        //testingTable(attr_arr)
       });
     });
   });
 });
 </script>
+</body>
 </head>
 <body>
 
