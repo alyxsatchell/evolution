@@ -1,32 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<title>JavaScript - read JSON from URL</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-</head>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
-    <div class="mypanel"></div>
-    testhere
-    <script>
-        function testing(num)
+  <table id="myTable">
+    <tr>
+      <td>cell 1</td>
+      <td>cell 2</td>
+    </tr>
+    <tr>
+      <td>cell 3</td>
+      <td>cell 4</td>
+    </tr>
+  </table>
+<script>
+function test(result)
+{
+    console.log(result.data)
+}
+
+function testing(result)
+{
+    console.log("Stuff")
+    json_data = result.data
+    attr_arr = [] // this will store all of the atributes like energy in indexs instead of names
+    var arr = []
+    var organ_arr = []
+    console.log("bean is " + json_data)
+    var new_json = {}
+    new_json["garry"] = json_data.garry
+    console.log("newjson is " + new_json["garry"])
+
+    for (let i in json_data)
+    {
+        arr.push([i, json_data[i]])
+    }
+    console.log("arr is " + arr)
+    // console.log(arr.length)
+    // for (let i in arr)
+    // {
+    //     console.log(arr[i])
+    // }
+    for (let i in arr)
+    {
+        attr_arr = []
+        console.log("i is " + i)
+        console.log(arr[i] [1])
+        for (let j in arr[i][1])
         {
-            data = num * num
-            return data
-        };
-    $.getJSON('http://127.0.0.1:5000/json/test', function(data) {
+            console.log("arr stuff is " + arr[i][1][j])
+            attr_arr.push(arr[i][1][j]) //TODO add something to the array so that there is a garry array then all of his attr then larrt array etc
+            
+        }
+        console.log("i is " + i)
+        console.log("attr_arr[9] " + attr_arr[4])
+        organ_arr[toString(attr_arr[4])] = attr_arr
+        console.log(attr_arr[4] + "is " + attr_arr)
 
-        var mult2 = data.data.key2 * 2;
-        var test = testing(3)
-        var text = `Key1: ${data.data.key1}<br>
-        Key2: ${data.data.key2}<br>
-        Mult2: ${mult2}
-        test: ${test}`
+        console.log("organ stuff is " + organ_arr)
+    }
+    console.log("attr " + attr_arr)
+
+    console.log("organSTUFF is " + organ_arr)
+}
+
+function getAttrArr(result)
+{
+  attr_arr = []
+  json_data = result.data
+  for (let i in json_data)
+  {
+    attr_arr = []
+    for (let j in json_data[i])
+    {
+      attr_arr.push(j)
+      // console.log("j is " + j)
+      // console.log("json_data i is " + json_data[i])
+      // console.log("json_data [i] [j] is " + json_data[i][j])
+    }
+  }
+  return attr_arr
+}
+
+function attr_arr_real(result)
+{
+  attr_arr2 = []
+  json_data = result.data
+  for (let i in json_data)
+  {
+    for (let j in json_data[i])
+    {
+      attr_arr2.push(json_data[i][j])
+    }
+  }
+  return attr_arr2
+}
+
+function tableStuff(result)
+{
+  
+}
+
+function myFunction(attr_arr) {
+  var table = document.getElementById("myTable");
+  var header = table.createTHead();
+  var row = header.insertRow(0);
+  for (i in attr_arr)
+  {
+    var cell = row.insertCell(0);
+    console.log("k so i is " + i)
+    cell.innerHTML = attr_arr[i];
+  }
+
+}
+//Note below function lists the parts of the array downwards so could be useful so somethibng
+function testingTable(attr_arr1)
+{
+  for (i in attr_arr1)
+  {
+    var table = document.getElementById("myTable");
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    var cell = row.insertCell(0);
+    console.log("k so i is " + i)
+    cell.innerHTML = attr_arr1[i];
+  }
+}
+
+function testingTable2(attr_arr3, real)
+{
+  console.log("attr ar os " + attr_arr3)
+  console.log("real is " + real)
+  for (i in attr_arr3)
+  {
+    var table = document.getElementById("myTable");
+    var header = table.createTHead();
+    var row = header.insertRow(0);
+    var cell = row.insertCell(0);
+    console.log("k so i is " + i)
+    cell.innerHTML = attr_arr3[i] + " is " + real[i];
+  }
+}
 
 
-        $(".mypanel").html(text);
+$(document).ready(function(){
+  $("button").click(function(){
+    $.getJSON("http://127.0.0.1:5000/evo/test", function(result){
+      $.each(result, function(i, field){
+        test(result)
+        var attr = getAttrArr(result)
+        var real = attr_arr_real(result)
+        testingTable2(attr_arr, real)
+        //testingTable(attr_arr)
+      });
     });
-    </script>
+  });
+});
+</script>
+</body>
+</head>
+<body>
+
+<button>Get JSON data</button>
+
+<div></div>
 
 </body>
 </html>

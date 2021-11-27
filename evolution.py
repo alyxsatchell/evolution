@@ -10,6 +10,7 @@ from statistics import mean
 import json
 from mathScript import litterCounter
 import statistics
+from flask import send_from_directory
 #import grpahics
 
 from flask import Flask, jsonify
@@ -47,6 +48,8 @@ class organsim:
         self.status = status
     def __str__(self):
         return ("|" + str(self.name).ljust(chartSize) + "|" + str(self.gender).ljust(chartSize) + "|" + str(self.lifeState).ljust(chartSize) + "|" + str(self.pos).ljust(chartSize) + "|" + str(self.genome).ljust(28) + "|" + str(self.energy).ljust(chartSize) + "|" + str(self.status).ljust(chartSize) + "|")
+    def get(self,varName):
+        return getattr(self,varName)
 
 class plant:
     def __init__(self, name, lifeState, pos, maxEnergy, age, energy):
@@ -1762,10 +1765,23 @@ def execute(popArray):
 def runin(app):
     app.run()
 
+def objToDict(organ):
+    objDict = {}
+    objVar = vars(organ)
+    for x in objVar.keys():
+        objDict[x] = organ.get(x)
+    return objDict
+
+# garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+# objToDict(garry)
+
+
 def jsonFormat(popArray):
     data = {}
     for x in popArray.values():
-        data[x.name] = json.dumps(x.__dict__)
+        data[x.name] = objToDict(x)
+        # data[x.name] = json.dumps(x.__dict__)
+        #data[x.name] = jsonify(popArray[x.name])
     return data
 
 @app.route("/evo/test")
@@ -1777,6 +1793,13 @@ def webExecute():
     popArray[garry.name] = garry
     data = jsonFormat(popArray)
     return jsonify(data = data)
+
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, r'C:\Users\Nicholas\Documents\Code\evolution\static'),
+                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
 # larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
