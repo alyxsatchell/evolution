@@ -137,8 +137,12 @@ function pad(character, amount)
   return string
 }
 
-function tHeader(attributeArr, attrVal)
+function tHeader(attrData)
 {
+  console.log("attrData is " + attrData)
+  attributeArr = getAttrArr(attrData)
+  attrVal = attr_arr_real(attrData)
+
   // for (i in attributeArr)
   // {
   //   // var table = document.getElementById("myTable");
@@ -158,16 +162,24 @@ function tHeader(attributeArr, attrVal)
       tr.appendChild(th);
   }
   // add json data to the table as rows.
-  for (var i = 0; i < attrVal.length; i++) {
+  console.log("length is " + attrData.data.length)
+  for (let i in attrData.data)
+  {
+    console.log("i si " + i)
+  }
+  for (var i in attrData.data) {
 
   tr = table.insertRow(-1);
-
-  for (var j = 0; j < attrVal.length; j++) {
+  console.log("stuff" + attrData.data[i])
+  counter = 0
+  console.log("attrVal be " + attrVal)
+  for (let j in attrData.data[i]) {
+      counter++
+      console.log("j is " + j)
       var tabCell = tr.insertCell(-1);
-      tabCell.innerHTML = attrVal[j];
+      tabCell.innerHTML = attrData.data[i][j];
   }
   }
-
 }
 
 function testingTable2(attr_arr3, real)
@@ -196,7 +208,7 @@ $(document).ready(function(){
         var real = attr_arr_real(result)
         //testingTable2(attr_arr, real)
         //testingTable(attr_arr)
-        tHeader(attr,real)
+        tHeader(result)
       });
     });
   });
