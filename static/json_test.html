@@ -127,6 +127,49 @@ function testingTable(attr_arr1)
   }
 }
 
+function pad(character, amount)
+{
+  string = ""
+  for (let i = 0; i < amount; i++)
+  {
+    string += character
+  }
+  return string
+}
+
+function tHeader(attributeArr, attrVal)
+{
+  // for (i in attributeArr)
+  // {
+  //   // var table = document.getElementById("myTable");
+  //   // var header = table.createTHead();
+  //   // var row = header.insertRow(0);
+  //   // var cell = row.insertCell(0);
+  //   // cell.innerHTML = attributeArr[i];
+    
+  // }
+  var table = document.getElementById("myTable");
+// Create table header row using the extracted headers above.
+  var tr = table.insertRow(-1);                   // table row.
+
+  for (var i = 0; i < attributeArr.length; i++) {
+      var th = document.createElement("th");      // table header.
+      th.innerHTML = attributeArr[i];
+      tr.appendChild(th);
+  }
+  // add json data to the table as rows.
+  for (var i = 0; i < attrVal.length; i++) {
+
+  tr = table.insertRow(-1);
+
+  for (var j = 0; j < attrVal.length; j++) {
+      var tabCell = tr.insertCell(-1);
+      tabCell.innerHTML = attrVal[j];
+  }
+  }
+
+}
+
 function testingTable2(attr_arr3, real)
 {
   console.log("attr ar os " + attr_arr3)
@@ -138,7 +181,8 @@ function testingTable2(attr_arr3, real)
     var row = header.insertRow(0);
     var cell = row.insertCell(0);
     console.log("k so i is " + i)
-    cell.innerHTML = attr_arr3[i] + " is " + real[i];
+    console.log("(" + pad(" ", 10) + ")")
+    cell.innerHTML = attr_arr3[i] + pad(" ", 10) + " is " + real[i];
   }
 }
 
@@ -150,8 +194,9 @@ $(document).ready(function(){
         test(result)
         var attr = getAttrArr(result)
         var real = attr_arr_real(result)
-        testingTable2(attr_arr, real)
+        //testingTable2(attr_arr, real)
         //testingTable(attr_arr)
+        tHeader(attr,real)
       });
     });
   });

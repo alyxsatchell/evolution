@@ -1,4 +1,4 @@
-BASE_SYSTEM = 3
+BASE_SYSTEM = 2
 
 def listToStr(l):
     string = ""
