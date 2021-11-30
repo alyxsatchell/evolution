@@ -37,6 +37,20 @@ function test(result)
     console.log(result.data)
 }
 
+function convertPos(ogPos, mapSize)
+{
+  //examle 0,0 => -100,100
+  var mapPositiveScale = mapSize / 2
+  // var oldXrel = ogPos[0] - mapPositiveScale
+  // var oldYrel = 100 - ogPos[1]
+  // console.log("stuff be like " + [oldXrel,oldYrel])
+  //fool its actually the opposite -100,100 => 0,0
+  var oldXrel = mapPositiveScale + ogPos[0]
+  var oldYrel = mapPositiveScale - ogPos[1]
+  console.log("stuff be like " + [oldXrel,oldYrel])
+
+}
+
 function testing(result)
 {
     console.log("Stuff")
@@ -212,6 +226,8 @@ function genPositionData(attrpositionData)
     positionData.push(attrpositionData.data[i].pos)
     ctx.beginPath();
     ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
+    // ctx.fillStyle = "blue";
+    ctx.fill()
     ctx.stroke(); 
   }
   console.log(positionData)
@@ -253,6 +269,7 @@ $(document).ready(function(){
         var real = attr_arr_real(result)
         //testingTable2(attr_arr, real)
         //testingTable(attr_arr)
+        //convertPos([100,100], 200)
         tHeader(result)
         drawTest(result)
       });
