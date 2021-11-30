@@ -1752,6 +1752,8 @@ def execute(popArray):
                 #jsonToWeb(popArray)
                 time.sleep(2)
 
+    
+
 
 
         inputTaken = True
@@ -1788,7 +1790,7 @@ def jsonFormat(popArray):
 def webExecute():
     popArray = {}
     garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
-    larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+    larry = organsim("larry", 1, [30,30], "F", [20,6,20,6,400, 2], 300, "Vibin")
     popArray[larry.name] = larry
     popArray[garry.name] = garry
     data = jsonFormat(popArray)
