@@ -262,8 +262,14 @@ function testingTable2(attr_arr3, real)
 
 $(document).ready(function(){
   $("button").click(function(){
+    // while (true)
+    // {
+    window.setInterval(function(){
+  // stuff I want to run every 5 seconds
+
+
     $.getJSON("http://127.0.0.1:5000/evo/test", function(result){
-      $.each(result, function(i, field){
+      $.each(result, async function(i, field){
         test(result)
         var attr = getAttrArr(result)
         var real = attr_arr_real(result)
@@ -274,6 +280,8 @@ $(document).ready(function(){
         drawTest(result)
       });
     });
+  // }
+  }, 5000);
   });
 });
 </script>
