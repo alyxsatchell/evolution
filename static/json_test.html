@@ -173,6 +173,7 @@ function tHeader(attrData)
 {
   console.log("attrData is " + attrData)
   attributeArr = getAttrArr(attrData)
+  //console.log("atr arr " + attributeArr)
   attrVal = attr_arr_real(attrData)
 
   // for (i in attributeArr)
@@ -243,6 +244,11 @@ function drawTest(organData)
   }
 }
 
+function clearTable()
+{
+  document.getElementById('myTable').innerHTML = '';
+}
+
 function testingTable2(attr_arr3, real)
 {
   console.log("attr ar os " + attr_arr3)
@@ -276,6 +282,8 @@ $(document).ready(function(){
         //testingTable2(attr_arr, real)
         //testingTable(attr_arr)
         //convertPos([100,100], 200)
+        setTimeout(clearTable(), 5000)
+        console.log(new Date())
         tHeader(result)
         drawTest(result)
       });
