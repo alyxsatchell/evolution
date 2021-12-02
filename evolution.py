@@ -1150,6 +1150,29 @@ def hello_world():
 #     output = jsonify(data)
 #     print(f"data: {output}")
 #     return jsonify(data = data)
+def objToDict(organ):
+    objDict = {}
+    objVar = vars(organ)
+    for x in objVar.keys():
+        objDict[x] = organ.get(x)
+    return objDict
+
+# garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+# objToDict(garry)
+
+
+def jsonFormat(popArray):
+    data = {}
+    for x in popArray.values():
+        data[x.name] = objToDict(x)
+        # data[x.name] = json.dumps(x.__dict__)
+        #data[x.name] = jsonify(popArray[x.name])
+    return data
+
+def dumpIt(popArray):
+    data = jsonFormat(popArray)
+    with open('popData.json', 'w') as fp:
+        json.dump(data, fp)
 
 def execute(popArray):
     global halt
@@ -1752,6 +1775,18 @@ def execute(popArray):
                 #jsonToWeb(popArray)
                 time.sleep(2)
 
+        elif uin == "chillWander":
+            popArray = {}       
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            while True:
+                for x in popArray.values():
+                    x.pos = [x.pos[0] + 1, x.pos[1] + 1]
+                time.sleep(3)
+                dumpIt(popArray)
+
     
 
 
@@ -1767,24 +1802,10 @@ def execute(popArray):
 def runin(app):
     app.run()
 
-def objToDict(organ):
-    objDict = {}
-    objVar = vars(organ)
-    for x in objVar.keys():
-        objDict[x] = organ.get(x)
-    return objDict
-
-# garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
-# objToDict(garry)
 
 
-def jsonFormat(popArray):
-    data = {}
-    for x in popArray.values():
-        data[x.name] = objToDict(x)
-        # data[x.name] = json.dumps(x.__dict__)
-        #data[x.name] = jsonify(popArray[x.name])
-    return data
+
+
 
 @app.route("/evo/test")
 def webExecute():
@@ -1794,6 +1815,7 @@ def webExecute():
     popArray[larry.name] = larry
     popArray[garry.name] = garry
     data = jsonFormat(popArray)
+    dumpIt(popArray)
     return jsonify(data = data)
 
 
@@ -1815,7 +1837,7 @@ if __name__ == '__main__':
     popArray[larry.name] = larry
     popArray[garry.name] = garry
     print("starting...")
-    app.run()
+    #app.run()
     # print("after the app.run")
     # t1 = Thread(target=runin, args=(app,))
     # t2 = Thread(target=execute,args=(popArray,))

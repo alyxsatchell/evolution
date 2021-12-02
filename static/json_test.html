@@ -219,6 +219,7 @@ function genPositionData(attrpositionData)
 {
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   positionData = []
   for (let i in attrpositionData.data)
   {
@@ -274,7 +275,7 @@ $(document).ready(function(){
   // stuff I want to run every 5 seconds
 
 
-    $.getJSON("http://127.0.0.1:5000/evo/test", function(result){
+    $.getJSON("http://127.0.0.1:5000/evo/popArray", function(result){
       $.each(result, async function(i, field){
         test(result)
         var attr = getAttrArr(result)
