@@ -46,8 +46,9 @@ function convertPos(ogPos, mapSize)
   // console.log("stuff be like " + [oldXrel,oldYrel])
   //fool its actually the opposite -100,100 => 0,0
   var oldXrel = mapPositiveScale + ogPos[0]
-  var oldYrel = mapPositiveScale - ogPos[1]
+  var oldYrel = ogPos[1] - mapPositiveScale
   console.log("stuff be like " + [oldXrel,oldYrel])
+  return [oldXrel, oldYrel]
 
 }
 
@@ -76,24 +77,24 @@ function testing(result)
     for (let i in arr)
     {
         attr_arr = []
-        console.log("i is " + i)
+        //console.log("i is " + i)
         console.log(arr[i] [1])
         for (let j in arr[i][1])
         {
-            console.log("arr stuff is " + arr[i][1][j])
+            //console.log("arr stuff is " + arr[i][1][j])
             attr_arr.push(arr[i][1][j]) //TODO add something to the array so that there is a garry array then all of his attr then larrt array etc
             
         }
-        console.log("i is " + i)
-        console.log("attr_arr[9] " + attr_arr[4])
+        //console.log("i is " + i)
+        //console.log("attr_arr[9] " + attr_arr[4])
         organ_arr[toString(attr_arr[4])] = attr_arr
         console.log(attr_arr[4] + "is " + attr_arr)
 
-        console.log("organ stuff is " + organ_arr)
+        //console.log("organ stuff is " + organ_arr)
     }
-    console.log("attr " + attr_arr)
+    //console.log("attr " + attr_arr)
 
-    console.log("organSTUFF is " + organ_arr)
+    //console.log("organSTUFF is " + organ_arr)
 }
 
 function getAttrArr(result)
@@ -171,7 +172,7 @@ function pad(character, amount)
 
 function tHeader(attrData)
 {
-  console.log("attrData is " + attrData)
+  //console.log("attrData is " + attrData)
   attributeArr = getAttrArr(attrData)
   //console.log("atr arr " + attributeArr)
   attrVal = attr_arr_real(attrData)
@@ -195,20 +196,20 @@ function tHeader(attrData)
       tr.appendChild(th);
   }
   // add json data to the table as rows.
-  console.log("length is " + attrData.data.length)
+  //console.log("length is " + attrData.data.length)
   for (let i in attrData.data)
   {
-    console.log("i si " + i)
+    //console.log("i si " + i)
   }
   for (var i in attrData.data) {
 
   tr = table.insertRow(-1);
   //console.log("stuff" + attrData.data[i])
   counter = 0
-  console.log("attrVal be " + attrVal)
+  //console.log("attrVal be " + attrVal)
   for (let j in attrData.data[i]) {
       counter++
-      console.log("j is " + j)
+      //console.log("j is " + j)
       var tabCell = tr.insertCell(-1);
       tabCell.innerHTML = attrData.data[i][j];
   }
@@ -223,11 +224,13 @@ function genPositionData(attrpositionData)
   positionData = []
   for (let i in attrpositionData.data)
   {
-    console.log("i is " + i)
+    //console.log("i is " + i)
     stuff = attrpositionData.data[i]
     positionData.push(attrpositionData.data[i].pos)
     ctx.beginPath();
-    ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
+    goodPos = convertPos(stuff.pos, 200)
+    //ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
+    ctx.arc(goodPos[0], goodPos[1], stuff.genome[3], 0, 2 * Math.PI);
     // ctx.fillStyle = "blue";
     ctx.fill()
     ctx.stroke(); 

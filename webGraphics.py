@@ -17,7 +17,7 @@ def webExecute():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, r'C:\Users\Nicholas\Documents\Code\evolution\static'),
+    return send_from_directory(os.path.join(app.root_path, r'C:\Users\x2\Documents\GitHub\evolution\static'),
                                 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
