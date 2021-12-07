@@ -1018,13 +1018,17 @@ def plantLife(plantDict):
 def life(popArray, plantDict):
     alive = {}
     for x in popArray.values():
-        if x.lifeState or x.energy <= 0:
+        if x.energy <= 0:
+            x.lifeState = 0
+            x.status = "XD"
+        elif x.lifeState:
             alive[x.name] = x
         else:
+            x.lifeState = 0
             x.status = "XD"
     mateList = reproduction(alive)
     
-    showList(mateList)
+    #showList(mateList)
     # print(f"mateList is {mateList}")
     consumerList = makeConsumersList(mateList, alive)
     consumption(consumerList, alive, plantDict)
@@ -1803,6 +1807,22 @@ def execute(popArray):
                 alive = life(popArray, plants)
                 dumpIt(popArray)
                 uin = input()
+        elif uin == "lifeTime":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin")
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            # mateList = []
+            # for x in popArray.values():
+            #     mateList.append(x)
+            plantDict = {}
+            genPlant(plantDict, 300)
+            #show(plantDict)
+            alive = popArray
+            for x in range(10000):
+                alive = life(alive,plantDict)
+            dumpIt(alive)
     
 
 

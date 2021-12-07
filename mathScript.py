@@ -82,7 +82,8 @@ def chanceCalc(avgLit):
         try:
             runningTotal += percentagePairs[x]
         except:
-            print(f"avgLit is {avgLit}, x is {x}, percentagePairs is {percentagePairs}, prevTotal is {prevTotal}, running total is {runningTotal}, rounded is {round(avgLit)}")
+            a= 0
+            #print(f"avgLit is {avgLit}, x is {x}, percentagePairs is {percentagePairs}, prevTotal is {prevTotal}, running total is {runningTotal}, rounded is {round(avgLit)}")
         connectingDict[runningTotal] = prevTotal
         chance [runningTotal] = x
     #print(connectingDict)
@@ -97,12 +98,12 @@ def litterCounter(avgLit):
     #print(randy)
     for x in connect.keys():
         if randy >= connect[x] and randy < x:
-            if randy == 100:
-                print("100 yeah")
-            if randy == 101:
-                print("am i right")
-            if randy == 0:
-                print("0 am i right")
+            # if randy == 100:
+            #     print("100 yeah")
+            # if randy == 101:
+            #     print("am i right")
+            # if randy == 0:
+            #     print("0 am i right")
             return chance[x]
     if randy == 100:
         return chance[100]
