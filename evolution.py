@@ -950,8 +950,6 @@ def checkMate(objMateList, popArray):
             intergrateOffspring(childs, popArray)
             male.status = f"Mated with {female.name}"
             female.status = f"Mated with {male.name}"
-        else:
-            return None
 #beans
 
 def makeMateList(popArray):
@@ -1020,12 +1018,13 @@ def plantLife(plantDict):
 def life(popArray, plantDict):
     alive = {}
     for x in popArray.values():
-        if x.lifeState:
+        if x.lifeState or x.energy <= 0:
             alive[x.name] = x
         else:
             x.status = "XD"
     mateList = reproduction(alive)
-    # showList(mateList)
+    
+    showList(mateList)
     # print(f"mateList is {mateList}")
     consumerList = makeConsumersList(mateList, alive)
     consumption(consumerList, alive, plantDict)
@@ -1635,11 +1634,14 @@ def execute(popArray):
             bean = dictOfScore(mateList,popArray)
             print(f"bean is {bean}")
             a = sortScore(bean)
-            print(a)
+            print(f"a is {a}")
             show(popArray)
             b = matchMakerList(a)
+            print(f"b is {b}")
             c = matchMaker(b, bean)
             print(c)
+            d = objMateListMaker(mateList,popArray)
+            print(d)
         elif uin == "a":
             bean = 1
             #testing2
@@ -1756,7 +1758,7 @@ def execute(popArray):
         elif uin == "lifeGL":
             popArray = {}
             garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
-            larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin")
             popArray[larry.name] = larry
             popArray[garry.name] = garry
             # mateList = []
@@ -1787,7 +1789,20 @@ def execute(popArray):
                     x.pos = [x.pos[0] + 1, x.pos[1] + 1]
                 time.sleep(3)
                 dumpIt(popArray)
-
+        elif uin == "tBreedin":
+            popArray = {}
+            plants = {}
+            genPlant(plants, 20)
+            for x in range(10):
+                newPop = organsim(x, 1, [x+1,x], "F", [25,1,26,0.1,100, 2], 300, "Vibin")
+                popArray[newPop.name] = newPop
+            for x in range(10,20):
+                newPop = organsim(x, 1, [x,x+1], "M", [25,1,26,0.1,100, 2], 300, "Vibin")
+                popArray[newPop.name] = newPop
+            while True:
+                alive = life(popArray, plants)
+                dumpIt(popArray)
+                uin = input()
     
 
 

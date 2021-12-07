@@ -63,7 +63,8 @@ def percPair(avgLit):
             try:
                 percentPairs[x[1]] = percentPairs[x[0]]
             except:
-                print(f"percentPairs = {percentPairs}")
+                a = 0
+                #print(f"percentPairs = {percentPairs}")
     return percentPairs
 
 def chanceCalc(avgLit):
@@ -72,12 +73,12 @@ def chanceCalc(avgLit):
     chance = {}
     connectingDict = {}
     runningTotal = 0
-    print(f"num is {int(round(((avgLit * 2) + 1)))}")
-    print(f"num is int(round(({(avgLit * 2)} + 1)))")
+   # print(f"num is {int(round(((avgLit * 2) + 1)))}")
+    #print(f"num is int(round(({(avgLit * 2)} + 1)))")
     for x in range(int((((round(avgLit) * 2) + 1)))):
         #print(x)
         prevTotal = runningTotal
-        print(f"percentageParis are : {percentagePairs}")
+        #print(f"percentageParis are : {percentagePairs}")
         try:
             runningTotal += percentagePairs[x]
         except:
@@ -93,7 +94,7 @@ def litterCounter(avgLit):
     chance = dicts[0]
     connect = dicts[1]
     randy = random.randint(0,100)
-    print(randy)
+    #print(randy)
     for x in connect.keys():
         if randy >= connect[x] and randy < x:
             if randy == 100:
@@ -106,9 +107,9 @@ def litterCounter(avgLit):
     if randy == 100:
         return chance[100]
 
-print(50/8)
-print(slope([0,0], [(6.25), 2.5]))
-print(findB([0,0], [(50/8), 2.5]))
+#print(50/8)
+#print(slope([0,0], [(6.25), 2.5]))
+#print(findB([0,0], [(50/8), 2.5]))
 #litterCounter(4)
 calcList = []
 # for x in range(5):
