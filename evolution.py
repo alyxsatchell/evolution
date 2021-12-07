@@ -311,6 +311,16 @@ def nameChecker(newPop, popArray):
                 if str(newPop.name).isnumeric():
                     newPop.name = str(newPop.name) + "II"
 
+def nameCheckerII(newPop, nameList):
+    for named in nameList:
+        if named == newPop.name:
+            for index, x in enumerate(str(newPop.name)):
+                if x.isalpha():
+                    title = newPop.name[index:]
+                    newPop.name = newPop.name[:index] + romNumAdd(title,1)[0]
+                    break
+            if str(newPop.name).isnumeric():
+                newPop.name = str(newPop.name) + "II"
 
 def genPop(popArray, genSize):
     counter = 0
@@ -540,14 +550,14 @@ def litter():
 
 def breed(parentA, parentB, popArray):
     litterSize = litter()
-    print(f"litterSize is {litterSize}")
+    #print(f"litterSize is {litterSize}")
     offSpring = []
     #print(f"litter size is {litterSize}")
     #en = parentA.energy / (litterSize + 1)
     #en = parentA.energy + parentB.energy / ((litterSize + 3))
-    print(f"{parentA.energy} + {parentB.energy} / {(litterSize + 2)}")
+   # print(f"{parentA.energy} + {parentB.energy} / {(litterSize + 2)}")
     en = (parentA.energy + parentB.energy) / (litterSize + 2)
-    print(f"en is {en} which came from {parentA.energy} + {parentB.energy}) / ({litterSize + 2}")
+   # print(f"en is {en} which came from {parentA.energy} + {parentB.energy}) / ({litterSize + 2}")
     #parentA.energy = parentA.energy / ((litterSize + 1))
     parentA.energy = 0.7 * en
     #print(f"parentA.energy be {parentA.energy}")
@@ -791,6 +801,12 @@ def newGenome(parentA, parentB):
             genome.append(parentB.genome[index])
     return genome
 
+def nameListGen(popArray):
+    nameList = []
+    for x in popArray.keys():
+        nameList.append(x)
+    return nameList
+
 def reproduce(parentA, parentB, popArray):
     offSpring = []
     if parentA.gender == "F":
@@ -813,7 +829,10 @@ def reproduce(parentA, parentB, popArray):
         childLocation = [mother.pos[0] + childOffset, mother.pos[1] + childOffset]
         child = organsim(randrange(0,100), 1, childLocation, gen, genome, childEn, "Born")
         child.genome = genomeMutate(child.genome)
-        nameChecker(child, popArray)
+        nameList = nameListGen(popArray)
+        print(f"namelist is {nameList}")
+        nameCheckerII(child, nameList)
+        print(f"based lil {child.name}")
         offSpring.append(child)
     try:
         parentA.energy = childEn
@@ -937,7 +956,7 @@ def objMateListMaker(mateList, popArray):
     mml = matchMakerList(sortedScore)
     return matchMaker(mml, dos)
     
-def checkMate(objMateList, popArray):
+def checkMate(objMateList, alive, popArray):
     for x in objMateList:
         male = x[0]
         female = x[1]
@@ -948,7 +967,8 @@ def checkMate(objMateList, popArray):
         d = distance(male.pos, female.pos)
         if d <= male.genome[3] or d <= female.genome[3]:
             childs = reproduce(male, female, popArray)
-            intergrateOffspring(childs, popArray)
+            intergrateOffspring(childs, alive)
+            intergrateOffspring(childs,popArray)
             male.status = f"Mated with {female.name}"
             female.status = f"Mated with {male.name}"
 #beans
@@ -960,15 +980,15 @@ def makeMateList(popArray):
             mateList.append(x)
     return mateList
 
-def matin(mateList, popArray):
-    objMateList = objMateListMaker(mateList, popArray)
+def matin(mateList, alive, popArray):
+    objMateList = objMateListMaker(mateList, alive)
     for x in mateList:
         x.status = "Waiting for mate"
-    checkMate(objMateList, popArray)
+    checkMate(objMateList, alive, popArray)
 
-def reproduction(popArray):
-    mateList = makeMateList(popArray)
-    matin(mateList, popArray)
+def reproduction(alive, popArray):
+    mateList = makeMateList(alive)
+    matin(mateList, alive, popArray)
     # for x in mateList:
     #     x.status = "'_'"
     return mateList
@@ -1016,9 +1036,9 @@ def plantLife(plantDict):
     genPlant(plantDict, floraGrowth)
 
 
-def life(popArray, plantDict):
+def life(currentLivin, popArray, plantDict):
     alive = {}
-    for x in popArray.values():
+    for x in currentLivin.values():
         if x.energy <= 0:
             x.lifeState = 0
             x.status = "XD"
@@ -1027,7 +1047,7 @@ def life(popArray, plantDict):
         else:
             x.lifeState = 0
             x.status = "XD"
-    mateList = reproduction(alive)
+    mateList = reproduction(alive, popArray)
     
     #showList(mateList)
     # print(f"mateList is {mateList}")
@@ -1774,8 +1794,8 @@ def execute(popArray):
             #show(plantDict)
             alive = popArray
             while True:
-                alive = life(alive,plantDict)
-                show(alive)
+                alive = life(alive,popArray, plantDict)
+                #show(alive)
                 #show(popArray)
                 #show(plantDict)
                 posUpdate(alive, plantDict)
@@ -1824,6 +1844,16 @@ def execute(popArray):
             for x in range(1000000):
                 alive = life(alive,plantDict)
             dumpIt(alive)
+        elif uin == "nameTest":
+            popArray = {}
+
+            for x in range(100):
+                childs = []
+                newPop = organsim(0, 1, 1, 1, 1, 1, 1)
+                nameCheckerII(newPop, nameListGen(popArray))
+                childs.append(newPop)
+                intergrateOffspring(childs, popArray)
+            show(popArray)
     
 
 
