@@ -311,6 +311,7 @@ def nameChecker(newPop, popArray):
                 if str(newPop.name).isnumeric():
                     newPop.name = str(newPop.name) + "II"
 
+
 def genPop(popArray, genSize):
     counter = 0
     while True:
@@ -549,11 +550,11 @@ def breed(parentA, parentB, popArray):
     print(f"en is {en} which came from {parentA.energy} + {parentB.energy}) / ({litterSize + 2}")
     #parentA.energy = parentA.energy / ((litterSize + 1))
     parentA.energy = 0.7 * en
-    print(f"parentA.energy be {parentA.energy}")
+    #print(f"parentA.energy be {parentA.energy}")
     #en += parentB.energy / (litterSize + 1)
     parentB.energy = 0.7 * en 
     #parentB.energy = parentB.energy / ((litterSize + 1))
-    print(f"total pop energy = {parentA.energy + parentB.energy + (en * litterSize)}")
+    #print(f"total pop energy = {parentA.energy + parentB.energy + (en * litterSize)}")
     newGenome = makeGenome(parentA,parentB)
     #print(f"genomes are {newGenome}")
     for x in range(litterSize):
@@ -800,13 +801,13 @@ def reproduce(parentA, parentB, popArray):
         father = parentA
     litterSize = litterCounter(mother.genome[5])
     print(f"litterSize {litterSize}")
-    for x in range(litterSize):
+    for x in range(round(litterSize)):
         if randint(0,1) == 1:
             gen = "F"
         else:
             gen = "M"
         genome = newGenome(parentA,parentB)
-        print(f"({parentA.energy} + {parentB.energy}) / ({litterSize + 2})")
+       # print(f"({parentA.energy} + {parentB.energy}) / ({litterSize + 2})")
         childEn = (parentA.energy + parentB.energy) / (litterSize + 2)
         childOffset = randint(-int(round(mother.genome[3])),int(round(mother.genome[3])))
         childLocation = [mother.pos[0] + childOffset, mother.pos[1] + childOffset]
@@ -819,7 +820,7 @@ def reproduce(parentA, parentB, popArray):
         parentB.energy = childEn
     except:
         a = 1
-    print(f"offspring is {offSpring}")
+    #print(f"offspring is {offSpring}")
     return offSpring
 
 def intergrateOffspring(offSpring, popArray):
@@ -1820,7 +1821,7 @@ def execute(popArray):
             genPlant(plantDict, 300)
             #show(plantDict)
             alive = popArray
-            for x in range(10000):
+            for x in range(1000000):
                 alive = life(alive,plantDict)
             dumpIt(alive)
     
