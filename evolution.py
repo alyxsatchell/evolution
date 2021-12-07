@@ -1772,8 +1772,9 @@ def execute(popArray):
                 #show(popArray)
                 #show(plantDict)
                 posUpdate(alive, plantDict)
+                dumpIt(alive)
                 #jsonToWeb(popArray)
-                time.sleep(2)
+                time.sleep(3)
 
         elif uin == "chillWander":
             popArray = {}       

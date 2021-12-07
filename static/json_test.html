@@ -34,7 +34,7 @@ Your browser does not support the canvas element.
 <script>
 function test(result)
 {
-    console.log(result.data)
+    //console.log(result.data)
 }
 
 function convertPos(ogPos, mapSize)
@@ -43,57 +43,58 @@ function convertPos(ogPos, mapSize)
   var mapPositiveScale = mapSize / 2
   // var oldXrel = ogPos[0] - mapPositiveScale
   // var oldYrel = 100 - ogPos[1]
-  // console.log("stuff be like " + [oldXrel,oldYrel])
+  // //console.log("stuff be like " + [oldXrel,oldYrel])
   //fool its actually the opposite -100,100 => 0,0
   var oldXrel = mapPositiveScale + ogPos[0]
   var oldYrel = mapPositiveScale - ogPos[1]
-  console.log("stuff be like " + [oldXrel,oldYrel])
+  //console.log("stuff be like " + [oldXrel,oldYrel])
+  return [oldXrel, oldYrel]
 
 }
 
 function testing(result)
 {
-    console.log("Stuff")
+    //console.log("Stuff")
     json_data = result.data
     attr_arr = [] // this will store all of the atributes like energy in indexs instead of names
     var arr = []
     var organ_arr = []
-    console.log("bean is " + json_data)
+    //console.log("bean is " + json_data)
     var new_json = {}
     new_json["garry"] = json_data.garry
-    console.log("newjson is " + new_json["garry"])
+    //console.log("newjson is " + new_json["garry"])
 
     for (let i in json_data)
     {
         arr.push([i, json_data[i]])
     }
-    console.log("arr is " + arr)
-    // console.log(arr.length)
+    //console.log("arr is " + arr)
+    // //console.log(arr.length)
     // for (let i in arr)
     // {
-    //     console.log(arr[i])
+    //     //console.log(arr[i])
     // }
     for (let i in arr)
     {
         attr_arr = []
-        console.log("i is " + i)
-        console.log(arr[i] [1])
+        //console.log("i is " + i)
+        //console.log(arr[i] [1])
         for (let j in arr[i][1])
         {
-            console.log("arr stuff is " + arr[i][1][j])
+            //console.log("arr stuff is " + arr[i][1][j])
             attr_arr.push(arr[i][1][j]) //TODO add something to the array so that there is a garry array then all of his attr then larrt array etc
             
         }
-        console.log("i is " + i)
-        console.log("attr_arr[9] " + attr_arr[4])
+        //console.log("i is " + i)
+        //console.log("attr_arr[9] " + attr_arr[4])
         organ_arr[toString(attr_arr[4])] = attr_arr
-        console.log(attr_arr[4] + "is " + attr_arr)
+        //console.log(attr_arr[4] + "is " + attr_arr)
 
-        console.log("organ stuff is " + organ_arr)
+        //console.log("organ stuff is " + organ_arr)
     }
-    console.log("attr " + attr_arr)
+    //console.log("attr " + attr_arr)
 
-    console.log("organSTUFF is " + organ_arr)
+    //console.log("organSTUFF is " + organ_arr)
 }
 
 function getAttrArr(result)
@@ -106,9 +107,9 @@ function getAttrArr(result)
     for (let j in json_data[i])
     {
       attr_arr.push(j)
-      // console.log("j is " + j)
-      // console.log("json_data i is " + json_data[i])
-      // console.log("json_data [i] [j] is " + json_data[i][j])
+      // //console.log("j is " + j)
+      // //console.log("json_data i is " + json_data[i])
+      // //console.log("json_data [i] [j] is " + json_data[i][j])
     }
   }
   return attr_arr
@@ -140,7 +141,7 @@ function myFunction(attr_arr) {
   for (i in attr_arr)
   {
     var cell = row.insertCell(0);
-    console.log("k so i is " + i)
+    //console.log("k so i is " + i)
     cell.innerHTML = attr_arr[i];
   }
 
@@ -154,7 +155,7 @@ function testingTable(attr_arr1)
     var header = table.createTHead();
     var row = header.insertRow(0);
     var cell = row.insertCell(0);
-    console.log("k so i is " + i)
+    //console.log("k so i is " + i)
     cell.innerHTML = attr_arr1[i];
   }
 }
@@ -171,9 +172,11 @@ function pad(character, amount)
 
 function tHeader(attrData)
 {
-  console.log("attrData is " + attrData)
+    //var genpme_template = [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
+  var genome_template = ["Vision", "Posion Resistance", "Speed", "Size", "Breeding Threshold", "Average Litter Size"]
+  //console.log("attrData is " + attrData)
   attributeArr = getAttrArr(attrData)
-  //console.log("atr arr " + attributeArr)
+  ////console.log("atr arr " + attributeArr)
   attrVal = attr_arr_real(attrData)
 
   // for (i in attributeArr)
@@ -190,49 +193,83 @@ function tHeader(attrData)
   var tr = table.insertRow(-1);                   // table row.
 
   for (var i = 0; i < attributeArr.length; i++) {
-      var th = document.createElement("th");      // table header.
-      th.innerHTML = attributeArr[i];
-      tr.appendChild(th);
+     // table header.
+      if (attributeArr[i] == "genome")
+      {
+        for (let j in attributeArr[i])
+        {
+          var th = document.createElement("th"); 
+          //console.log("wnat to " + j)
+         // console.log("this do be waht it should be " + genome_template[j])
+          th.innerHTML = genome_template[j];
+          tr.appendChild(th);
+        }
+      }
+      else
+      {
+        var th = document.createElement("th"); 
+        th.innerHTML = attributeArr[i];
+        tr.appendChild(th);
+      }
+
   }
   // add json data to the table as rows.
-  console.log("length is " + attrData.data.length)
+  ////console.log("length is " + attrData.data.length)
   for (let i in attrData.data)
   {
-    console.log("i si " + i)
+    ////console.log("i si " + i)
   }
   for (var i in attrData.data) {
 
   tr = table.insertRow(-1);
-  //console.log("stuff" + attrData.data[i])
+  ////console.log("stuff" + attrData.data[i])
   counter = 0
-  console.log("attrVal be " + attrVal)
+  ////console.log("attrVal be " + attrVal)
   for (let j in attrData.data[i]) {
       counter++
-      console.log("j is " + j)
-      var tabCell = tr.insertCell(-1);
-      tabCell.innerHTML = attrData.data[i][j];
+      ////console.log("j is " + j)
+
+      //console.log("when ye got stuff and ut be like " + attrData.data[i][j] + "i be like " + i + "and j be like 0" + j)
+      if (j == "genome")
+      {
+        for (let x in attrData.data[i][j] )
+        {
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = attrData.data[i][j][x]
+        counter ++
+        }
+      }
+      else
+      {
+        var tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = attrData.data[i][j];
+      }
+
   }
   }
 }
 
 function genPositionData(attrpositionData)
 {
+
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   positionData = []
   for (let i in attrpositionData.data)
   {
-    console.log("i is " + i)
+    ////console.log("i is " + i)
     stuff = attrpositionData.data[i]
     positionData.push(attrpositionData.data[i].pos)
     ctx.beginPath();
-    ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
+    //ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
+    newPos = convertPos(stuff.pos, 200)
+    ctx.arc(newPos[0], newPos[1], stuff.genome[3], 0, 2 * Math.PI);
     // ctx.fillStyle = "blue";
     ctx.fill()
     ctx.stroke(); 
   }
-  console.log(positionData)
+  //console.log(positionData)
   return positionData
 }
 
@@ -252,16 +289,16 @@ function clearTable()
 
 function testingTable2(attr_arr3, real)
 {
-  console.log("attr ar os " + attr_arr3)
-  console.log("real is " + real)
+  //console.log("attr ar os " + attr_arr3)
+  //console.log("real is " + real)
   for (i in attr_arr3)
   {
     var table = document.getElementById("myTable");
     var header = table.createTHead();
     var row = header.insertRow(0);
     var cell = row.insertCell(0);
-    //console.log("k so i is " + i)
-    //console.log("(" + pad(" ", 10) + ")")
+    ////console.log("k so i is " + i)
+    ////console.log("(" + pad(" ", 10) + ")")
     cell.innerHTML = attr_arr3[i] + pad(" ", 10) + " is " + real[i];
   }
 }
@@ -283,14 +320,14 @@ $(document).ready(function(){
         //testingTable2(attr_arr, real)
         //testingTable(attr_arr)
         //convertPos([100,100], 200)
-        setTimeout(clearTable(), 5000)
-        console.log(new Date())
+        setTimeout(clearTable(), 3000)
+        //console.log(new Date())
         tHeader(result)
         drawTest(result)
       });
     });
   // }
-  }, 5000);
+  }, 3000);
   });
 });
 </script>
