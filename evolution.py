@@ -830,9 +830,9 @@ def reproduce(parentA, parentB, popArray):
         child = organsim(randrange(0,100), 1, childLocation, gen, genome, childEn, "Born")
         child.genome = genomeMutate(child.genome)
         nameList = nameListGen(popArray)
-        print(f"namelist is {nameList}")
+        #print(f"namelist is {nameList}")
         nameCheckerII(child, nameList)
-        print(f"based lil {child.name}")
+        #print(f"based lil {child.name}")
         offSpring.append(child)
     try:
         parentA.energy = childEn

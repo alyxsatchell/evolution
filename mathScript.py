@@ -1,4 +1,5 @@
 import random
+import sys
 
 def slope(point1, point2):
     run = point2[1] - point1[1]
@@ -88,6 +89,12 @@ def chanceCalc(avgLit):
         chance [runningTotal] = x
     #print(connectingDict)
     #print(chance)
+    try:
+        a = chance[100]
+    except:
+        for x in chance.keys():
+            a = x
+        chance[100] = a
     return [chance, connectingDict]
 
 def litterCounter(avgLit):
@@ -106,7 +113,12 @@ def litterCounter(avgLit):
             #     print("0 am i right")
             return chance[x]
     if randy == 100:
-        return chance[100]
+        try:
+            return chance[100]
+        except:
+            print("ok doike artichokie something amiss in this")
+            print(f"so chance is this incase you were wondering {chance}")
+            sys.exit("Well Well Well is it not the bug I can't find")
 
 #print(50/8)
 #print(slope([0,0], [(6.25), 2.5]))
