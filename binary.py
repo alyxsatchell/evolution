@@ -1,5 +1,4 @@
-BASE_SYSTEM = 2
-
+BASE_SYSTEM = 3
 def listToStr(l):
     string = ""
     for x in l:
@@ -64,6 +63,7 @@ def toWord(binString):
             prevIndex = index + 1
     return words
 
+print(numToBinary(16))
 print("Note all binary needs to have only numbers with \"whole letters\" seperated by \",\"")
 while True:
     uin = input("Input a command:\n").lower()
