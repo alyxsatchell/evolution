@@ -33,13 +33,43 @@ Your browser does not support the canvas element.
   </table>
 <script>
 
-var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus", "Beanos", "Terry", "Beanos", 
+var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus", "Beanos", "Terry", "Godzilla", 
 "Ella", "Bingus", "Jack", "Joe", "Trent", "Chris", "Linus", "Geroge", "Emmet", "Ikea Metaballer",
 "Eculid", "Isaac", "Galileo", "Albert", "Pascal", "John", "Holland", "Darwin", "Linnaeus", "Carl",
 "Pythagoras", "Archimedes", "Turing", "Guido", "Macbeth", "Duncan", "James", "Alan", "Will", "Scott",
 "Alyx", "Martin", "Charlemagne", "Leo", " Tesla", "Nikola", "Tchaikovsky", "Constantine", "Charles", "Arthur",
 "Bismarck", "Joan", "Alyssa", "Cleopatra", "Frodo", "Gandalf", "Hades", "Antony", "Zacharias", "Chad",
-"David", ""]
+"David", "Specimen", "Berry", "Bob", "Alice", "Doe", "Borris", "Zeus", "Willow", "Kemosh",
+"Lepidoptera", "Bilbo", "Horace", "Hercules", "Flumph", "Peter", "Mathew", "Jinx", "Vi", "Viktor",
+"Silco", "Jayce", "Mel", "Jester", "Maxwell", "Candiss", "Red", "Speckles", "Greay", "Rektangle",
+"Mercury", "Neptune", "Frost", "Venus", "Jupiter", "Pluto", "Phobos", "Mars", "Eris", "Demos", "Bacon"]
+//Lovelace, 
+
+function isLetter(c) {
+  return c.toLowerCase() != c.toUpperCase();
+}
+
+function numToName(num, listOfNames)
+{
+  stringThing = String(num)
+  for (let i in stringThing)
+  {
+    if (isLetter(stringThing[i]))
+    {
+      console.log(stringThing[i])
+      console.log(i)
+      var finalIndex = i
+      break;
+    }
+  }
+  name = listOfNames[stringThing.substring(0,finalIndex)]
+  len = stringThing.length
+  roman = stringThing.substring(finalIndex, len)
+  return name + " " + roman
+}
+
+//console.log(numToName("10V", listOfNames))
+
 function test(result)
 {
     //console.log(result.data)
@@ -178,7 +208,7 @@ function pad(character, amount)
   return string
 }
 
-function tHeader(attrData)
+function tHeader(attrData, listOfNames)
 {
     //var genpme_template = [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
   var genome_template = ["Vision", "Posion Resistance", "Speed", "Size", "Breeding Threshold", "Average Litter Size"]
@@ -246,6 +276,13 @@ function tHeader(attrData)
         tabCell.innerHTML = attrData.data[i][j][x]
         counter ++
         }
+      }
+      else if (j == "name")
+      {
+        console.log("The burv")
+        var tabCell = tr.insertCell(-1);
+        stringThingY = attrData.data[i][j];
+        tabCell.innerHTML = numToName(stringThingY, listOfNames)
       }
       else
       {
@@ -330,7 +367,7 @@ $(document).ready(function(){
         //convertPos([100,100], 200)
         setTimeout(clearTable(), 3000)
         //console.log(new Date())
-        tHeader(result)
+        tHeader(result, listOfNames)
         drawTest(result)
       });
     });
