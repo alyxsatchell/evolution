@@ -299,7 +299,12 @@ function tHeader(attrData, listOfNames)
         }
         else if (stringThingY.substring(0,6) == "Mated ")
         {
-          
+          var tabCell = tr.insertCell(-1);
+          string_length = "Mated with ".length
+          num_in_question = stringThingY.substring(string_length, stringThingY.length - 1)
+          newName = numToName(num_in_question, listOfNames)
+          console.log("new name is " + newName)
+          tabCell.innerHTML = "Mated with " + newName
         }
         else
         {
