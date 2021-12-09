@@ -22,7 +22,7 @@ pi = 3.14159265359
 global chartSize
 chartSize = 25
 global mapSize
-mapSize = 300
+mapSize = 100
 thread_running = True
 global inputTaken
 inputTaken = False
@@ -32,7 +32,7 @@ afking = False
 global mutationRate
 mutationRate = [1,10] #1  out of 100
 global floraGrowth
-floraGrowth = 500
+floraGrowth = 30
 global kidConsumption
 kidComsumptionFalse = True
 
