@@ -22,7 +22,7 @@ pi = 3.14159265359
 global chartSize
 chartSize = 25
 global mapSize
-mapSize = 100
+mapSize = 300
 thread_running = True
 global inputTaken
 inputTaken = False
@@ -32,7 +32,9 @@ afking = False
 global mutationRate
 mutationRate = [1,10] #1  out of 100
 global floraGrowth
-floraGrowth = 30
+floraGrowth = 500
+global kidConsumption
+kidComsumptionFalse = True
 
 #genomes [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
 
@@ -331,7 +333,7 @@ def genPop(popArray, genSize):
             gender = "M"
         else:
             gender = "F"
-        newPop = organsim(randrange(0,1), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], gender, [randrange(10,30),1,randrange(10,20),randrange(4,5),randrange(500,1000), 2], randrange(500,999), "")
+        newPop = organsim(randrange(0,1), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], gender, [randint(10,30),1,randint(10,20),randint(2,4),randint(500,1000), 2], randint(500,999), "")
         # popArray.append(newPop)
         # 25, [0,0], [25,[0,270],25,1,300], 100, ""
         nameChecker(newPop, popArray)
@@ -354,7 +356,7 @@ def genPlant(popArray, genSize):
     while True:
         if counter >= genSize:
             break
-        newPop = plant(randrange(0,100), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], randrange(300,700), 1, 0)
+        newPop = plant(randrange(0,100), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], randrange(500,1000), 1, 0)
         # popArray.append(newPop)
         for named in popArray.keys():
             if named == newPop.name:
@@ -382,8 +384,8 @@ def moveTo(point1, point2):
     mve = move(point1, dist, head)
     return mve
 
-def energyCost(dist):
-    return dist
+def energyCost(dist, organ):
+    return dist * organ.genome[3]
     #return (dist ** 1.7)
 
 def movementP(organ, point2):
@@ -484,10 +486,10 @@ def moveP(organ, plantDict, includeSelf = 0):
     d = distance(organ.pos, bPlant.pos)
     if d > organ.genome[2]:
         moveD(organ, bPlant.pos)
-        organ.energy -= energyCost(organ.genome[2])
+        organ.energy -= energyCost(organ.genome[2], organ)
     else:
         movementP(organ, bPlant.pos)
-        organ.energy -= energyCost(d)
+        organ.energy -= energyCost(d,organ)
     return("Fun")
 
 def wander(organ):
@@ -503,7 +505,7 @@ def wander(organ):
 def meander(organ):
     randDirection = randrange(-180, 180)
     organ.pos = move(organ.pos, organ.genome[2], dgTR(randDirection))
-    organ.energy -= energyCost(organ.genome[2])
+    organ.energy -= energyCost(organ.genome[2],organ)
 
 def consume(organ, food, plantDict):
     organ.energy += food.energy * 0.5
@@ -603,7 +605,7 @@ def fight(organ, popArray):
         else:
             if x.lifeState == 0:
                 continue
-            elif distance(organ.pos, x.pos) <= organ.genome[3]:
+            elif distance(organ.pos, x.pos) <= organ.genome[3] and (int(x.status != "Born") * int(kidComsumptionFalse)):
                 organ.energy += x.energy / 2
                 x.lifeState = 0
                 x.status = "eaten"
@@ -825,8 +827,8 @@ def reproduce(parentA, parentB, popArray):
         genome = newGenome(parentA,parentB)
        # print(f"({parentA.energy} + {parentB.energy}) / ({litterSize + 2})")
         childEn = (parentA.energy + parentB.energy) / (litterSize + 2)
-        childOffset = randint(-int(round(mother.genome[3])),int(round(mother.genome[3])))
-        childLocation = [mother.pos[0] + childOffset, mother.pos[1] + childOffset]
+        childOffset = randint(-int(round(mother.genome[3])) ,int(round(mother.genome[3])))
+        childLocation = [mother.pos[0] + (childOffset * 2), mother.pos[1] + (childOffset * 2)]
         child = organsim(randrange(0,100), 1, childLocation, gen, genome, childEn, "Born")
         child.genome = genomeMutate(child.genome)
         nameList = nameListGen(popArray)
@@ -1010,8 +1012,13 @@ def checkForPlant(organ, plantDict):
 
 def consumption(consumersList, popArray, plantDict):
     for x in consumersList:
+        if x.status == "Born":
+            print("is born")
         if moveP(x, plantDict) == "None":
-            if fight(x, popArray):
+            if x.status == "Born":
+                meander(x)
+                x.status = "Wandering"
+            elif fight(x, popArray):
                 meander(x)
                 x.status = "Wandering"
             else:
@@ -1854,6 +1861,26 @@ def execute(popArray):
                 childs.append(newPop)
                 intergrateOffspring(childs, popArray)
             show(popArray)
+
+        elif uin =="lifeSim":
+            popArray = {}
+            genPop(popArray, 50)
+            # mateList = []
+            # for x in popArray.values():
+            #     mateList.append(x)
+            plantDict = {}
+            genPlant(plantDict, 300)
+            #show(plantDict)
+            alive = popArray
+            while True:
+                alive = life(alive,popArray, plantDict)
+                #show(alive)
+                #show(popArray)
+                #show(plantDict)
+                posUpdate(alive, plantDict)
+                dumpIt(alive)
+                #jsonToWeb(popArray)
+                time.sleep(3)
     
 
 

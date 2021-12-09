@@ -17,7 +17,7 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
-  <canvas id="myCanvas" width="200" height="200"
+  <canvas id="myCanvas" width="600" height="600"
 style="border:1px solid #d3d3d3;">
 Your browser does not support the canvas element.
 </canvas>
@@ -284,6 +284,25 @@ function tHeader(attrData, listOfNames)
         stringThingY = attrData.data[i][j];
         tabCell.innerHTML = numToName(stringThingY, listOfNames)
       }
+      else if (j == "status")
+      {
+        stringThingY = attrData.data[i][j];
+        //waiting
+        if (stringThingY.substring(0,6) == "Moving")
+        {
+          var tabCell = tr.insertCell(-1);
+          string_length = "Moving towards ".length
+          num_in_question = stringThingY.substring(string_length, stringThingY.length - 1)
+          newName = numToName(num_in_question, listOfNames)
+          console.log("new name is " + newName)
+          tabCell.innerHTML = "Moving towards " + newName
+        }
+        else
+        {
+          var tabCell = tr.insertCell(-1);
+          tabCell.innerHTML = attrData.data[i][j];
+        }
+      }
       else
       {
         var tabCell = tr.insertCell(-1);
@@ -308,7 +327,7 @@ function genPositionData(attrpositionData)
     positionData.push(attrpositionData.data[i].pos)
     ctx.beginPath();
     //ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
-    newPos = convertPos(stuff.pos, 200)
+    newPos = convertPos(stuff.pos, 600)
     ctx.arc(newPos[0], newPos[1], stuff.genome[3], 0, 2 * Math.PI);
     ctx.fillStyle = "blue";
     ctx.fill()
