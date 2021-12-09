@@ -33,8 +33,8 @@ global mutationRate
 mutationRate = [1,10] #1  out of 100
 global floraGrowth
 floraGrowth = 30
-global kidConsumption
-kidComsumptionFalse = True
+global kidConsumptionFalse
+kidConsumptionFalse = True
 
 #genomes [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
 
@@ -605,7 +605,7 @@ def fight(organ, popArray):
         else:
             if x.lifeState == 0:
                 continue
-            elif distance(organ.pos, x.pos) <= organ.genome[3] and (int(x.status != "Born") * int(kidComsumptionFalse)):
+            elif distance(organ.pos, x.pos) <= organ.genome[3] and (int(x.status != "Born") * int(kidConsumptionFalse)):
                 organ.energy += x.energy / 2
                 x.lifeState = 0
                 x.status = "eaten"
