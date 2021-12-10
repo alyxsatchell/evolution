@@ -17,6 +17,7 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
+<h1 id="popDistro"></h1>
   <canvas id="myCanvas" width="600" height="600"
 style="border:1px solid #d3d3d3;">
 Your browser does not support the canvas element.
@@ -31,6 +32,8 @@ Your browser does not support the canvas element.
       <td>cell 4</td>
     </tr> -->
   </table>
+
+
 <script>
 
 var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus", "Beanos", "Terry", "Godzilla", 
@@ -56,8 +59,8 @@ function numToName(num, listOfNames)
   {
     if (isLetter(stringThing[i]))
     {
-      console.log(stringThing[i])
-      console.log(i)
+     // console.log(stringThing[i])
+      //console.log(i)
       var finalIndex = i
       break;
     }
@@ -208,6 +211,67 @@ function pad(character, amount)
   return string
 }
 
+function roundData(tableData)
+{
+  console.log(typeof(tableData))
+  tableCellData = parseFloat(tableData)
+  //console.log("this is the stuff" + tableData)
+  if (tableCellData == NaN)
+  {
+    tableCellData = tableData;
+  }
+  else
+  {
+    //console.log("based like dcat do")
+    tableData =  Math.round(parseInt(tableData) * 100) / 100
+    //console.log("round number be kuje " + tableData )
+  }
+  return tableCellData
+}
+
+function roundNum(num)
+{
+  return Math.round(num * 100) / 100
+}
+
+function findCountOfMale(popArr)
+{
+  maleCounter = 0
+  femaleCounter = 0
+  for (let i = 0; i < popArr.length; i++)
+  {
+    //console.log("this could be the problem " + popArr[i])
+    if (popArr[i] == "M")
+    {
+      maleCounter++
+    }
+    else
+    {
+      femaleCounter++
+    }
+  }
+  malePer = (maleCounter / (maleCounter + femaleCounter)) * 100
+  femalePer = (femaleCounter / (maleCounter + femaleCounter)) * 100
+  return [roundNum(malePer),roundNum(femalePer), maleCounter + femaleCounter]
+}
+
+function populationDistro(popData)
+{
+  popAtrr = getAttrArr(popData)
+  theStats = []
+  console.log("so the super deal is " + popData.data)
+  for (var i in popData.data)
+  {
+
+    //console.log("so the deal is " + (popAtrr[i].gender))
+    theStats.push(popData.data[i].gender)
+  }
+  //console.log(theStats)
+  populationDistroStats = findCountOfMale(theStats)
+  //console.log("popDIstor " + populationDistroStats)
+  document.getElementById("popDistro").innerHTML = populationDistroStats[0] + "% Males and " + populationDistroStats[1] + "% Females<br/>"  + populationDistroStats[2] + " Currently Alive";
+}
+
 function tHeader(attrData, listOfNames)
 {
     //var genpme_template = [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
@@ -273,13 +337,15 @@ function tHeader(attrData, listOfNames)
         for (let x in attrData.data[i][j] )
         {
         var tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = attrData.data[i][j][x]
+        cellData = attrData.data[i][j][x];
+        tabCell.innerHTML = roundNum(cellData)
+        //tabCell.innerHTML = attrData.data[i][j][x];
         counter ++
         }
       }
       else if (j == "name")
       {
-        console.log("The burv")
+        //console.log("The burv")
         var tabCell = tr.insertCell(-1);
         stringThingY = attrData.data[i][j];
         tabCell.innerHTML = numToName(stringThingY, listOfNames)
@@ -294,7 +360,7 @@ function tHeader(attrData, listOfNames)
           string_length = "Moving towards ".length
           num_in_question = stringThingY.substring(string_length, stringThingY.length - 1)
           newName = numToName(num_in_question, listOfNames)
-          console.log("new name is " + newName)
+          //console.log("new name is " + newName)
           tabCell.innerHTML = "Moving towards " + newName
         }
         else if (stringThingY.substring(0,6) == "Mated ")
@@ -303,7 +369,7 @@ function tHeader(attrData, listOfNames)
           string_length = "Mated with ".length
           num_in_question = stringThingY.substring(string_length, stringThingY.length - 1)
           newName = numToName(num_in_question, listOfNames)
-          console.log("new name is " + newName)
+          //console.log("new name is " + newName)
           tabCell.innerHTML = "Mated with " + newName
         }
         else
@@ -315,6 +381,20 @@ function tHeader(attrData, listOfNames)
       else
       {
         var tabCell = tr.insertCell(-1);
+        var tableData = attrData.data[i][j];
+        // console.log("ok what iss going ojasiobn " + typeof(tableData))
+        ///console.log("that stuiff i really need to check" + !(isLetter(tableData.substring(0))))
+
+        // if (typeof(tableData) == Number)
+        // {
+        //   cellData = roundNum(tableData)
+        // }
+        // else
+        // {
+        //   cellData = tableData
+        // }
+        // // cellData = roundData(tableData)
+        // tabCell.innerHTML = cellData;
         tabCell.innerHTML = attrData.data[i][j];
       }
 
@@ -395,6 +475,7 @@ $(document).ready(function(){
         //convertPos([100,100], 200)
         setTimeout(clearTable(), 3000)
         //console.log(new Date())
+        populationDistro(result)
         tHeader(result, listOfNames)
         drawTest(result)
       });
