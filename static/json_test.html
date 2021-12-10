@@ -2,6 +2,15 @@
 <html>
 <head>
   <style>
+    div.theTrueTable {
+  position: relative;
+  float:left;
+
+}
+div.theMap {
+  position: relative;
+  float : left;
+}
     th, td, p, input, h3 {
         font:15px 'Segoe UI';
     }
@@ -14,14 +23,18 @@
     th {
         font-weight:bold;
     }
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
 <h1 id="popDistro"></h1>
+<div class = "theMap">
   <canvas id="myCanvas" width="600" height="600"
 style="border:1px solid #d3d3d3;">
 Your browser does not support the canvas element.
 </canvas>
+</div>
+<div class = "theTrueTable">
   <table id="myTable">
     <!-- <tr>
       <td>cell 1</td>
@@ -32,7 +45,7 @@ Your browser does not support the canvas element.
       <td>cell 4</td>
     </tr> -->
   </table>
-
+</div>
 
 <script>
 

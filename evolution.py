@@ -40,7 +40,7 @@ kidConsumptionFalse = True
 
 #the class that is the ogransims that evovle
 class organsim:
-    def __init__(self, name, lifeState, pos, gender, genome, energy, status):
+    def __init__(self, name, lifeState, pos, gender, genome, energy, status, parents):
         self.name = name
         self.gender = gender
         self.lifeState = lifeState
@@ -48,6 +48,7 @@ class organsim:
         self.genome = genome
         self.energy = energy
         self.status = status
+        self.parents = parents
     def __str__(self):
         return ("|" + str(self.name).ljust(chartSize) + "|" + str(self.gender).ljust(chartSize) + "|" + str(self.lifeState).ljust(chartSize) + "|" + str(self.pos).ljust(chartSize) + "|" + str(self.genome).ljust(28) + "|" + str(self.energy).ljust(chartSize) + "|" + str(self.status).ljust(chartSize) + "|")
     def get(self,varName):
@@ -333,7 +334,7 @@ def genPop(popArray, genSize):
             gender = "M"
         else:
             gender = "F"
-        newPop = organsim(randrange(0,1), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], gender, [randint(10,30),1,randint(10,20),randint(2,4),randint(500,1000), 2], randint(500,999), "")
+        newPop = organsim(randrange(0,1), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], gender, [randint(10,30),1,randint(10,20),randint(2,4),randint(500,1000), 2], randint(500,999), "", ["", ""])
         # popArray.append(newPop)
         # 25, [0,0], [25,[0,270],25,1,300], 100, ""
         nameChecker(newPop, popArray)
@@ -829,7 +830,7 @@ def reproduce(parentA, parentB, popArray):
         childEn = (parentA.energy + parentB.energy) / (litterSize + 2)
         childOffset = randint(-int(round(mother.genome[3])) ,int(round(mother.genome[3])))
         childLocation = [mother.pos[0] + (childOffset * 2), mother.pos[1] + (childOffset * 2)]
-        child = organsim(randrange(0,100), 1, childLocation, gen, genome, childEn, "Born")
+        child = organsim(randrange(0,100), 1, childLocation, gen, genome, childEn, "Born", [father.name, mother.name])
         child.genome = genomeMutate(child.genome)
         nameList = nameListGen(popArray)
         #print(f"namelist is {nameList}")
@@ -1789,8 +1790,8 @@ def execute(popArray):
             print(f"y = {findY(barry)}")
         elif uin == "lifeGL":
             popArray = {}
-            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
-            larry = organsim("larry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin")
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin", ["", ""])
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", ["", ""])
             popArray[larry.name] = larry
             popArray[garry.name] = garry
             # mateList = []
@@ -1837,8 +1838,8 @@ def execute(popArray):
                 uin = input()
         elif uin == "lifeTime":
             popArray = {}
-            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
-            larry = organsim("larry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin")
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin", ["", ""])
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", ["",""])
             popArray[larry.name] = larry
             popArray[garry.name] = garry
             # mateList = []
@@ -1926,8 +1927,8 @@ def favicon():
 
 if __name__ == '__main__':
     popArray = {}
-    garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
-    larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
+    garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin", ["", ""])
+    larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin", ["", ""])
     popArray[larry.name] = larry
     popArray[garry.name] = garry
     print("starting...")
