@@ -5,7 +5,7 @@ from threading import Thread
 import sys
 import os
 import matplotlib
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from statistics import mean
 import json
 from mathScript import litterCounter
@@ -1291,8 +1291,8 @@ def execute(popArray):
         elif uin == "graph":
             try:
                 print(garry)
-                plt.scatter(garry.pos[0],garry.pos[1])
-                plt.show()
+                #plt.scatter(garry.pos[0],garry.pos[1])
+                #plt.show()
             except:
                 print("no garry :(")
         elif uin == "visu":
@@ -1301,8 +1301,8 @@ def execute(popArray):
             for organ in popArray.values():
                 x_coords.append(organ.pos[0])
                 y_coords.append(organ.pos[1])
-            plt.scatter(x_coords, y_coords)
-            plt.show()
+            #plt.scatter(x_coords, y_coords)
+           # plt.show()
         elif uin == "con":
             garry = organsim("garry", 1, [0,0], [5,[0,90],5,2], 100)
             plants = {}
