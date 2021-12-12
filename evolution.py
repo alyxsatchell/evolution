@@ -1894,6 +1894,26 @@ def execute(popArray):
 # print(popArray)
 # show(popArray)
 
+def lifeSim():
+    popArray = {}
+    genPop(popArray, 50)
+    # mateList = []
+    # for x in popArray.values():
+    #     mateList.append(x)
+    plantDict = {}
+    genPlant(plantDict, 300)
+    #show(plantDict)
+    alive = popArray
+    while True:
+        alive = life(alive,popArray, plantDict)
+        #show(alive)
+        #show(popArray)
+        #show(plantDict)
+        posUpdate(alive, plantDict)
+        dumpIt(alive)
+        #jsonToWeb(popArray)
+        time.sleep(3)
+
 def runin(app):
     app.run()
 
@@ -1940,7 +1960,8 @@ if __name__ == '__main__':
     # t1.start()
     # t2.start()
     print("They are started")
-    execute(popArray)
+    #execute(popArray)
+    lifeSim()
     #t2.join()  # interpreter will wait until your process get completed or terminated
     thread_running = False
     print('The end')
