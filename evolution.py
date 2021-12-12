@@ -4,7 +4,7 @@ import time
 from threading import Thread
 import sys
 import os
-import matplotlib
+#import matplotlib
 #import matplotlib.pyplot as plt
 from statistics import mean
 import json
