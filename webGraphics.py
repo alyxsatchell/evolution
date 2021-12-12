@@ -21,5 +21,7 @@ def favicon():
                                 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
-    print("Starting server...")
-    app.run()
+    host_value = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
+    port_value = 5000
+    print("Starting server on {host_value}:{port_value}...")
+    app.run(host = host_value, port = port_value)
