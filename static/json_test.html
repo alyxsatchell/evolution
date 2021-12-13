@@ -84,6 +84,13 @@ function numToName(num, listOfNames)
   return name + " " + roman
 }
 
+function nameToNum(name)
+{
+  index = name.indexOf(" ")
+  nameFromList = name.substring(0,index)
+  number = name.substring(index, name.length)
+}
+
 //console.log(numToName("10V", listOfNames))
 
 function test(result)
@@ -188,6 +195,27 @@ function tableStuff(result)
   
 }
 
+function getParent(kid)
+{
+  parentals = kid.parents
+  for (i in parentals)
+  {
+    parentals[i] = numToName(parentals[i], listOfNames)
+  }
+  console.log(parentals)
+}
+
+function getParentList(result)
+{
+  attr_Arr = getAttrArr(result)
+  console.log(result.data)
+  console.log(attr_Arr)
+  for (i in result.data)
+  {
+    getParent(result.data[i])
+  }
+}
+
 function myFunction(attr_arr) {
   var table = document.getElementById("myTable");
   var header = table.createTHead();
@@ -268,11 +296,12 @@ function findCountOfMale(popArr)
   return [roundNum(malePer),roundNum(femalePer), maleCounter + femaleCounter]
 }
 
+
 function populationDistro(popData)
 {
   popAtrr = getAttrArr(popData)
   theStats = []
-  console.log("so the super deal is " + popData.data)
+  //console.log("so the super deal is " + popData.data)
   for (var i in popData.data)
   {
 
@@ -365,7 +394,7 @@ function tHeader(attrData, listOfNames)
       }
       else if (j == "parents")
       {
-        console.log("ok we gettin some parents")
+        //console.log("ok we gettin some parents")
         var tabCell = tr.insertCell(-1);
         var tableData = attrData.data[i][j];
         var newNames = []
@@ -490,7 +519,7 @@ $(document).ready(function(){
   // stuff I want to run every 5 seconds
 
 
-    $.getJSON("https://codingbio.me/evosim/evo/popArray", function(result){
+    $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
       $.each(result, async function(i, field){
         test(result)
         var attr = getAttrArr(result)
@@ -499,6 +528,7 @@ $(document).ready(function(){
         //testingTable(attr_arr)
         //convertPos([100,100], 200)
         setTimeout(clearTable(), 3000)
+        getParentList(result)
         //console.log(new Date())
         populationDistro(result)
         tHeader(result, listOfNames)
