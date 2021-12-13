@@ -490,7 +490,7 @@ $(document).ready(function(){
   // stuff I want to run every 5 seconds
 
 
-    $.getJSON("http://127.0.0.1:5000/evo/popArray", function(result){
+    $.getJSON("https://codingbio.me/evosim/evo/popArray", function(result){
       $.each(result, async function(i, field){
         test(result)
         var attr = getAttrArr(result)

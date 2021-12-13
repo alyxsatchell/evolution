@@ -4,8 +4,8 @@ import time
 from threading import Thread
 import sys
 import os
-import matplotlib
-import matplotlib.pyplot as plt
+#import matplotlib
+#import matplotlib.pyplot as plt
 from statistics import mean
 import json
 from mathScript import litterCounter
@@ -386,7 +386,7 @@ def moveTo(point1, point2):
     return mve
 
 def energyCost(dist, organ):
-    return dist * organ.genome[3]
+    return (dist * organ.genome[3]) #+ dist
     #return (dist ** 1.7)
 
 def movementP(organ, point2):
@@ -1291,8 +1291,8 @@ def execute(popArray):
         elif uin == "graph":
             try:
                 print(garry)
-                plt.scatter(garry.pos[0],garry.pos[1])
-                plt.show()
+                #plt.scatter(garry.pos[0],garry.pos[1])
+                #plt.show()
             except:
                 print("no garry :(")
         elif uin == "visu":
@@ -1301,8 +1301,8 @@ def execute(popArray):
             for organ in popArray.values():
                 x_coords.append(organ.pos[0])
                 y_coords.append(organ.pos[1])
-            plt.scatter(x_coords, y_coords)
-            plt.show()
+            #plt.scatter(x_coords, y_coords)
+           # plt.show()
         elif uin == "con":
             garry = organsim("garry", 1, [0,0], [5,[0,90],5,2], 100)
             plants = {}
@@ -1894,6 +1894,26 @@ def execute(popArray):
 # print(popArray)
 # show(popArray)
 
+def lifeSim():
+    popArray = {}
+    genPop(popArray, 50)
+    # mateList = []
+    # for x in popArray.values():
+    #     mateList.append(x)
+    plantDict = {}
+    genPlant(plantDict, 300)
+    #show(plantDict)
+    alive = popArray
+    while True:
+        alive = life(alive,popArray, plantDict)
+        #show(alive)
+        #show(popArray)
+        #show(plantDict)
+        posUpdate(alive, plantDict)
+        dumpIt(alive)
+        #jsonToWeb(popArray)
+        time.sleep(3)
+
 def runin(app):
     app.run()
 
@@ -1940,7 +1960,8 @@ if __name__ == '__main__':
     # t1.start()
     # t2.start()
     print("They are started")
-    execute(popArray)
+    #execute(popArray)
+    lifeSim()
     #t2.join()  # interpreter will wait until your process get completed or terminated
     thread_running = False
     print('The end')
