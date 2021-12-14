@@ -66,6 +66,26 @@ function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
 }
 
+function sNumToName(num, listOfNames)
+{
+  stringThing = String(num)
+  for (let i in stringThing)
+  {
+    if (isLetter(stringThing[i]))
+    {
+     // console.log(stringThing[i])
+      //console.log(i)
+      var finalIndex = i
+      break;
+    }
+  }
+  //having problems that mars IV is considered the number there is a solution my lads a new function meant to deal with it
+  name = listOfNames[stringThing.substring(0,finalIndex)]
+  len = stringThing.length
+  roman = stringThing.substring(finalIndex, len)
+  return roman
+}
+
 function numToName(num, listOfNames)
 {
   stringThing = String(num)
@@ -79,9 +99,11 @@ function numToName(num, listOfNames)
       break;
     }
   }
+  //having problems that mars IV is considered the number there is a solution my lads a new function meant to deal with it
   name = listOfNames[stringThing.substring(0,finalIndex)]
   len = stringThing.length
   roman = stringThing.substring(finalIndex, len)
+  console.log("name " + name + " roman " + roman)
   return name + " " + roman
 }
 
@@ -206,18 +228,20 @@ function getParent(kid)
   {
     parentals[i] = numToName(parentals[i], listOfNames)
   }
-  console.log(parentals)
+  //console.log("hte best banes " + parentals)
 }
 
 function getParentList(result)
 {
   attr_Arr = getAttrArr(result)
-  console.log(result.data)
-  console.log(attr_Arr)
+  //console.log(result.data)
+  //console.log(attr_Arr)
+  var someList = []
   for (i in result.data)
   {
-    getParent(result.data[i])
+    someList.push(getParent(result.data[i]))
   }
+  //console.log("the best beans " + someList)
 }
 
 function myFunction(attr_arr) {
@@ -402,9 +426,9 @@ function tHeader(attrData, listOfNames)
         var tabCell = tr.insertCell(-1);
         var tableData = attrData.data[i][j];
         var newNames = []
-        for (j in tableData)
+        for (x in tableData)
         {
-          newNames.push(numToName(tableData[j], listOfNames))
+          newNames.push(sNumToName(tableData[x], listOfNames))
         }
         tabCell.innerHTML = newNames;
       }
