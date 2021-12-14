@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<title>EVOS</title>
 <head>
   <style>
     div.theTrueTable {
@@ -88,9 +89,12 @@ function nameToNum(name)
 {
   index = name.indexOf(" ")
   nameFromList = name.substring(0,index)
-  number = name.substring(index, name.length)
+  number = name.substring(index + 1, name.length)
+  nameNumber = listOfNames.indexOf(nameFromList)
+  return nameNumber + number
 }
 
+//console.log(nameToNum("Nik III"))
 //console.log(numToName("10V", listOfNames))
 
 function test(result)
