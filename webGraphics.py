@@ -10,9 +10,19 @@ def loadPos():
         data = json.load(fp)
         return data
 
+def loadArch():
+    with open('archive.json', 'r') as fp:
+        data = json.load(fp)
+        return data
+
 @app.route("/evo/popArray")
 def webExecute():
     data = loadPos()
+    return jsonify(data = data)
+
+@app.route("/evo/archive")
+def archiveFill():
+    data = loadArch()
     return jsonify(data = data)
 
 @app.route('/favicon.ico')

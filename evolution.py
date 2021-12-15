@@ -1013,8 +1013,8 @@ def checkForPlant(organ, plantDict):
 
 def consumption(consumersList, popArray, plantDict):
     for x in consumersList:
-        if x.status == "Born":
-            print("is born")
+        # if x.status == "Born":
+        #     print("is born")
         if moveP(x, plantDict) == "None":
             if x.status == "Born":
                 meander(x)
@@ -1204,6 +1204,11 @@ def jsonFormat(popArray):
 def dumpIt(popArray):
     data = jsonFormat(popArray)
     with open('popData.json', 'w') as fp:
+        json.dump(data, fp)
+
+def archive(popArray):
+    data = jsonFormat(popArray)
+    with open('archive.json', 'w') as fp:
         json.dump(data, fp)
 
 def execute(popArray):
@@ -1880,6 +1885,7 @@ def execute(popArray):
                 #show(plantDict)
                 posUpdate(alive, plantDict)
                 dumpIt(alive)
+                archive(popArray)
                 #jsonToWeb(popArray)
                 time.sleep(3)
     
@@ -1911,6 +1917,7 @@ def lifeSim():
         #show(plantDict)
         posUpdate(alive, plantDict)
         dumpIt(alive)
+        archive(popArray)
         #jsonToWeb(popArray)
         time.sleep(3)
 

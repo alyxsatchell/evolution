@@ -493,13 +493,24 @@ function familyTree()
   // alert(x)
   // z = getParent(x)
   // alert(z)
-  $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+  $.getJSON("http://127.0.0.1:5000//evo/archive", function(result){
     $.each(result, async function(i, field){
       x = window.prompt("GET DEM BEANS MA BOI")
       console.log(result.data)
       y = nameToNum(x)
       alert("bean be " + y)
       z = getParent(result.data[y])
+      console.log("z is " + z)
+      while (z != ["",""])
+      {
+        alert("parents ar " + z)
+        parent1 = nameToNum(z[0])
+        parent2 = nameToNum(z[1])
+        alert("bean is " + parent1)
+        alert("parent1 paretns" + getParent(result.data[parent1]))
+        alert("parent 2 parents " + getParent(result.data[parent2]))
+        z = getParent(result.data[parent2])
+      }
       alert(x)
       alert(z)
       console.log(z)
