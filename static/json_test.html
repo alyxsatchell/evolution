@@ -47,6 +47,7 @@ Your browser does not support the canvas element.
     </tr> -->
   </table>
 </div>
+<button onclick="familyTree()">Family Tree</button>
 
 <script>
 
@@ -60,7 +61,7 @@ var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus
 "Lepidoptera", "Bilbo", "Horace", "Hercules", "Flumph", "Peter", "Mathew", "Jinx", "Vi", "Viktor",
 "Silco", "Jayce", "Mel", "Jester", "Maxwell", "Candiss", "Red", "Speckles", "Greay", "Rektangle",
 "Mercury", "Neptune", "Frost", "Venus", "Jupiter", "Pluto", "Phobos", "Mars", "Eris", "Demos", "Bacon"]
-//Lovelace, 
+//Lovelace,
 
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
@@ -103,7 +104,7 @@ function numToName(num, listOfNames)
   name = listOfNames[stringThing.substring(0,finalIndex)]
   len = stringThing.length
   roman = stringThing.substring(finalIndex, len)
-  console.log("name " + name + " roman " + roman)
+  //console.log("name " + name + " roman " + roman)
   return name + " " + roman
 }
 
@@ -228,6 +229,7 @@ function getParent(kid)
   {
     parentals[i] = numToName(parentals[i], listOfNames)
   }
+  return parentals
   //console.log("hte best banes " + parentals)
 }
 
@@ -482,6 +484,27 @@ function tHeader(attrData, listOfNames)
 
   }
   }
+}
+
+function familyTree()
+{
+  // x = window.prompt("Get dem beans")
+  // x = nameToNum(x)
+  // alert(x)
+  // z = getParent(x)
+  // alert(z)
+  $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+    $.each(result, async function(i, field){
+      x = window.prompt("GET DEM BEANS MA BOI")
+      console.log(result.data)
+      y = nameToNum(x)
+      alert("bean be " + y)
+      z = getParent(result.data[y])
+      alert(x)
+      alert(z)
+      console.log(z)
+    });
+  });
 }
 
 function genPositionData(attrpositionData)
