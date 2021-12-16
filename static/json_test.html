@@ -62,6 +62,7 @@ var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus
 "Silco", "Jayce", "Mel", "Jester", "Maxwell", "Candiss", "Red", "Speckles", "Greay", "Rektangle",
 "Mercury", "Neptune", "Frost", "Venus", "Jupiter", "Pluto", "Phobos", "Mars", "Eris", "Demos", "Bacon"]
 //Lovelace,
+console.log(typeof(parseInt("Three")) == typeof(NaN))
 
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
@@ -104,8 +105,27 @@ function numToName(num, listOfNames)
   name = listOfNames[stringThing.substring(0,finalIndex)]
   len = stringThing.length
   roman = stringThing.substring(finalIndex, len)
-  //console.log("name " + name + " roman " + roman)
-  return name + " " + roman
+  //console.log("name " + name + " roman " + "(" + roman + ")")
+  checkerThing = parseInt(roman)
+  //console.log(checkerThing)
+  //console.log(typeof(checkerThing))
+  ///console.log(isLetter(roman[0]), "beans ok ")
+  //console.log((typeof(checkerThing) === typeof(NaN)))
+  if (roman[0] == undefined)
+  {
+    roman = " "
+  }
+  if (isLetter(roman[0]))
+  {
+    //console.log(parseInt(roman) + "yeah beans")
+    return name + " " + roman
+  }
+  else
+  {
+    //console.log(name + "name stiuff")
+    return name
+  }
+
 }
 
 function nameToNum(name)
