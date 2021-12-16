@@ -47,7 +47,12 @@ Your browser does not support the canvas element.
     </tr> -->
   </table>
 </div>
-<button onclick="familyTree()">Family Tree</button>
+<div class = "familyTableClass">
+  <table id="familyTable">
+
+  </table>
+</div>
+<button onclick="familyTreeTableFun()">Family Tree</button>
 
 <script>
 
@@ -62,7 +67,8 @@ var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus
 "Silco", "Jayce", "Mel", "Jester", "Maxwell", "Candiss", "Red", "Speckles", "Greay", "Rektangle",
 "Mercury", "Neptune", "Frost", "Venus", "Jupiter", "Pluto", "Phobos", "Mars", "Eris", "Demos", "Bacon"]
 //Lovelace,
-console.log(typeof(parseInt("Three")) == typeof(NaN))
+//console.log(typeof(parseInt("Three")) == typeof(NaN))
+console.log(listOfNames.indexOf("Albert") + " " + listOfNames.indexOf("Alan"))
 
 function isLetter(c) {
   return c.toLowerCase() != c.toUpperCase();
@@ -105,7 +111,7 @@ function numToName(num, listOfNames)
   name = listOfNames[stringThing.substring(0,finalIndex)]
   len = stringThing.length
   roman = stringThing.substring(finalIndex, len)
-  //console.log("name " + name + " roman " + "(" + roman + ")")
+  // //console.log("name " + name + " roman " + "(" + roman + ")")
   checkerThing = parseInt(roman)
   //console.log(checkerThing)
   //console.log(typeof(checkerThing))
@@ -525,6 +531,8 @@ function familyTree()
   // alert(z)
   $.getJSON("http://127.0.0.1:5000//evo/archive", function(result){
     $.each(result, async function(i, field){
+      alert(result.data[nameToNum("Albert V")]["parents"])
+      alert(result.data[nameToNum("Alan IV")]["parents"])
       x = window.prompt("GET DEM BEANS MA BOI")
       console.log(result.data)
       y = nameToNum(x)
@@ -533,17 +541,45 @@ function familyTree()
       console.log("z is " + z)
       while (z != ["",""])
       {
+        parentArr = []
         alert("parents ar " + z)
         parent1 = nameToNum(z[0])
         parent2 = nameToNum(z[1])
         alert("bean is " + parent1)
         alert("parent1 paretns" + getParent(result.data[parent1]))
         alert("parent 2 parents " + getParent(result.data[parent2]))
-        z = getParent(result.data[parent2])
+        //z = getParent(result.data[parent2])
+        parentalParents1 = getParent(result.data[parent1])
+        parentalParents2 = getParent(result.data[parent2])
+        parentArr.push([parentalParents1,parentalParents2])
+        console.log(parentArr)
       }
       alert(x)
       alert(z)
       console.log(z)
+    });
+  });
+}
+
+function familyTreeTableFun()
+{
+  $.getJSON("http://127.0.0.1:5000//evo/archive", function(result){
+    $.each(result, async function(i, field){
+      x = window.prompt("GET DEM BEANS MA BOI")
+      y = numToName(x, listOfNames)
+      grandParent1 = ["blah", "blah"]
+      grandParent2 = ["blah", "blah"]
+      while (grandParent1 != [undefined, undefined] && grandParent2 != [undefined, undefined])
+      {
+        currentParentArr = []
+        parent1 = getParent(y)[0]
+        parent2 = getParent(y)[1]
+        currentParentArr.push(parent1, parent2)
+        var tabCell = tr.insertCell(-1);
+        var tableData = currentParentArr
+        tabCell.innerHTML = tableData;
+      }
+
     });
   });
 }

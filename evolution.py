@@ -1056,7 +1056,10 @@ def life(currentLivin, popArray, plantDict):
             x.lifeState = 0
             x.status = "XD"
     mateList = reproduction(alive, popArray)
-    
+    #comments
+    #really good comments
+    #super good comments
+    #guess waht 2000 lines
     #showList(mateList)
     # print(f"mateList is {mateList}")
     consumerList = makeConsumersList(mateList, alive)
