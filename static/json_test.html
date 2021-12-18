@@ -52,8 +52,9 @@ Your browser does not support the canvas element.
 
   </table>
 </div>
+<!--
 <button onclick="familyTreeTableFun()">Family Tree</button>
-
+-->
 <script>
 
 var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus", "Beanos", "Terry", "Godzilla", 
@@ -572,8 +573,11 @@ function familyTreeTableFun()
       while (grandParent1 != [undefined, undefined] && grandParent2 != [undefined, undefined])
       {
         currentParentArr = []
-        parent1 = getParent(y)[0]
-        parent2 = getParent(y)[1]
+        parent1 = getParent(y)
+        console.log("parent1 is " + parent1)
+        // parent2 = getParent(y)[1]
+        parent1 = parent1[0]
+        parent2 = parent1[1]
         currentParentArr.push(parent1, parent2)
         var tabCell = tr.insertCell(-1);
         var tableData = currentParentArr

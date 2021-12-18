@@ -35,6 +35,8 @@ global floraGrowth
 floraGrowth = 30
 global kidConsumptionFalse
 kidConsumptionFalse = True
+global sizeToEn
+sizeToEn = 30
 
 #genomes [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
 
@@ -509,7 +511,12 @@ def meander(organ):
     organ.energy -= energyCost(organ.genome[2],organ)
 
 def consume(organ, food, plantDict):
-    organ.energy += food.energy * 0.5
+    newEn = food.energy
+    maxEn = organ.genome[3] * sizeToEn
+    if newEn >= (maxEn):
+        newEn = maxEn
+    organ.energy += newEn
+    # organ.energy += food.energy * 0.5
     plantDict.pop(food.name)
 
 def eat(organ, plantDict):
