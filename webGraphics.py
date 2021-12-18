@@ -27,7 +27,8 @@ def archiveFill():
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, r'C:\Users\x2\Documents\GitHub\evolution\static'),
+    file_path = os.path.join(os.getcwd(), "static")
+    return send_from_directory(file_path,
                                 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':

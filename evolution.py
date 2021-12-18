@@ -36,7 +36,7 @@ floraGrowth = 30
 global kidConsumptionFalse
 kidConsumptionFalse = True
 global sizeToEn
-sizeToEn = 30
+sizeToEn = 100
 
 #genomes [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
 
@@ -336,7 +336,7 @@ def genPop(popArray, genSize):
             gender = "M"
         else:
             gender = "F"
-        newPop = organsim(randrange(0,1), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], gender, [randint(10,30),1,randint(10,20),randint(2,4),randint(500,1000), 2], randint(500,999), "", ["", ""])
+        newPop = organsim(randrange(0,100), 1, [randrange(-mapSize,mapSize), randrange(-mapSize,mapSize)], gender, [randint(10,30),1,randint(10,20),randint(2,4),randint(500,1000), 2], randint(500,999), "", ["", ""])
         # popArray.append(newPop)
         # 25, [0,0], [25,[0,270],25,1,300], 100, ""
         nameChecker(newPop, popArray)
