@@ -796,6 +796,22 @@ $(document).ready(function(){
   $("button").click(function(){
     // while (true)
     // {
+      $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+      $.each(result, async function(i, field){
+        test(result)
+        var attr = getAttrArr(result)
+        var real = attr_arr_real(result)
+        //testingTable2(attr_arr, real)
+        //testingTable(attr_arr)
+        //convertPos([100,100], 200)
+        setTimeout(clearTable(), 3000)
+        getParentList(result)
+        //console.log(new Date())
+        populationDistro(result)
+        tHeader(result, listOfNames)
+        drawTest(result)
+      });
+    });
     window.setInterval(function(){
   // stuff I want to run every 5 seconds
 
