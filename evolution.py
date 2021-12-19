@@ -66,6 +66,8 @@ class plant:
         self.energy = energy
     def __str__(self):
         return ("|" + str(self.name).ljust(chartSize) + "|" + str(self.lifeState).ljust(chartSize) + "|" + str(self.pos).ljust(chartSize) + "|" + str(self.maxEnergy).ljust(chartSize) + "|"+ str(self.age).ljust(chartSize) + "|" + str(self.energy).ljust(chartSize) + "|")
+    def get(self,varName):
+        return getattr(self,varName)
 
 def hello():
     print("Hello World!")
@@ -1221,6 +1223,11 @@ def archive(popArray):
     with open('archive.json', 'w') as fp:
         json.dump(data, fp)
 
+def dumpItPlant(plantDict):
+    data = jsonFormat(plantDict)
+    with open('plantData.json', 'w') as fp:
+        json.dump(data, fp)
+
 def execute(popArray):
     global halt
     global inputTaken
@@ -1927,6 +1934,7 @@ def lifeSim():
         #show(plantDict)
         posUpdate(alive, plantDict)
         dumpIt(alive)
+        dumpItPlant(plantDict)
         archive(popArray)
         #jsonToWeb(popArray)
         time.sleep(3)

@@ -654,8 +654,9 @@ function simpleGradient(value, max, minC, maxC)
   return takeAndMakeColour(minC, maxC, c1, c2)
 }
 
-function energyLens(value)
+function energyLens(organ)
 {
+  value = organ.energy
   return simpleGradient(value, 1000, "r", "b")
 }
 
@@ -664,9 +665,10 @@ function energyLensInvoker()
   colouring = energyLens
 }
 
-function genderLens(value)
+function genderLens(organ)
 {
   //console.log("gender stuff is " + value)
+  value = organ.gender
   if (value == "M")
   {
     return makeColour(0,0,255)
@@ -682,8 +684,9 @@ function genderLensInvoker()
   colouring = genderLens
 }
 
-function genomeLens(value)
+function genomeLens(organ)
 {
+  value = organ.genome
   vis = value[0]
   speed = value[2]
   breed = value[4]
@@ -739,20 +742,20 @@ function genPositionData(attrpositionData)
     maxC = "r"
     value = ""
     organ = attrpositionData.data[i]
-    if (colouring == energyLens)
-    {
-      value = organ.energy
-    }
-    else if (colouring == genderLens)
-    {
-      value = organ.gender
-    }
-    else if (colouring == genomeLens)
-    {
-      value = organ.genome
-    }
-    ctx.fillStyle = colouring(value)
-    ctx.strokeStyle = colouring(value)
+    // if (colouring == energyLens)
+    // {
+    //   value = organ.energy
+    // }
+    // else if (colouring == genderLens)
+    // {
+    //   value = organ.gender
+    // }
+    // else if (colouring == genomeLens)
+    // {
+    //   value = organ.genome
+    // }
+    ctx.fillStyle = colouring(organ)
+    ctx.strokeStyle = colouring(organ)
     ctx.fill()
     ctx.stroke(); 
   }

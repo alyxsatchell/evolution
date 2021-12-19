@@ -15,6 +15,11 @@ def loadArch():
         data = json.load(fp)
         return data
 
+def loadPlant():
+    with open('plantData.json', 'r') as fp:
+        data = json.load(fp)
+        return data
+
 @app.route("/evo/popArray")
 def webExecute():
     data = loadPos()
@@ -25,6 +30,11 @@ def archiveFill():
     data = loadArch()
     return jsonify(data = data)
 
+@app.route("/evo/plantData")
+def plantDataFill():
+    data = loadPlant()
+    return jsonify(data = data)
+
 @app.route('/favicon.ico')
 def favicon():
     file_path = os.path.join(os.getcwd(), "static")
@@ -32,7 +42,7 @@ def favicon():
                                 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
-    #host_value = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
-    #port_value = 5000
+    host_value = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
+    port_value = 5000
     print("Starting server on {host_value}:{port_value}...")
     app.run()
