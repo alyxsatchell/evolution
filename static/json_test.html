@@ -52,6 +52,10 @@ Your browser does not support the canvas element.
 
   </table>
 </div>
+<button onclick="basicInvoker()">Normal Lens</button>
+<button onclick="energyLensInvoker()">Energy Lens</button>
+<button onclick="genderLensInvoker()">Gender Lens</button>
+<button onclick="genomeLensInvoker()">Genome Lens</button>
 <!--
 <button onclick="familyTreeTableFun()">Family Tree</button>
 -->
@@ -67,7 +71,23 @@ var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus
 "Lepidoptera", "Bilbo", "Horace", "Hercules", "Flumph", "Peter", "Mathew", "Jinx", "Vi", "Viktor",
 "Silco", "Jayce", "Mel", "Jester", "Maxwell", "Candiss", "Red", "Speckles", "Greay", "Rektangle",
 "Mercury", "Neptune", "Frost", "Venus", "Jupiter", "Pluto", "Phobos", "Mars", "Eris", "Demos", "Bacon"]
-//Lovelace,
+//lovelace
+
+var colouring = basic
+
+function basic(value)
+{
+  //console.log(vale, max, minC, maxC)
+  return "rgb(0, 0, 255)"
+}
+
+function basicInvoker()
+{
+  colouring = basic
+}
+
+
+
 //console.log(typeof(parseInt("Three")) == typeof(NaN))
 console.log(listOfNames.indexOf("Albert") + " " + listOfNames.indexOf("Alan"))
 
@@ -588,6 +608,109 @@ function familyTreeTableFun()
   });
 }
 
+function simpleStdGradient(value, max)
+{
+  //console.log("ogbvaluie " + value + "max is " + max)
+  mod = 255 / max
+  //console.log("mod is " + mod)
+  //console.log("value is " + (value * mod))
+  return value * mod
+}
+
+function simpleInverseGradient(value, max)
+{
+  //0 needs to be 255
+  //1000 or greater needs to be 0
+  mod = simpleStdGradient(value, max)
+  inMod = 255 - mod
+  //console.log("inMod is " + inMod)
+  return inMod
+}
+
+function makeColour(r,g,b)
+{
+  return "rgb(" + r + ", " + g + ", " + b + ")"
+}
+
+function takeAndMakeColour(minC, maxC, minV, maxV)
+{
+  colourArr = [0,0,0]
+  colourIndex = ["r", "g", "b"]
+  minIndex = colourIndex.indexOf(minC)
+  maxIndex = colourIndex.indexOf(maxC)
+  colourArr[minIndex] = minV
+  colourArr[maxIndex] = maxV
+  r = colourArr[0]
+  g = colourArr[1]
+  b = colourArr[2]
+  return makeColour(r,g,b)
+}
+
+function simpleGradient(value, max, minC, maxC)
+{
+  c1 = simpleStdGradient(value, max)
+  c2 = simpleInverseGradient(value, max)
+  //console.log("red is " + red, "green is 0 blue is " + blue)
+  return takeAndMakeColour(minC, maxC, c1, c2)
+}
+
+function energyLens(value)
+{
+  return simpleGradient(value, 1000, "r", "b")
+}
+
+function energyLensInvoker()
+{
+  colouring = energyLens
+}
+
+function genderLens(value)
+{
+  //console.log("gender stuff is " + value)
+  if (value == "M")
+  {
+    return makeColour(0,0,255)
+  }
+  else
+  {
+    return makeColour(255,0,255)
+  }
+}
+
+function genderLensInvoker()
+{
+  colouring = genderLens
+}
+
+function genomeLens(value)
+{
+  vis = value[0]
+  speed = value[2]
+  breed = value[4]
+  visGrad = simpleStdGradient(vis, 100)
+  speedGrad = simpleStdGradient(speed, 100)
+  breedGrad = simpleStdGradient(breed, 1000)
+  console.log(visGrad, speedGrad, breedGrad)
+  return makeColour(visGrad, speedGrad, breedGrad)
+}
+
+function genomeLensInvoker()
+{
+  colouring = genomeLens
+}
+
+
+
+
+
+function gradient(range, value, max)
+{
+  min = range[0]
+  max = range[1]
+}
+
+console.log(gradient)
+
 function genPositionData(attrpositionData)
 {
 
@@ -604,13 +727,39 @@ function genPositionData(attrpositionData)
     //ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
     newPos = convertPos(stuff.pos, 600)
     ctx.arc(newPos[0], newPos[1], stuff.genome[3], 0, 2 * Math.PI);
-    ctx.fillStyle = "blue";
+    //ctx.fillStyle = "rgb(230, 0, 230)";
+    // colourGrad = simpleGradient(attrpositionData.data[i].energy, 1000)
+    // colour = "rgb(" + colourGrad +", 0, 0)";
+    // ctx.fillStyle = colour
+    //console.log("the grad is " + simpleGradient(attrpositionData.data[i].energy, 1000))
+    //colour = simpleGradient(attrpositionData.data[i].energy, 1000, "b", "r")
+    // value = attrpositionData.data[i].energy
+    max = 1000
+    minC = "b"
+    maxC = "r"
+    value = ""
+    organ = attrpositionData.data[i]
+    if (colouring == energyLens)
+    {
+      value = organ.energy
+    }
+    else if (colouring == genderLens)
+    {
+      value = organ.gender
+    }
+    else if (colouring == genomeLens)
+    {
+      value = organ.genome
+    }
+    ctx.fillStyle = colouring(value)
+    ctx.strokeStyle = colouring(value)
     ctx.fill()
     ctx.stroke(); 
   }
   //console.log(positionData)
   return positionData
 }
+
 
 function drawTest(organData)
 {
