@@ -1213,6 +1213,14 @@ def jsonFormat(popArray):
         #data[x.name] = jsonify(popArray[x.name])
     return data
 
+def saveJsonFormat(popArray, plantDict):
+    data = {"organ" : {}, "plant" : {}}
+    for x in popArray.values():
+        data["organ"][x.name] = objToDict(x)
+    for x in plantDict.values():
+        data["plant"][x.name] = objToDict(x)
+    return data
+
 def dumpIt(popArray):
     data = jsonFormat(popArray)
     with open('popData.json', 'w') as fp:
@@ -1226,6 +1234,11 @@ def archive(popArray):
 def dumpItPlant(plantDict):
     data = jsonFormat(plantDict)
     with open('plantData.json', 'w') as fp:
+        json.dump(data, fp)
+
+def save(popArray, plantDict):
+    data = saveJsonFormat(popArray, plantDict)
+    with open('popData.json', 'w') as fp:
         json.dump(data, fp)
 
 def execute(popArray):
@@ -1933,8 +1946,9 @@ def lifeSim():
         #show(popArray)
         #show(plantDict)
         posUpdate(alive, plantDict)
-        dumpIt(alive)
-        dumpItPlant(plantDict)
+        # dumpIt(alive)
+        # dumpItPlant(plantDict)
+        save(alive, plantDict)
         archive(popArray)
         #jsonToWeb(popArray)
         time.sleep(3)
