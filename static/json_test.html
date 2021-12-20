@@ -56,6 +56,11 @@ Your browser does not support the canvas element.
 <button onclick="energyLensInvoker()">Energy Lens</button>
 <button onclick="genderLensInvoker()">Gender Lens</button>
 <button onclick="genomeLensInvoker()">Genome Lens</button>
+
+<div class = "zoomButton">
+  <button onclick="zoomIn()">Zoom In</button>
+  <button onclick="zoomOut()">Zoom Out</button>
+</div>
 <!--
 <button onclick="familyTreeTableFun()">Family Tree</button>
 -->
@@ -74,6 +79,19 @@ var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus
 //lovelace
 
 var colouring = basic
+var magnification = 2
+
+
+function zoomIn()
+{
+  magnification = magnification + 0.5
+}
+
+function zoomOut()
+{
+  magnification = magnification - 0.5
+}
+
 
 function basic(value)
 {
@@ -190,8 +208,8 @@ function convertPos(ogPos, mapSize)
   // var oldYrel = 100 - ogPos[1]
   // //console.log("stuff be like " + [oldXrel,oldYrel])
   //fool its actually the opposite -100,100 => 0,0
-  var oldXrel = mapPositiveScale + ogPos[0]
-  var oldYrel = mapPositiveScale - ogPos[1]
+  var oldXrel = mapPositiveScale + (ogPos[0]  * magnification)
+  var oldYrel = mapPositiveScale - (ogPos[1] * magnification)
   //console.log("stuff be like " + [oldXrel,oldYrel])
   return [oldXrel, oldYrel]
 
@@ -729,7 +747,7 @@ function genPositionData(attrpositionData)
     ctx.beginPath();
     //ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
     newPos = convertPos(stuff.pos, 600)
-    ctx.arc(newPos[0], newPos[1], stuff.genome[3], 0, 2 * Math.PI);
+    ctx.arc(newPos[0], newPos[1], stuff.genome[3] * magnification, 0, 2 * Math.PI);
     //ctx.fillStyle = "rgb(230, 0, 230)";
     // colourGrad = simpleGradient(attrpositionData.data[i].energy, 1000)
     // colour = "rgb(" + colourGrad +", 0, 0)";
