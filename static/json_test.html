@@ -6,8 +6,20 @@
     div.theTrueTable {
   position: relative;
   float:left;
-
 }
+
+div.lensButtons
+{
+  position: relative;
+  float: down;
+}
+
+div.visibilty
+{
+  position: relative;
+  float : down;
+}
+
 div.theMap {
   position: relative;
   float : left;
@@ -35,6 +47,17 @@ style="border:1px solid #d3d3d3;">
 Your browser does not support the canvas element.
 </canvas>
 </div>
+<div class = "lensButtons">
+  <button onclick="basicInvoker()">Normal Lens</button>
+  <button onclick="energyLensInvoker()">Energy Lens</button>
+  <button onclick="genderLensInvoker()">Gender Lens</button>
+  <button onclick="genomeLensInvoker()">Genome Lens</button>
+</div>
+
+<div class = "visibilty">
+  <button onclick="plantVisTog()">Toggle Plants</button>
+  <button onclick="organVisTog()">Toggle Organs</button>
+</div>
 <div class = "theTrueTable">
   <table id="myTable">
     <!-- <tr>
@@ -47,15 +70,13 @@ Your browser does not support the canvas element.
     </tr> -->
   </table>
 </div>
+
 <div class = "familyTableClass">
   <table id="familyTable">
 
   </table>
 </div>
-<button onclick="basicInvoker()">Normal Lens</button>
-<button onclick="energyLensInvoker()">Energy Lens</button>
-<button onclick="genderLensInvoker()">Gender Lens</button>
-<button onclick="genomeLensInvoker()">Genome Lens</button>
+
 <!--
 <button onclick="familyTreeTableFun()">Family Tree</button>
 -->
@@ -74,6 +95,8 @@ var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus
 //lovelace
 
 var colouring = basic
+var plantVisibilty = true
+var organVisibilty = true
 
 function basic(value)
 {
@@ -86,7 +109,34 @@ function basicInvoker()
   colouring = basic
 }
 
+function plantVisTog()
+{
+  plantVisibilty = ! plantVisibilty
+}
 
+function organVisibilty()
+{
+  organVisibilty = ! organVisibilty
+}
+
+
+async function getPopArray()
+{
+  $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+    $.each(result, async function(i, field){
+        return result
+      });
+    });
+}
+
+async function getPlantData()
+{
+  $.getJSON("http://127.0.0.1:5000//evo/plantData", function(result){
+    $.each(result, async function(i, field){
+        return result
+      });
+    });
+}
 
 //console.log(typeof(parseInt("Three")) == typeof(NaN))
 console.log(listOfNames.indexOf("Albert") + " " + listOfNames.indexOf("Alan"))
@@ -719,7 +769,6 @@ function genPositionData(attrpositionData)
 
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   positionData = []
   for (let i in attrpositionData.data)
   {
@@ -737,10 +786,6 @@ function genPositionData(attrpositionData)
     //console.log("the grad is " + simpleGradient(attrpositionData.data[i].energy, 1000))
     //colour = simpleGradient(attrpositionData.data[i].energy, 1000, "b", "r")
     // value = attrpositionData.data[i].energy
-    max = 1000
-    minC = "b"
-    maxC = "r"
-    value = ""
     organ = attrpositionData.data[i]
     // if (colouring == energyLens)
     // {
@@ -763,6 +808,140 @@ function genPositionData(attrpositionData)
   return positionData
 }
 
+// function drawPlant()
+// {
+//   $.getJSON("http://127.0.0.1:5000//evo/plantData", function(result){
+//     $.each(result, async function(i, field){
+//       plants = result.data
+//       var canvas = document.getElementById("myCanvas");
+//       var ctx = canvas.getContext("2d");
+//       for (let i in plants)
+//       {
+//         flora = plants[i];
+//         ctx.beginPath();
+//         newPos = convertPos(flora.pos, 600);
+//         ctx.arc(newPos[0], newPos[1], 2, 0, 2 * Math.PI);
+//         ctx.fillStyle = "green";
+//         ctx.strokeStyle = "green";
+//         ctx.fill();
+//         ctx.stroke();
+
+//       }
+//     });
+//   });
+// }
+
+// function drawOrgan()
+// {
+//   $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+//     $.each(result, async function(i, field){
+//       var canvas = document.getElementById("myCanvas");
+//       var ctx = canvas.getContext("2d");
+//       organs = result.data
+//       for (let i in organs)
+//       {
+//         organ = organs[i]
+//         ctx.beginPath();
+//         newPos = convertPos(organ.pos, 600);
+//         ctx.arc(newPos[0], newPos[1], organ.genome[3], 0, 2 * Math.PI);
+//         ctx.fillStyle = colouring(organ)
+//         ctx.strokeStyle = colouring(organ)
+//         ctx.fill();
+//         ctx.stroke();
+//       }
+//     });
+//   });
+// }
+
+
+function drawPlant(result)
+{
+      plants = result.data
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
+      for (let i in plants)
+      {
+        flora = plants[i];
+        ctx.beginPath();
+        newPos = convertPos(flora.pos, 600);
+        ctx.arc(newPos[0], newPos[1], 2, 0, 2 * Math.PI);
+        ctx.fillStyle = "green";
+        ctx.strokeStyle = "green";
+        ctx.fill();
+        ctx.stroke();
+
+      }
+}
+
+function drawOrgan(result)
+{
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
+      organs = result.data
+      for (let i in organs)
+      {
+        organ = organs[i]
+        ctx.beginPath();
+        newPos = convertPos(organ.pos, 600);
+        ctx.arc(newPos[0], newPos[1], organ.genome[3], 0, 2 * Math.PI);
+        ctx.fillStyle = colouring(organ)
+        ctx.strokeStyle = colouring(organ)
+        ctx.fill();
+        ctx.stroke();
+      }
+}
+
+function clearDraw()
+{
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// function drawin(result)
+// {
+//   if (plantVisibilty)
+//   {
+//     drawPlant()
+//   }
+//   if (organVisibilty)
+//   {
+//     drawOrgan()
+//   }
+// }
+
+// function draw(result)
+// {
+//   if (plantVisibilty)
+//   {
+//     $.getJSON("http://127.0.0.1:5000//evo/plantData", function(result){
+//     $.each(result, async function(i, field){
+//         drawPlant(result)
+//       });
+//     });
+//   }
+//   if (organVisibilty)
+//   {
+//     $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+//     $.each(result, async function(i, field){
+//         drawOrgan(result)
+//       });
+//     });
+//   }
+// }
+
+
+function draw(popArray, plantData)
+{
+  if (plantVisibilty)
+  {
+    drawPlant(plantData)
+  }
+  if (organVisibilty)
+  {
+    drawOrgan(popArray)
+  }
+}
 
 function drawTest(organData)
 {
@@ -807,12 +986,14 @@ $(document).ready(function(){
         //testingTable2(attr_arr, real)
         //testingTable(attr_arr)
         //convertPos([100,100], 200)
-        setTimeout(clearTable(), 3000)
+        //setTimeout(clearTable(), 3000)
         getParentList(result)
         //console.log(new Date())
         populationDistro(result)
         tHeader(result, listOfNames)
-        drawTest(result)
+        //drawTest(result)
+        clearDraw()
+        drawPlant()
       });
     });
     window.setInterval(function(){
@@ -832,19 +1013,52 @@ $(document).ready(function(){
         //console.log(new Date())
         populationDistro(result)
         tHeader(result, listOfNames)
-        drawTest(result)
+        //drawTest(result)
+        //drawPlant()
+        clearDraw()
+        draw(result)
       });
     });
   // }
   }, 3000);
   });
 });
+
+function execute()
+{
+  window.setInterval(function(){
+    // popArray = getPopArray()
+    // plantData = getPlantData()
+    $.getJSON("http://127.0.0.1:5000//evo/plantData", function(result){
+    $.each(result, async function(i, field){
+        plantData = result
+      });
+    });
+    $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+    $.each(result, async function(i, field){
+        popArray = result
+      });
+    });
+    console.log(popArray)
+    setTimeout(clearTable(), 3000)
+    populationDistro(popArray)
+    tHeader(popArray, listOfNames)
+    clearDraw()
+    draw(popArray, plantData)
+  }, 3000);
+}
+
+
+execute()
+
+
+
 </script>
 </body>
 </head>
 <body>
 
-<button>Get JSON data</button>
+<!-- <button>Get JSON data</button> -->
 
 <div></div>
 
