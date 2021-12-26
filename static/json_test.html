@@ -71,6 +71,11 @@ Your browser does not support the canvas element.
   </table>
 </div>
 
+<div class = "zoomButton">
+  <button onclick="zoomIn()">Zoom In</button>
+  <button onclick="zoomOut()">Zoom Out</button>
+</div>
+
 <div class = "familyTableClass">
   <table id="familyTable">
 
@@ -98,6 +103,19 @@ var colouring = basic
 var plantVisibilty = true
 var organVisibilty = true
 
+var magnification = 2
+
+
+function zoomIn()
+{
+  magnification = magnification + 0.5
+}
+
+function zoomOut()
+{
+  magnification = magnification - 0.5
+}
+
 function basic(value)
 {
   //console.log(vale, max, minC, maxC)
@@ -114,7 +132,7 @@ function plantVisTog()
   plantVisibilty = ! plantVisibilty
 }
 
-function organVisibilty()
+function organVisTog()
 {
   organVisibilty = ! organVisibilty
 }
@@ -240,8 +258,8 @@ function convertPos(ogPos, mapSize)
   // var oldYrel = 100 - ogPos[1]
   // //console.log("stuff be like " + [oldXrel,oldYrel])
   //fool its actually the opposite -100,100 => 0,0
-  var oldXrel = mapPositiveScale + ogPos[0]
-  var oldYrel = mapPositiveScale - ogPos[1]
+  var oldXrel = mapPositiveScale + (ogPos[0]  * magnification)
+  var oldYrel = mapPositiveScale - (ogPos[1] * magnification)
   //console.log("stuff be like " + [oldXrel,oldYrel])
   return [oldXrel, oldYrel]
 
@@ -866,7 +884,7 @@ function drawPlant(result)
         flora = plants[i];
         ctx.beginPath();
         newPos = convertPos(flora.pos, 600);
-        ctx.arc(newPos[0], newPos[1], 2, 0, 2 * Math.PI);
+        ctx.arc(newPos[0], newPos[1], 2 * magnification, 0, 2 * Math.PI);
         ctx.fillStyle = "green";
         ctx.strokeStyle = "green";
         ctx.fill();
@@ -885,7 +903,7 @@ function drawOrgan(result)
         organ = organs[i]
         ctx.beginPath();
         newPos = convertPos(organ.pos, 600);
-        ctx.arc(newPos[0], newPos[1], organ.genome[3], 0, 2 * Math.PI);
+        ctx.arc(newPos[0], newPos[1], organ.genome[3] * magnification, 0, 2 * Math.PI);
         ctx.fillStyle = colouring(organ)
         ctx.strokeStyle = colouring(organ)
         ctx.fill();
@@ -935,6 +953,7 @@ function clearDraw()
 
 function draw(popArray, plantData)
 {
+  console.log("organ Vis is " + organVisibilty)
   if (plantVisibilty)
   {
     drawPlant(plantData)
