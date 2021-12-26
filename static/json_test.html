@@ -295,7 +295,7 @@ function testing(result)
 function getAttrArr(result)
 {
   attr_arr = []
-  json_data = result.data
+  json_data = result
   for (let i in json_data)
   {
     attr_arr = []
@@ -313,7 +313,7 @@ function getAttrArr(result)
 function attr_arr_real(result)
 {
   attr_arr2 = []
-  json_data = result.data
+  json_data = result
   for (let i in json_data)
   {
     for (let j in json_data[i])
@@ -321,7 +321,9 @@ function attr_arr_real(result)
       attr_arr2.push(json_data[i][j])
     }
   }
+  //console.log("attr_arr2 " + attr_arr2)
   return attr_arr2
+
 }
 
 function tableStuff(result)
@@ -496,27 +498,27 @@ function tHeader(attrData, listOfNames)
   }
   // add json data to the table as rows.
   ////console.log("length is " + attrData.data.length)
-  for (let i in attrData.data)
+  for (let i in attrData)
   {
     ////console.log("i si " + i)
   }
-  for (var i in attrData.data) {
+  for (var i in attrData) {
 
   tr = table.insertRow(-1);
   ////console.log("stuff" + attrData.data[i])
   counter = 0
   ////console.log("attrVal be " + attrVal)
-  for (let j in attrData.data[i]) {
+  for (let j in attrData[i]) {
       counter++
       ////console.log("j is " + j)
 
       //console.log("when ye got stuff and ut be like " + attrData.data[i][j] + "i be like " + i + "and j be like 0" + j)
       if (j == "genome")
       {
-        for (let x in attrData.data[i][j] )
+        for (let x in attrData[i][j] )
         {
         var tabCell = tr.insertCell(-1);
-        cellData = attrData.data[i][j][x];
+        cellData = attrData[i][j][x];
         tabCell.innerHTML = roundNum(cellData)
         //tabCell.innerHTML = attrData.data[i][j][x];
         counter ++
@@ -526,14 +528,14 @@ function tHeader(attrData, listOfNames)
       {
         //console.log("The burv")
         var tabCell = tr.insertCell(-1);
-        stringThingY = attrData.data[i][j];
+        stringThingY = attrData[i][j];
         tabCell.innerHTML = numToName(stringThingY, listOfNames)
       }
       else if (j == "parents")
       {
         //console.log("ok we gettin some parents")
         var tabCell = tr.insertCell(-1);
-        var tableData = attrData.data[i][j];
+        var tableData = attrData[i][j];
         var newNames = []
         for (x in tableData)
         {
@@ -543,7 +545,7 @@ function tHeader(attrData, listOfNames)
       }
       else if (j == "status")
       {
-        stringThingY = attrData.data[i][j];
+        stringThingY = attrData[i][j];
         //waiting
         if (stringThingY.substring(0,6) == "Moving")
         {
@@ -566,13 +568,13 @@ function tHeader(attrData, listOfNames)
         else
         {
           var tabCell = tr.insertCell(-1);
-          tabCell.innerHTML = attrData.data[i][j];
+          tabCell.innerHTML = attrData[i][j];
         }
       }
       else
       {
         var tabCell = tr.insertCell(-1);
-        var tableData = attrData.data[i][j];
+        var tableData = attrData[i][j];
         // console.log("ok what iss going ojasiobn " + typeof(tableData))
         ///console.log("that stuiff i really need to check" + !(isLetter(tableData.substring(0))))
 
@@ -586,7 +588,7 @@ function tHeader(attrData, listOfNames)
         // }
         // // cellData = roundData(tableData)
         // tabCell.innerHTML = cellData;
-        tabCell.innerHTML = attrData.data[i][j];
+        tabCell.innerHTML = attrData[i][j];
       }
 
   }
@@ -856,7 +858,7 @@ function genPositionData(attrpositionData)
 
 function drawPlant(result)
 {
-      plants = result.data
+      plants = result
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
       for (let i in plants)
@@ -877,7 +879,7 @@ function drawOrgan(result)
 {
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
-      organs = result.data
+      organs = result
       for (let i in organs)
       {
         organ = organs[i]
@@ -974,77 +976,96 @@ function testingTable2(attr_arr3, real)
 }
 
 
-$(document).ready(function(){
-  $("button").click(function(){
-    // while (true)
-    // {
-      $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
-      $.each(result, async function(i, field){
-        test(result)
-        var attr = getAttrArr(result)
-        var real = attr_arr_real(result)
-        //testingTable2(attr_arr, real)
-        //testingTable(attr_arr)
-        //convertPos([100,100], 200)
-        //setTimeout(clearTable(), 3000)
-        getParentList(result)
-        //console.log(new Date())
-        populationDistro(result)
-        tHeader(result, listOfNames)
-        //drawTest(result)
-        clearDraw()
-        drawPlant()
-      });
-    });
-    window.setInterval(function(){
-  // stuff I want to run every 5 seconds
+// $(document).ready(function(){
+//   $("button").click(function(){
+//     // while (true)
+//     // {
+//       $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+//       $.each(result, async function(i, field){
+//         test(result)
+//         var attr = getAttrArr(result)
+//         var real = attr_arr_real(result)
+//         //testingTable2(attr_arr, real)
+//         //testingTable(attr_arr)
+//         //convertPos([100,100], 200)
+//         //setTimeout(clearTable(), 3000)
+//         getParentList(result)
+//         //console.log(new Date())
+//         populationDistro(result)
+//         tHeader(result, listOfNames)
+//         //drawTest(result)
+//         clearDraw()
+//         drawPlant()
+//       });
+//     });
+//     window.setInterval(function(){
+//   // stuff I want to run every 5 seconds
 
 
-    $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
-      $.each(result, async function(i, field){
-        test(result)
-        var attr = getAttrArr(result)
-        var real = attr_arr_real(result)
-        //testingTable2(attr_arr, real)
-        //testingTable(attr_arr)
-        //convertPos([100,100], 200)
-        setTimeout(clearTable(), 3000)
-        getParentList(result)
-        //console.log(new Date())
-        populationDistro(result)
-        tHeader(result, listOfNames)
-        //drawTest(result)
-        //drawPlant()
-        clearDraw()
-        draw(result)
-      });
-    });
-  // }
-  }, 3000);
-  });
-});
+//     $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+//       $.each(result, async function(i, field){
+//         test(result)
+//         var attr = getAttrArr(result)
+//         var real = attr_arr_real(result)
+//         result = result.data["organ"]
+//         //testingTable2(attr_arr, real)
+//         //testingTable(attr_arr)
+//         //convertPos([100,100], 200)
+//         setTimeout(clearTable(), 3000)
+//         getParentList(result)
+//         //console.log(new Date())
+//         populationDistro(result)
+//         tHeader(result, listOfNames)
+//         //drawTest(result)
+//         //drawPlant()
+//         clearDraw()
+//         draw(result)
+//       });
+//     });
+//   // }
+//   }, 3000);
+//   });
+// });
+
+// function execute()
+// {
+//   window.setInterval(function(){
+//     // popArray = getPopArray()
+//     // plantData = getPlantData()
+//     $.getJSON("http://127.0.0.1:5000//evo/plantData", function(result){
+//     $.each(result, async function(i, field){
+//         plantData = result
+//       });
+//     });
+//     $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+//     $.each(result, async function(i, field){
+//         popArray = result
+//       });
+//     });
+//     console.log(popArray)
+//     setTimeout(clearTable(), 3000)
+//     populationDistro(popArray)
+//     tHeader(popArray, listOfNames)
+//     clearDraw()
+//     draw(popArray, plantData)
+//   }, 3000);
+// }
 
 function execute()
 {
   window.setInterval(function(){
-    // popArray = getPopArray()
-    // plantData = getPlantData()
-    $.getJSON("http://127.0.0.1:5000//evo/plantData", function(result){
-    $.each(result, async function(i, field){
-        plantData = result
-      });
-    });
     $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
     $.each(result, async function(i, field){
-        popArray = result
-      });
-    });
+    popArray = result.data["organ"]
+    plantData = result.data["plant"]
     console.log(popArray)
     setTimeout(clearTable(), 3000)
     populationDistro(popArray)
     tHeader(popArray, listOfNames)
     clearDraw()
     draw(popArray, plantData)
+      });
+    });
   }, 3000);
 }
 
