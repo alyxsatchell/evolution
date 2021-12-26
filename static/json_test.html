@@ -1070,10 +1070,9 @@ function testingTable2(attr_arr3, real)
 //   }, 3000);
 // }
 
-function execute()
+function getData()
 {
-  window.setInterval(function(){
-    $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
+  $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
     $.each(result, async function(i, field){
     popArray = result.data["organ"]
     plantData = result.data["plant"]
@@ -1083,12 +1082,22 @@ function execute()
     tHeader(popArray, listOfNames)
     clearDraw()
     draw(popArray, plantData)
-      });
-    });
+  });
+});
+}
+
+function execute()
+{
+  window.setInterval(function(){
+        getData()
   }, 3000);
 }
 
-
+$(document).ready(function(){
+  $("button").click(function(){
+    getData()
+  });
+});
 execute()
 
 
