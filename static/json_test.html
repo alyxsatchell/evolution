@@ -441,11 +441,11 @@ function populationDistro(popData)
   popAtrr = getAttrArr(popData)
   theStats = []
   //console.log("so the super deal is " + popData.data)
-  for (var i in popData.data)
+  for (var i in popData)
   {
 
     //console.log("so the deal is " + (popAtrr[i].gender))
-    theStats.push(popData.data[i].gender)
+    theStats.push(popData[i].gender)
   }
   //console.log(theStats)
   populationDistroStats = findCountOfMale(theStats)
