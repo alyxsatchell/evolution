@@ -96,7 +96,8 @@ var plantVisibilty = true
 var organVisibilty = true
 
 var locate = window.location.href
-console.log(locate)
+var baseLocation = locate.replace("/static/json_test.html", "");
+//console.log(baseLocation)
 
 var magnification = 2
 
@@ -948,7 +949,7 @@ function clearDraw()
 
 function draw(popArray, plantData)
 {
-  console.log("organ Vis is " + organVisibilty)
+  //console.log("organ Vis is " + organVisibilty)
   if (plantVisibilty)
   {
     drawPlant(plantData)
@@ -1067,11 +1068,11 @@ function testingTable2(attr_arr3, real)
 
 function getData()
 {
-  $.getJSON("evo/popArray", function(result){
+  $.getJSON(baseLocation + "/evosim/evo/popArray", function(result){
     $.each(result, async function(i, field){
     popArray = result.data["organ"]
     plantData = result.data["plant"]
-    console.log(popArray)
+    //console.log(popArray)
     setTimeout(clearTable(), 3000)
     populationDistro(popArray)
     tHeader(popArray, listOfNames)
