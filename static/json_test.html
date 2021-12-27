@@ -182,6 +182,14 @@ function sNumToName(num, listOfNames)
 function numToName(num, listOfNames)
 {
   stringThing = String(num)
+  if (stringThing == "")
+  {
+    return ""
+  }
+  if (stringThing == undefined)
+  {
+    return ""
+  }
   for (let i in stringThing)
   {
     if (isLetter(stringThing[i]))
@@ -467,6 +475,8 @@ function populationDistro(popData)
   document.getElementById("popDistro").innerHTML = populationDistroStats[0] + "% Males and " + populationDistroStats[1] + "% Females<br/>"  + populationDistroStats[2] + " Currently Alive";
 }
 
+console.log(sNumToName("Nik II", listOfNames))
+
 function tHeader(attrData, listOfNames)
 {
     //var genpme_template = [0visionLength, 1 placeHolder, 2speed how far a organ can move in one turn, 3size is the radius of the organsim, 4 breeding threshold, 5 avgerage litter size]
@@ -553,7 +563,10 @@ function tHeader(attrData, listOfNames)
         var newNames = []
         for (x in tableData)
         {
-          newNames.push(sNumToName(tableData[x], listOfNames))
+          console.log("stuff " + tableData[x])
+          console.log("testing stuff " + tableData)
+          newNames.push(numToName(tableData[x], listOfNames))
+          console.log("sumting " + numToName(tableData[x], listOfNames))
         }
         tabCell.innerHTML = newNames;
       }
