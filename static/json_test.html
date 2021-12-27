@@ -95,6 +95,9 @@ var colouring = basic
 var plantVisibilty = true
 var organVisibilty = true
 
+var locate = window.location.href
+console.log(locate)
+
 var magnification = 2
 
 
@@ -1064,7 +1067,7 @@ function testingTable2(attr_arr3, real)
 
 function getData()
 {
-  $.getJSON("evosim/evo/popArray", function(result){
+  $.getJSON("evo/popArray", function(result){
     $.each(result, async function(i, field){
     popArray = result.data["organ"]
     plantData = result.data["plant"]
