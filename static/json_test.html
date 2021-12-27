@@ -81,7 +81,15 @@ Your browser does not support the canvas element.
 
   </table>
 </div>
+<button onclick="basicInvoker()">Normal Lens</button>
+<button onclick="energyLensInvoker()">Energy Lens</button>
+<button onclick="genderLensInvoker()">Gender Lens</button>
+<button onclick="genomeLensInvoker()">Genome Lens</button>
 
+<div class = "zoomButton">
+  <button onclick="zoomIn()">Zoom In</button>
+  <button onclick="zoomOut()">Zoom Out</button>
+</div>
 <!--
 <button onclick="familyTreeTableFun()">Family Tree</button>
 -->
@@ -798,7 +806,7 @@ function genPositionData(attrpositionData)
     ctx.beginPath();
     //ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
     newPos = convertPos(stuff.pos, 600)
-    ctx.arc(newPos[0], newPos[1], stuff.genome[3], 0, 2 * Math.PI);
+    ctx.arc(newPos[0], newPos[1], stuff.genome[3] * magnification, 0, 2 * Math.PI);
     //ctx.fillStyle = "rgb(230, 0, 230)";
     // colourGrad = simpleGradient(attrpositionData.data[i].energy, 1000)
     // colour = "rgb(" + colourGrad +", 0, 0)";
