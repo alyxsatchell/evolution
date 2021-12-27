@@ -1064,7 +1064,7 @@ function testingTable2(attr_arr3, real)
 
 function getData()
 {
-  $.getJSON("/evo/popArray", function(result){
+  $.getJSON("evosim/evo/popArray", function(result){
     $.each(result, async function(i, field){
     popArray = result.data["organ"]
     plantData = result.data["plant"]

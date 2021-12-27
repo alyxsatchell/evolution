@@ -20,7 +20,7 @@ def loadPlant():
         data = json.load(fp)
         return data
 
-@app.route("/evo/popArray")
+@app.route("evosim/evo/popArray")
 def webExecute():
     data = loadPos()
     return jsonify(data = data)
