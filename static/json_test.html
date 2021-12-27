@@ -78,8 +78,6 @@ Your browser does not support the canvas element.
 
 <script>
 
-//webSiteSource = "http://127.0.0.1:5000"
-webSiteSource = "codingbio.me/evosim"
 
 var listOfNames = ["Nik", "Vanessa", "Owen", "Adam", "Cherry", "Bean", "Platypus", "Beanos", "Terry", "Godzilla", 
 "Ella", "Bingus", "Jack", "Joe", "Trent", "Chris", "Linus", "Geroge", "Emmet", "Ikea Metaballer",
@@ -1066,7 +1064,7 @@ function testingTable2(attr_arr3, real)
 
 function getData()
 {
-  $.getJSON(webSiteSource + "/evo/popArray", function(result){
+  $.getJSON("/evo/popArray", function(result){
     $.each(result, async function(i, field){
     popArray = result.data["organ"]
     plantData = result.data["plant"]
