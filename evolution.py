@@ -390,7 +390,7 @@ def moveTo(point1, point2):
     return mve
 
 def energyCost(dist, organ):
-    return (dist * organ.genome[3]) #+ dist
+    return (dist * (organ.genome[3] / 10)) #+ dist
     #return (dist ** 1.7)
 
 def movementP(organ, point2):
