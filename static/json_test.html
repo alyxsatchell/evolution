@@ -2,11 +2,13 @@
 <html>
 <title>EVOS</title>
 <head>
-  <style>
-    div.theTrueTable {
+<style>
+div.theTrueTable {
   position: relative;
   float:left;
 }
+
+
 
 div.lensButtons
 {
@@ -58,6 +60,24 @@ Your browser does not support the canvas element.
   <button onclick="plantVisTog()">Toggle Plants</button>
   <button onclick="organVisTog()">Toggle Organs</button>
 </div>
+
+
+<div class = "zoomButton">
+  <button onclick="zoomIn()">Zoom In</button>
+  <button onclick="zoomOut()">Zoom Out</button>
+</div>
+
+<div class = "familyButton">
+  <button onclick="familyTree()">Find A Family Tree</button>
+  <button onclick="removeFamilyTable()">Remove Family Tree</button>
+</div>
+
+<div class = "familyTrueTable">
+  <table id = "familyTable">
+
+  </table>
+</div>
+
 <div class = "theTrueTable">
   <table id="myTable">
     <!-- <tr>
@@ -69,12 +89,11 @@ Your browser does not support the canvas element.
       <td>cell 4</td>
     </tr> -->
   </table>
+
+</div>
 </div>
 
-<div class = "zoomButton">
-  <button onclick="zoomIn()">Zoom In</button>
-  <button onclick="zoomOut()">Zoom Out</button>
-</div>
+
 
 <script>
 
@@ -111,6 +130,20 @@ function zoomOut()
 {
   magnification = magnification - 0.5
 }
+
+function removeFamilyTable()
+{
+  document.getElementsByClassName("familyTrueTable")[0].innerHTML = '';
+}
+
+// function removeFamilyTable() {
+//   var table = document.getElementsByClassName("familyTrueTable");
+//   if (table.style.display === "none") {
+//     table.style.display = "block";
+//   } else {
+//     table.style.display = "none";
+//   }
+// }
 
 function basic(value)
 {
@@ -353,29 +386,29 @@ function tableStuff(result)
   
 }
 
-function getParent(kid)
-{
-  parentals = kid.parents
-  for (i in parentals)
-  {
-    parentals[i] = numToName(parentals[i], listOfNames)
-  }
-  return parentals
-  //console.log("hte best banes " + parentals)
-}
+// function getParent(kid)
+// {
+//   parentals = kid.parents
+//   for (i in parentals)
+//   {
+//     parentals[i] = numToName(parentals[i], listOfNames)
+//   }
+//   return parentals
+//   //console.log("hte best banes " + parentals)
+// }
 
-function getParentList(result)
-{
-  attr_Arr = getAttrArr(result)
-  //console.log(result.data)
-  //console.log(attr_Arr)
-  var someList = []
-  for (i in result.data)
-  {
-    someList.push(getParent(result.data[i]))
-  }
-  //console.log("the best beans " + someList)
-}
+// function getParentList(result)
+// {
+//   attr_Arr = getAttrArr(result)
+//   //console.log(result.data)
+//   //console.log(attr_Arr)
+//   var someList = []
+//   for (i in result.data)
+//   {
+//     someList.push(getParent(result.data[i]))
+//   }
+//   //console.log("the best beans " + someList)
+// }
 
 function myFunction(attr_arr) {
   var table = document.getElementById("myTable");
@@ -563,10 +596,10 @@ function tHeader(attrData, listOfNames)
         var newNames = []
         for (x in tableData)
         {
-          console.log("stuff " + tableData[x])
-          console.log("testing stuff " + tableData)
+          //console.log("stuff " + tableData[x])
+          //console.log("testing stuff " + tableData)
           newNames.push(numToName(tableData[x], listOfNames))
-          console.log("sumting " + numToName(tableData[x], listOfNames))
+          //console.log("sumting " + numToName(tableData[x], listOfNames))
         }
         tabCell.innerHTML = newNames;
       }
@@ -622,70 +655,70 @@ function tHeader(attrData, listOfNames)
   }
 }
 
-function familyTree()
-{
-  // x = window.prompt("Get dem beans")
-  // x = nameToNum(x)
-  // alert(x)
-  // z = getParent(x)
-  // alert(z)
-  $.getJSON("http://127.0.0.1:5000//evo/archive", function(result){
-    $.each(result, async function(i, field){
-      alert(result.data[nameToNum("Albert V")]["parents"])
-      alert(result.data[nameToNum("Alan IV")]["parents"])
-      x = window.prompt("GET DEM BEANS MA BOI")
-      console.log(result.data)
-      y = nameToNum(x)
-      alert("bean be " + y)
-      z = getParent(result.data[y])
-      console.log("z is " + z)
-      while (z != ["",""])
-      {
-        parentArr = []
-        alert("parents ar " + z)
-        parent1 = nameToNum(z[0])
-        parent2 = nameToNum(z[1])
-        alert("bean is " + parent1)
-        alert("parent1 paretns" + getParent(result.data[parent1]))
-        alert("parent 2 parents " + getParent(result.data[parent2]))
-        //z = getParent(result.data[parent2])
-        parentalParents1 = getParent(result.data[parent1])
-        parentalParents2 = getParent(result.data[parent2])
-        parentArr.push([parentalParents1,parentalParents2])
-        console.log(parentArr)
-      }
-      alert(x)
-      alert(z)
-      console.log(z)
-    });
-  });
-}
+// // function familyTree()
+// // {
+// //   // x = window.prompt("Get dem beans")
+// //   // x = nameToNum(x)
+// //   // alert(x)
+// //   // z = getParent(x)
+// //   // alert(z)
+// //   $.getJSON("http://127.0.0.1:5000//evo/archive", function(result){
+// //     $.each(result, async function(i, field){
+// //       alert(result.data[nameToNum("Albert V")]["parents"])
+// //       alert(result.data[nameToNum("Alan IV")]["parents"])
+// //       x = window.prompt("GET DEM BEANS MA BOI")
+// //       console.log(result.data)
+// //       y = nameToNum(x)
+// //       alert("bean be " + y)
+// //       z = getParent(result.data[y])
+// //       console.log("z is " + z)
+// //       while (z != ["",""])
+// //       {
+// //         parentArr = []
+// //         alert("parents ar " + z)
+// //         parent1 = nameToNum(z[0])
+// //         parent2 = nameToNum(z[1])
+// //         alert("bean is " + parent1)
+// //         alert("parent1 paretns" + getParent(result.data[parent1]))
+// //         alert("parent 2 parents " + getParent(result.data[parent2]))
+// //         //z = getParent(result.data[parent2])
+// //         parentalParents1 = getParent(result.data[parent1])
+// //         parentalParents2 = getParent(result.data[parent2])
+// //         parentArr.push([parentalParents1,parentalParents2])
+// //         console.log(parentArr)
+// //       }
+// //       alert(x)
+// //       alert(z)
+// //       console.log(z)
+// //     });
+// //   });
+// // }
 
-function familyTreeTableFun()
-{
-  $.getJSON("http://127.0.0.1:5000//evo/archive", function(result){
-    $.each(result, async function(i, field){
-      x = window.prompt("GET DEM BEANS MA BOI")
-      y = numToName(x, listOfNames)
-      grandParent1 = ["blah", "blah"]
-      grandParent2 = ["blah", "blah"]
-      while (grandParent1 != [undefined, undefined] && grandParent2 != [undefined, undefined])
-      {
-        currentParentArr = []
-        parent1 = getParent(y)
-        console.log("parent1 is " + parent1)
-        // parent2 = getParent(y)[1]
-        parent1 = parent1[0]
-        parent2 = parent1[1]
-        currentParentArr.push(parent1, parent2)
-        var tabCell = tr.insertCell(-1);
-        var tableData = currentParentArr
-        tabCell.innerHTML = tableData;
-      }
+// function familyTreeTableFun()
+// {
+//   $.getJSON("http://127.0.0.1:5000//evo/archive", function(result){
+//     $.each(result, async function(i, field){
+//       x = window.prompt("GET DEM BEANS MA BOI")
+//       y = numToName(x, listOfNames)
+//       grandParent1 = ["blah", "blah"]
+//       grandParent2 = ["blah", "blah"]
+//       while (grandParent1 != [undefined, undefined] && grandParent2 != [undefined, undefined])
+//       {
+//         currentParentArr = []
+//         parent1 = getParent(y)
+//         console.log("parent1 is " + parent1)
+//         // parent2 = getParent(y)[1]
+//         parent1 = parent1[0]
+//         parent2 = parent1[1]
+//         currentParentArr.push(parent1, parent2)
+//         var tabCell = tr.insertCell(-1);
+//         var tableData = currentParentArr
+//         tabCell.innerHTML = tableData;
+//       }
 
-    });
-  });
-}
+//     });
+//   });
+// }
 
 function simpleStdGradient(value, max)
 {
@@ -781,7 +814,204 @@ function genomeLensInvoker()
   colouring = genomeLens
 }
 
+function getParent(subject, archive)
+{
+  return archive.data[subject]["parents"]
+}
 
+function getParentList(subjectList, archive)
+{
+  var parentList = []
+  console.log("sbj list " + subjectList)
+  for (let i in subjectList)
+  {
+
+    if (subjectList[i] == "")
+    {
+      continue
+    }
+    console.log("sbjlist i " + subjectList[i])
+    console.log("the current thingy is " + getParent(subjectList[i], archive))
+    newParents = getParent(subjectList[i], archive)
+    for (let j in newParents)
+    {
+      parentList.push(newParents[j])
+    }
+    //parentList.push(getParent(subjectList[i], archive))
+  }
+  return parentList
+  console.log("parentList (" + parentList + ")")
+}
+
+function getParentRecursive(subject, archive)
+{
+  final = [[subject]]
+  parentList = getParentList([subject], archive)
+  total = [parentList]
+  for (let i = 0; i < 3; i++)
+  {
+    parentList
+     = getParentList(parentList, archive)
+    total.push(parentList)
+    console.log(parentList)
+  }
+
+  for (let i in total)
+  {
+    // for (let j in total[i])
+    // {
+      final.push(total[i])
+    // }
+  }
+  return final
+  console.log(final)
+}
+
+
+// i need to add something that makes a new centred table in the familytable div or each line
+//to do this i need to use getelementbyid for the div and append it
+
+function createFamilyTable(tableData) {
+  var table = document.getElementById("familyTable");
+  var tableBody = document.createElement('tbody');
+
+  tableData.forEach(function(rowData) {
+    var row = document.createElement('tr');
+
+    rowData.forEach(function(cellData) {
+      var cell = document.createElement('td');
+      cell.appendChild(document.createTextNode(numToName(cellData, listOfNames)));
+      //console.log("cell is " + cellData)
+      row.appendChild(cell);
+    });
+    //tableBody.appendChild(row);
+    divThing = document.getElementsByClassName("familyTrueTable")[0].appendChild(row)
+  });
+
+  //table.appendChild(tableBody);
+//  document.body.appendChild(table);
+}
+
+function familyTree()
+{
+  console.log(baseLocation)
+      $.getJSON(baseLocation + "/evo/archive", function(result){
+    $.each(result, async function(i, field){
+        subjectName = window.prompt("Put In Name Of Organism You Want To Find Family Tree Of")
+        subject = nameToNum(subjectName)
+        console.log("something is "  + subject)
+        parents = getParent(subject, result)
+        console.log("parents are " + parents)
+        console.log("parents of parents 1 +" + getParent(parents[0], result))
+        //familyTreeFilledOut = pyramid(getParentRecursive(subject, result))
+        familyTreeFilledOut = pyramid(getParentRecursive(subject, result))
+        createFamilyTable(familyTreeFilledOut)
+      });
+    });
+
+}
+
+function getBetween(numOfOrgans, totalSpace)
+{
+  try{
+    answer = (totalSpace - numOfOrgans) / numOfOrgans
+  }
+  catch(error){
+    answer = 0
+  }
+  return answer
+}
+
+
+function getStart(iteration)
+{
+  return 2 ** (3 - iteration)
+}
+console.log(getStart(4))
+
+function genRow(organs, startingSpace, betweenSpace, totalSpace)
+{
+  final = []
+  organNum = organs.length
+  for (let i = 0; i < startingSpace; i++)
+  {
+    final.push("")
+  }
+  for (let i = 0;i < organNum; i++)
+  {
+    final.push(organs[i])
+    for (let j = 0; j < betweenSpace; j++)
+    {
+      if (final.length == totalSpace)
+      {
+        break;
+      }
+      final.push("")
+    }
+  }
+  return final
+}
+
+function generateAcross(genData, iter, totalSpace)
+{
+  genLen = genData.length
+  startSpace = Math.floor(getStart(iter))
+  betweenSpace = getBetween(genLen, totalSpace)
+  return genRow(genData, startSpace, betweenSpace, totalSpace)
+}
+console.log(generateAcross(["bean", "bean"], 1, 16))
+
+function pyramid(sortedData)
+{
+  totalSpace = 2 ** (sortedData.length - 1)
+  console.log(totalSpace, "totalspace")
+  var final = []
+  counter = 0
+  sortedData.forEach(function(genData)
+  {
+    console.log(genData.length, counter)
+    newArr = generateAcross(genData, counter, totalSpace)
+    console.log(typeof(newArr), newArr)
+    final.push(newArr)
+    console.log(final)
+    counter++
+  })
+  console.log("final is " + final)
+  return final
+}
+
+// function pyramid(sortedData)
+// {
+//   len = sortedData.length - 1
+//   size = 2 ** len
+//   counter = 0
+//   final = []
+//   sortedData.forEach(function(genData)
+//   {
+//     genLen = genData.length
+//     newArr = []
+//     padSize = (size - genLen) / 2
+//     for (let i = 0; i < padSize; i++)
+//     {
+//       newArr.push("")
+//     }
+//     genData.forEach(function(cell)
+//     {
+//       newArr.push(cell)
+//     });
+//     for (let i = 0; i < padSize; i++)
+//     {
+//       newArr.push("")
+//     }
+//     if (newArr.length % 2 == 1)
+//     {
+//       console.log("k beans let the magicc happen" + newArr)
+//       newArr.pop(newArr.length - 1)
+//     }
+//     final.push(newArr)
+//   });
+//   return final
+// }
 
 
 
@@ -808,26 +1038,7 @@ function genPositionData(attrpositionData)
     //ctx.arc(stuff.pos[0], stuff.pos[1], stuff.genome[3], 0, 2 * Math.PI);
     newPos = convertPos(stuff.pos, 600)
     ctx.arc(newPos[0], newPos[1], stuff.genome[3] * magnification, 0, 2 * Math.PI);
-    //ctx.fillStyle = "rgb(230, 0, 230)";
-    // colourGrad = simpleGradient(attrpositionData.data[i].energy, 1000)
-    // colour = "rgb(" + colourGrad +", 0, 0)";
-    // ctx.fillStyle = colour
-    //console.log("the grad is " + simpleGradient(attrpositionData.data[i].energy, 1000))
-    //colour = simpleGradient(attrpositionData.data[i].energy, 1000, "b", "r")
-    // value = attrpositionData.data[i].energy
     organ = attrpositionData.data[i]
-    // if (colouring == energyLens)
-    // {
-    //   value = organ.energy
-    // }
-    // else if (colouring == genderLens)
-    // {
-    //   value = organ.gender
-    // }
-    // else if (colouring == genomeLens)
-    // {
-    //   value = organ.genome
-    // }
     ctx.fillStyle = colouring(organ)
     ctx.strokeStyle = colouring(organ)
     ctx.fill()
@@ -836,52 +1047,6 @@ function genPositionData(attrpositionData)
   //console.log(positionData)
   return positionData
 }
-
-// function drawPlant()
-// {
-//   $.getJSON("http://127.0.0.1:5000//evo/plantData", function(result){
-//     $.each(result, async function(i, field){
-//       plants = result.data
-//       var canvas = document.getElementById("myCanvas");
-//       var ctx = canvas.getContext("2d");
-//       for (let i in plants)
-//       {
-//         flora = plants[i];
-//         ctx.beginPath();
-//         newPos = convertPos(flora.pos, 600);
-//         ctx.arc(newPos[0], newPos[1], 2, 0, 2 * Math.PI);
-//         ctx.fillStyle = "green";
-//         ctx.strokeStyle = "green";
-//         ctx.fill();
-//         ctx.stroke();
-
-//       }
-//     });
-//   });
-// }
-
-// function drawOrgan()
-// {
-//   $.getJSON("http://127.0.0.1:5000//evo/popArray", function(result){
-//     $.each(result, async function(i, field){
-//       var canvas = document.getElementById("myCanvas");
-//       var ctx = canvas.getContext("2d");
-//       organs = result.data
-//       for (let i in organs)
-//       {
-//         organ = organs[i]
-//         ctx.beginPath();
-//         newPos = convertPos(organ.pos, 600);
-//         ctx.arc(newPos[0], newPos[1], organ.genome[3], 0, 2 * Math.PI);
-//         ctx.fillStyle = colouring(organ)
-//         ctx.strokeStyle = colouring(organ)
-//         ctx.fill();
-//         ctx.stroke();
-//       }
-//     });
-//   });
-// }
-
 
 function drawPlant(result)
 {
