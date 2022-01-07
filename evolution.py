@@ -83,7 +83,7 @@ def loadPos():
 
 #degrees to radians
 def dgTR(dg):
-    print(dg)
+    #print(dg)
     return dg * pi / 180
 
 #radians to degrees
@@ -390,7 +390,8 @@ def moveTo(point1, point2):
     return mve
 
 def energyCost(dist, organ):
-    return (dist * (organ.genome[3] / 10)) #+ dist
+    #return (dist * (organ.genome[3] - organ.genome[1])) #note this really doesnt work, you get small like others but with pos energy from moving you get 13k+ within an hour
+    return (dist * (organ.genome[3] / 10)) #+ dist #note this works fine but they fall into a similar collapse as no size
     #return (dist ** 1.7)
 
 def movementP(organ, point2):
@@ -514,10 +515,15 @@ def meander(organ):
 
 def consume(organ, food, plantDict):
     newEn = food.energy
-    maxEn = organ.genome[3] * sizeToEn
-    if newEn >= (maxEn):
-        newEn = maxEn
-    organ.energy += newEn
+    # maxEn = organ.genome[3] * sizeToEn
+    # if newEn >= (maxEn):
+    #     newEn = maxEn
+    maxEn = (100 * math.log(organ.genome[3], 2)) + (organ.genome[4])
+    curEn = organ.energy
+    if curEn + newEn >= maxEn:
+        organ.energy = maxEn
+    else:
+        organ.energy += newEn
     # organ.energy += food.energy * 0.5
     plantDict.pop(food.name)
 
@@ -600,13 +606,13 @@ def breed(parentA, parentB, popArray):
 def litterChance(mCLS):
     if mCLS % 2 == 0:
         max = (mCLS * 2) + 1
-        print(f"max is {max}")
+        #print(f"max is {max}")
         a = findA(50, (0,-1), (0, max))
-        print(a)
+        #print(a)
     else:
         max = (mCLS * 2) + 1
         a = findA(50, (0,-1), (0, max))
-        print(a)
+       # print(a)
 
 def fight(organ, popArray):
     for x in popArray.values():
@@ -807,6 +813,8 @@ def genomeMutate(genome):
 def newGenome(parentA, parentB):
     genome = []
     for index, x in enumerate(parentA.genome):
+        # if index == 4:
+        #     genome.append(genome[3] )
         if randint(0,1) == 1:
             genome.append(parentA.genome[index])
         else:
@@ -828,7 +836,7 @@ def reproduce(parentA, parentB, popArray):
         mother = parentB
         father = parentA
     litterSize = litterCounter(mother.genome[5])
-    print(f"litterSize {litterSize}")
+    #print(f"litterSize {litterSize}")
     for x in range(round(litterSize)):
         if randint(0,1) == 1:
             gen = "F"
@@ -1181,7 +1189,7 @@ def hello_world():
     data["key1"] = "value1"
     data["key2"] = 2
     output = jsonify(data)
-    print(f"data: {output}")
+    #print(f"data: {output}")
     return jsonify(data = data)
 
 # garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin")
@@ -1951,7 +1959,7 @@ def lifeSim():
         save(alive, plantDict)
         archive(popArray)
         #jsonToWeb(popArray)
-        time.sleep(3)
+        time.sleep(1)
 
 def runin(app):
     app.run()
