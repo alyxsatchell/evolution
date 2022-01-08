@@ -58,7 +58,7 @@ Your browser does not support the canvas element.
 
 <div class = "visibilty">
   <button onclick="plantVisTog()">Toggle Plants</button>
-  <button onclick="organVisTog()">Toggle Organisim</button>
+  <button onclick="organVisTog()">Toggle Organisims</button>
 </div>
 
 
@@ -505,7 +505,13 @@ function populationDistro(popData)
   //console.log(theStats)
   populationDistroStats = findCountOfMale(theStats)
   //console.log("popDIstor " + populationDistroStats)
-  document.getElementById("popDistro").innerHTML = populationDistroStats[0] + "% Males and " + populationDistroStats[1] + "% Females<br/>"  + populationDistroStats[2] + " Currently Alive";
+  $.getJSON(baseLocation + "/evo/archive", function(result){
+    $.each(result, async function(i, field){
+    console.log("result", result)
+    totalPop = Object.keys(result.data).length
+    document.getElementById("popDistro").innerHTML = populationDistroStats[0] + "% Males and " + populationDistroStats[1] + "% Females<br/>"  + populationDistroStats[2] + " Currently Alive / " + totalPop + " Have Lived";
+    });
+  });
 }
 
 console.log(sNumToName("Nik II", listOfNames))
@@ -1264,7 +1270,7 @@ function execute()
 {
   window.setInterval(function(){
         getData()
-  }, 3000);
+  }, 1000);
 }
 
 $(document).ready(function(){

@@ -22,7 +22,7 @@ pi = 3.14159265359
 global chartSize
 chartSize = 25
 global mapSize
-mapSize = 100
+mapSize = 300
 thread_running = True
 global inputTaken
 inputTaken = False
@@ -32,7 +32,7 @@ afking = False
 global mutationRate
 mutationRate = [1,10] #1  out of 100
 global floraGrowth
-floraGrowth = 30
+floraGrowth = 3000
 global kidConsumptionFalse
 kidConsumptionFalse = True
 global sizeToEn
@@ -391,7 +391,7 @@ def moveTo(point1, point2):
 
 def energyCost(dist, organ):
     #return (dist * (organ.genome[3] - organ.genome[1])) #note this really doesnt work, you get small like others but with pos energy from moving you get 13k+ within an hour
-    return (dist * (organ.genome[3] / 10)) #+ dist #note this works fine but they fall into a similar collapse as no size
+    return (dist * (organ.genome[3])) #+ dist #note this works fine but they fall into a similar collapse as no size
     #return (dist ** 1.7)
 
 def movementP(organ, point2):
@@ -813,12 +813,13 @@ def genomeMutate(genome):
 def newGenome(parentA, parentB):
     genome = []
     for index, x in enumerate(parentA.genome):
-        # if index == 4:
-        #     genome.append(genome[3] )
-        if randint(0,1) == 1:
-            genome.append(parentA.genome[index])
+        if index == 5:
+            genome.append((math.log(genome[3], 3) * 2) + 1)
         else:
-            genome.append(parentB.genome[index])
+            if randint(0,1) == 1:
+                genome.append(parentA.genome[index])
+            else:
+                genome.append(parentB.genome[index])
     return genome
 
 def nameListGen(popArray):
@@ -1961,6 +1962,23 @@ def lifeSim():
         #jsonToWeb(popArray)
         time.sleep(1)
 
+def speed():
+    genNumber = 10000
+    print(f"Speedrunning {genNumber} turns")
+    popArray = {}
+    genPop(popArray, 50)
+    # mateList = []
+    # for x in popArray.values():
+    #     mateList.append(x)
+    plantDict = {}
+    genPlant(plantDict, 300)
+    #show(plantDict)
+    alive = popArray
+    for x in range(genNumber):
+        alive = life(alive,popArray, plantDict)
+    save(alive, plantDict)
+    archive(popArray)
+
 def runin(app):
     app.run()
 
@@ -1991,6 +2009,7 @@ def favicon():
 # larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
 # popArray[larry.name] = larry
 # popArray[garry.name] = garry
+program = "lifeSim"
 
 if __name__ == '__main__':
     popArray = {}
@@ -2008,7 +2027,10 @@ if __name__ == '__main__':
     # t2.start()
     print("They are started")
     #execute(popArray)
-    lifeSim()
+    if program == "lifeSim":
+        lifeSim()
+    elif program == "speed":
+        speed()
     #t2.join()  # interpreter will wait until your process get completed or terminated
     thread_running = False
     print('The end')
