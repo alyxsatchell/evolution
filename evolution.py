@@ -1235,8 +1235,90 @@ def dumpIt(popArray):
     with open('popData.json', 'w') as fp:
         json.dump(data, fp)
 
+
+# def getParentRecursive(organ, popArray):
+#     currentParents = [organ]
+#     totalParents = [organ]
+#     newParents = []
+#     for x in range(4):
+#         for i in currentParents:
+#             print(i)
+#             if type(i) == list:
+#                 for j in i:
+#                     newParents.append(j.parents)
+#                     totalParents.append(j.parents)
+#             else:
+#                 newParents.append(i.parents)
+#                 totalParents.append(i.parents)
+#         break
+#         currentParents = newParents
+#     return totalParents
+
+
+# function getParentRecursive(subject, archive)
+# {
+#   final = [[subject]]
+#   parentList = getParentList([subject], archive)
+#   total = [parentList]
+#   for (let i = 0; i < 3; i++)
+#   {
+#     parentList
+#      = getParentList(parentList, archive)
+#     total.push(parentList)
+#     console.log(parentList)
+#   }
+
+#   for (let i in total)
+#   {
+#     // for (let j in total[i])
+#     // {
+#       final.push(total[i])
+#     // }
+#   }
+#   return final
+#   console.log(final)
+# }
+
+def getParentList(parent):
+    total = []
+    print(f"parent", parent)
+    for j in parent:
+        print("j", j)
+        for x in j.parents:
+            total.append(x)
+    return total
+
+def getParentRecursive(organ):
+    final = [[organ]]
+    parentList = getParentList([organ])
+    print(parentList)
+    final.append(parentList)
+    for i in range(1):
+        parentList = getParentList(parentList)
+        final.append(parentList)
+    ans = []
+    for x in final:
+        for i in x:
+            ans.append(i.name)
+    return ans
+
+def makeArchiveList(popArray):
+    archiveList = []
+    for x in popArray.values():
+        parentsList = getParentRecursive(x)
+        for i in parentsList:
+            if i in archiveList:
+                archiveList.append(i)
+    return archiveList
+
+def makeArchiveDict(archiveList):
+    archiveDict = []
+    for x in archiveList:
+        archiveDict[x.name] = {"parents" : x.parents}
+    return archiveDict
+
 def archive(popArray):
-    data = jsonFormat(popArray)
+    #data = jsonFormat(popArray)
     with open('archive.json', 'w') as fp:
         json.dump(data, fp)
 
@@ -1927,7 +2009,18 @@ def execute(popArray):
                 archive(popArray)
                 #jsonToWeb(popArray)
                 time.sleep(3)
-    
+        elif uin == "getP":
+            popArray = {}
+            garry = organsim("garry", 1, [3,1], "M", [25,1,26,2,400, 2], 300, "Vibin", ["", ""])
+            larry = organsim("larry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", ["",""])
+            barry = organsim("barry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", [garry,larry])
+            tarry = organsim("tarry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", ["",""])
+            karry = organsim("karry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", ["",""])
+            darry = organsim("darry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", [tarry,karry])
+            marry = organsim("marry", 1, [2,1], "F", [20,6,20,3,400, 2], 300, "Vibin", [barry,darry])
+            popArray[larry.name] = larry
+            popArray[garry.name] = garry
+            #print(getParentRecursive(marry, popArray))
 
 
 
@@ -2009,7 +2102,7 @@ def favicon():
 # larry = organsim("larry", 1, [2,1], "F", [20,6,20,6,400, 2], 300, "Vibin")
 # popArray[larry.name] = larry
 # popArray[garry.name] = garry
-program = "lifeSim"
+program = "exe"
 
 if __name__ == '__main__':
     popArray = {}
@@ -2031,6 +2124,8 @@ if __name__ == '__main__':
         lifeSim()
     elif program == "speed":
         speed()
+    elif program == "exe":
+        execute({})
     #t2.join()  # interpreter will wait until your process get completed or terminated
     thread_running = False
     print('The end')
